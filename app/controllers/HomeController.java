@@ -1,20 +1,16 @@
 package controllers;
 
-import javax.inject.Inject;
-
-
+import Models.User;
 import com.avaje.ebean.Model;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
-import play.db.ebean.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-import Models.User;
 
+import javax.inject.Inject;
 import java.util.List;
 
-import static play.data.Form.form;
 import static play.libs.Json.toJson;
 
 /**
@@ -22,7 +18,6 @@ import static play.libs.Json.toJson;
  * to the application's home page.
  */
 public class HomeController extends Controller {
-
 
 
     @Inject
@@ -33,75 +28,35 @@ public class HomeController extends Controller {
         return ok(views.html.index.render("Your new application is ready."));
     }
 
+//    Get users, apresenta os dados que estao na bd
+    public Result getUsers() {
 
+        Model.Finder<Integer, User> finder = new Model.Finder<>(User.class);
+        List<User> users = finder.all();
 
-    public Result getUsers(){
-
-    	Model.Finder<Integer, User> finder = new Model.Finder<>(User.class);
-    	List<User> users = finder.all();
-
-    	return ok(toJson(users));
+        return ok(toJson(users));
     }
 
-    @Transactional
-    public Result register(){
-        //User usr = formFactory.form(User.class).bindFromRequest().data().get("test");
-        User usr = Form.form(User.class).bindFromRequest().get();
-        Logger.info("### USER: " + usr.name + " lastName: " + usr.lastName);
-        usr.save();
-//
-//        User uData = form.get();
+//  GET
+    public Result register() {
 
-        return ok(views.html.register.render(""));
+        return ok(views.html.users.register.render("register"));
 
     }
+//    Post
+    public Result create() {
+        Form<User> userForm = formFactory.form(User.class).bindFromRequest();
+        if (userForm.hasErrors()) {
+            Logger.info("TEM ERROS!");
+        } else {
 
+            User user = userForm.get();
+            user.save();
+            Logger.info("USER: " + user.toString());
+            //Logger.info("### User: " + user.name + " lastName: " + user.lastName);
 
-
-    //Login GET
-    public Result login(){
-
-        return ok(views.html.login.render(formFactory.form(Login.class)));
-        //return ok(views.html.login.render(form(Login.class)));
-    }
-
-    //Login POST
-    public Result authenticate() {
-        Form<Login> loginForm = form(Login.class).bindFromRequest();
-        if(loginForm.hasErrors()){
-            return badRequest(views.html.login.render(loginForm));
-        }else{
-            session().clear();
-            session("email", loginForm.get().email);
-            return redirect(routes.HomeController.index());
         }
+        return redirect("/users/register");
     }
-
-
-
-//    public Result getUsers(){
-//        return TODO;
-//    }
-
-
-    public Result createUser(){
-        return TODO;
-    }
-
-
-
-    public static class Login {
-
-        public static String email;
-        public static String password;
-
-//        public static String validate() {
-//            if(User.authenticate(email, password) == null) {
-//                return "Invalid User or Password";
-//            }
-//            return null;
-//        }
-    }
-
 
 }

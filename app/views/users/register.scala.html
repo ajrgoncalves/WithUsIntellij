@@ -1,0 +1,26 @@
+@(message: String)
+
+
+@main("Register"){
+
+    <html>
+        <head>
+            <script type="text/javascript" src="@routes.Assets.versioned("js/index.js")"></script>
+            <title>Register</title>
+        </head>
+        <body>
+            <div class="col-md-4">
+            @views.html.users._form()
+            </div>
+            <div>
+
+                <p>Users list:</p>
+                <ul id="users"></ul>
+                <p>End of Users list.</p>
+            </div>
+
+        </body>
+    </html>
+
+
+}
