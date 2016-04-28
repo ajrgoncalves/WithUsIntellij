@@ -22,5 +22,6 @@ POST        /users/create          controllers.HomeController.create
 
 #Login
 
-GET         /users/login            controllers.LoginController.login
+GET        /users/login            controllers.LoginController.login
 
+POST       /users/login            controllers.LoginController.authenticate

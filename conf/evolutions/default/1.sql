@@ -6,11 +6,11 @@ drop table if EXISTS user;
 
 create table user (
   id                            integer not null  AUTO_INCREMENT,
-  name                          varchar(255),
-  last_name                     varchar(255),
+  name                          varchar(50),
+  lastName                      varchar(50),
   age                           integer,
-  email                         varchar(255),
-  password                      varchar(255),
+  email                         varchar(50),
+  password                      varchar(50),
   constraint pk_user primary key (id)
 );
 -- create sequence user_seq;

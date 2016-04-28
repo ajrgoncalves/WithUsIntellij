@@ -1,11 +1,11 @@
 package Models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import com.avaje.ebean.Model;
+import play.Logger;
+
+import java.util.List;
 
 
 @Entity
@@ -16,12 +16,15 @@ public class User extends Model {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
-
+    @Column(name="name")
     public String name;
+    @Column(name="lastName")
     public String lastName;
+    @Column(name="age")
     public int age;
-
+    @Column(name="email")
     public String email;
+    @Column(name="password")
     public String password;
 
 
@@ -45,6 +48,16 @@ public class User extends Model {
         this.age = age;
         this.email = email;
         this.password = password;
+    }
+
+    public boolean authenticate() {
+        Model.Finder<Integer, User> finder = new Model.Finder<>(User.class);
+        Logger.info("### email: " + this.email + " password: " + this.password);
+
+        User users = finder.where().eq("email", this.email)
+                .eq("password", this.password).findUnique();
+        return (users != null);
+
     }
 
     @Override
