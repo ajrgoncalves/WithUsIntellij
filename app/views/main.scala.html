@@ -32,15 +32,12 @@
                     <a class="navbar-brand" href="@routes.HomeController.index()">WithUs</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
-                    <form class="navbar-form navbar-right">
-                        <div class="form-group">
-                            <input type="text" placeholder="Email" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" placeholder="Password" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-success">Sign in</button>
+
+                    <form class="navbar-form navbar-right" >
+                    <div>
+                        <a href="@routes.LoginController.login()" type="submit" class="btn btn-primary">Sign In</a>
                         <a href="@routes.HomeController.register()" type="submit" class="btn btn-primary">Register</a>
+                    </div>
 
                     </form>
                 </div><!--/.navbar-collapse -->

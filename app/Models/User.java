@@ -54,7 +54,8 @@ public class User extends Model {
         Model.Finder<Integer, User> finder = new Model.Finder<>(User.class);
         Logger.info("### email: " + this.email + " password: " + this.password);
 
-        User users = finder.where().eq("email", this.email)
+        User users = finder.where()
+                .eq("email", this.email)
                 .eq("password", this.password).findUnique();
         return (users != null);
 

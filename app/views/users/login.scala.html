@@ -1,28 +1,17 @@
-@(form: Form[LoginController.Login])
+@(message: String)
 
-<html>
-    <head>
-        <title>Login</title>
 
-    </head>
-    <body>
-        <header>
+@main("Register") {
+    <html>
+        <head>
+            <script type="text/javascript" src="@routes.Assets.versioned("js/index.js")"></script>
+            <title>Sign In</title>
+        </head>
+        <body>
+            <div class="col-md-4">
+            @views.html.users._loginForm()
+            </div>
 
-        </header>
-
-        @helper.form(routes.LoginController.authenticate) {
-            <h1>Sign in</h1>
-
-            <p>
-                <input type="email" name="email" placeholder="Email" value="@form("email").value">
-            </p>
-            <p>
-                <input type="password" name="password" placeholder="Password">
-            </p>
-            <p>
-                <button type="submit">Login</button>
-            </p>
-        }
-
-    </body>
-</html>
+        </body>
+    </html>
+}
