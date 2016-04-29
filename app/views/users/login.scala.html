@@ -1,7 +1,7 @@
 @(message: String)
 
 
-@main("Register") {
+@main("Login") {
     <html>
         <head>
             <script type="text/javascript" src="@routes.Assets.versioned("js/index.js")"></script>
@@ -9,9 +9,20 @@
         </head>
         <body>
             <div class="col-md-4">
-            @views.html.users._loginForm()
+           @views.html.users._loginForm()
             </div>
 
+
+            @if(flash.contains("success")) {
+                <p class="success">
+                @flash.get("success")
+                </p>
+            }
+            @if(flash.contains("error")) {
+                <p class="success">
+                @flash.get("error")
+                </p>
+            }
         </body>
     </html>
 }

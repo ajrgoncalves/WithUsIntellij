@@ -7,6 +7,7 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -23,12 +24,13 @@ public class HomeController extends Controller {
     @Inject
     FormFactory formFactory;
 
-
+    @Security.Authenticated(LoginController.Secured.class)
     public Result index() {
         return ok(views.html.index.render("Your new application is ready."));
     }
 
 //    Get users, apresenta os dados que estao na bd
+    @Security.Authenticated(LoginController.Secured.class)
     public Result getUsers() {
 
         Model.Finder<Integer, User> finder = new Model.Finder<>(User.class);
@@ -38,12 +40,14 @@ public class HomeController extends Controller {
     }
 
 //  GET
+
     public Result register() {
 
         return ok(views.html.users.register.render("register"));
 
     }
 //    Post
+
     public Result create() {
         Form<User> userForm = formFactory.form(User.class).bindFromRequest();
         if (userForm.hasErrors()) {

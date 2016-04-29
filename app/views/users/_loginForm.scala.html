@@ -1,10 +1,9 @@
-<form action="@routes.LoginController.authenticate()" method="post">
-    <div class="form-group" >
-        <input type="text" name="email" placeholder="Email" class="form-control" >
-    </div>
-    <div class="form-group">
-        <input type="password" name="password" placeholder="Password" class="form-control">
-    </div>
-         <button type="submit" class="btn btn-success" >Sign in</button>
-</form>
+<div class="navbar-right">
+    <a href="@routes.HomeController.register()" class="btn btn-primary navbar-btn">Register</a>
 
+</div>
+<form action="@routes.LoginController.authenticate()" method="post" class="navbar-form navbar-right" >
+    <input type="text" name="email" placeholder="Email" class="form-control" >
+    <input type="password" name="password" placeholder="Password" class="form-control">
+    <input type="submit" class="btn btn-primary" value="Submit" />
+</form>
