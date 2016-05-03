@@ -1,5 +1,6 @@
 package controllers;
 
+import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
 import play.api.libs.openid.UserInfo;
 import play.data.Form;
@@ -35,7 +36,11 @@ public class LoginController extends Controller {
             flash("error", "tem erros no formulario");
             return redirect(routes.HomeController.index());
         } else {
+
             User user = loginForm.get();
+
+
+            //BCrypt.checkpw(user.password, user.password);
             if (user.authenticate()) {
                 session().clear();
                 session("email", loginForm.get().email);

@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import com.avaje.ebean.Model;
 
+import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
 
 
@@ -49,15 +50,15 @@ public class User extends Model {
         this.password = password;
     }
 
+
     public boolean authenticate() {
         Model.Finder<String, User> finder = new Model.Finder<>(User.class);
         Logger.info("### email: " + this.email + " password: " + this.password);
 
         User users = finder.where()
-                .eq("email", this.email)
-                .eq("password", this.password).findUnique();
-        return (users != null);
+                .eq("email", this.email).findUnique();
 
+        return BCrypt.checkpw(this.password, users.password);
     }
 
     public static Finder<Integer, User> find = new Finder<>(User.class);

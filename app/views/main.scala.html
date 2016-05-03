@@ -27,6 +27,7 @@
         <div class="container" >
 
             <div style="margin-bottom : 50px ;">
+
                 <div class="navbar-header">
 
                     <a class="navbar-brand" href="@routes.HomeController.index()">WithUs</a>
@@ -35,13 +36,12 @@
 
 
 
-                <span>Bem vindo @Http.Context.current().args.get("username") </span>
+                    <span>Bem vindo @Http.Context.current().args.get("username") </span>
 
                     <a href="@routes.LoginController.logout()" class="btn btn-primary navbar-btn" >Logout</a>
                 </div><!--/.navbar-collapse -->
+
             </div>
-
-
             @content
 
 

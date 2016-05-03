@@ -2,6 +2,7 @@ package controllers;
 
 import Models.User;
 import com.avaje.ebean.Model;
+import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
@@ -48,7 +49,7 @@ public class HomeController extends Controller {
 
     public Result register() {
 
-        return ok(views.html.users.register.render("register"));
+        return ok(views.html.users.register.render(""));
 
 
 
@@ -62,6 +63,9 @@ public class HomeController extends Controller {
         } else {
 
             User user = userForm.get();
+            user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
+            session().put("email", user.email);
+
             user.save();
             Logger.info("USER: " + user.toString());
             //Logger.info("### User: " + user.name + " lastName: " + user.lastName);
