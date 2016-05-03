@@ -3,9 +3,8 @@ package Models;
 import javax.persistence.*;
 
 import com.avaje.ebean.Model;
-import play.Logger;
 
-import java.util.List;
+import play.Logger;
 
 
 @Entity
@@ -16,15 +15,15 @@ public class User extends Model {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
-    @Column(name="name")
+    @Column(name = "name")
     public String name;
-    @Column(name="lastName")
+    @Column(name = "lastName")
     public String lastName;
-    @Column(name="age")
+    @Column(name = "age")
     public int age;
-    @Column(name="email")
+    @Column(name = "email")
     public String email;
-    @Column(name="password")
+    @Column(name = "password")
     public String password;
 
 
@@ -51,7 +50,7 @@ public class User extends Model {
     }
 
     public boolean authenticate() {
-        Model.Finder<Integer, User> finder = new Model.Finder<>(User.class);
+        Model.Finder<String, User> finder = new Model.Finder<>(User.class);
         Logger.info("### email: " + this.email + " password: " + this.password);
 
         User users = finder.where()
@@ -61,10 +60,15 @@ public class User extends Model {
 
     }
 
+    public static Finder<Integer, User> find = new Finder<>(User.class);
+
+
+
     @Override
     public String toString() {
         return "User: [name = " + name + " | lastName = " + lastName + " | age = " + age + "]";
     }
+
     public void setId(Integer id) {
         this.id = id;
     }

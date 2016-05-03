@@ -25,7 +25,7 @@ public class LoginController extends Controller {
         return ok(views.html.users.login.render("Login"));
     }
 
-    //  POST
+    //  POST\
     public Result authenticate() {
 
         Form<Login> loginForm = formFactory.form(Login.class).bindFromRequest();

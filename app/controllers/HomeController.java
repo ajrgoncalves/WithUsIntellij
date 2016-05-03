@@ -6,10 +6,12 @@ import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 
 import javax.inject.Inject;
+
 import java.util.List;
 
 import static play.libs.Json.toJson;
@@ -26,14 +28,17 @@ public class HomeController extends Controller {
 
     @Security.Authenticated(LoginController.Secured.class)
     public Result index() {
-        return ok(views.html.index.render("Your new application is ready."));
+
+        String username = session().get("email");
+
+        Http.Context.current().args.put("username", username);
+
+        return ok(views.html.index.render(""));
     }
 
-//    Get users, apresenta os dados que estao na bd
-    @Security.Authenticated(LoginController.Secured.class)
     public Result getUsers() {
 
-        Model.Finder<Integer, User> finder = new Model.Finder<>(User.class);
+        Model.Finder<String, User> finder = new Model.Finder<>(User.class);
         List<User> users = finder.all();
 
         return ok(toJson(users));
@@ -44,6 +49,8 @@ public class HomeController extends Controller {
     public Result register() {
 
         return ok(views.html.users.register.render("register"));
+
+
 
     }
 //    Post

@@ -1,11 +1,17 @@
+
+@import Models.User
 @(message: String)
 
 
-    @main("Welcome to Play") {
+    @main("") {
 
         <html>
             <head>
                 <script type="text/javascript" src="@routes.Assets.versioned("js/index.js")"></script>
+
+               <span> @message </span>
+
+
             </head>
 
             <body>

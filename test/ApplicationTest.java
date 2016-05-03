@@ -1,3 +1,4 @@
+import Models.User;
 import org.junit.Test;
 import play.twirl.api.Content;
 
