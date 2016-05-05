@@ -20,7 +20,7 @@
             <div>
             <a class="navbar-brand" href="@routes.HomeController.index()">Welcome to WithUs</a>
             </div>
-            <div  class="right">
+            <div align="right">
                 @*<span>Bem vindo @Http.Context.current().args.get("username") </span>*@
                 <span>Bem vindo</span> @user.name <span>(@user.email)</span>
                     <a href="@routes.HomeController.logout()" class="btn btn-primary navbar-btn" >Logout</a>
