@@ -14,29 +14,33 @@
     </head>
 
     <body>
-        <header>
-            <a class="navbar-brand" href="@routes.HomeController.index()">WithUs</a>
-            <dl>
-                @*<span>Bem vindo @Http.Context.current().args.get("username") </span>*@
-                <dt><span>Bem vindo</span> @user.name <span>(@user.email)</span></dt>
-                <dd>
-                    <a href="@routes.HomeController.logout()" class="btn btn-primary navbar-btn" >Logout</a>
-                </dd>
-            </dl>
-        </header>
-
-        <div class="container col-md-3" >
-           <section>
-            @content
-           </section>
-        </div>
-        <footer style="position: fixed " class="bottom">
-            <div >
-                <p>&copy; 2016 WithUs </p>
+        <div class="col-lg-12 col-md-12">
+        <div class="header">
+        <div class="nav">
+            <div>
+            <a class="navbar-brand" href="@routes.HomeController.index()">Welcome to WithUs</a>
             </div>
-        </footer>
+            <div  class="right">
+                @*<span>Bem vindo @Http.Context.current().args.get("username") </span>*@
+                <span>Bem vindo</span> @user.name <span>(@user.email)</span>
+                    <a href="@routes.HomeController.logout()" class="btn btn-primary navbar-btn" >Logout</a>
 
+            </div>
+            </div>
+            </div>
+
+        <div id="content">
+
+        <div class="container col-md-12" >
+
+            @content
+
+        </div>
+        </div>
+        <div class="footer">
+                <p>&copy; 2016 WithUs </p>
+        </div>
         <script type='text/javascript' src='@routes.Assets.versioned("/stylesheets/bootstrap/js/bootstrap.min.js")'></script>
-
+</div>
     </body>
 </html>

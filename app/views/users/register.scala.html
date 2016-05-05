@@ -1,14 +1,20 @@
 
 @(message: String)
 
-
-
     <html>
         <head>
             <script type="text/javascript" src="@routes.Assets.versioned("js/index.js")"></script>
+            @* Bootstrap *@
+            <link rel="stylesheet" href="@routes.Assets.versioned("/stylesheets/bootstrap/css/bootstrap.min.css")">
+            <link rel="stylesheet" href="@routes.Assets.versioned("/stylesheets/main.css")">
             <title>Register</title>
         </head>
         <body>
+            <div id="header">
+                <header>
+                    <a class="navbar-brand" href="@routes.HomeController.index()">Welcome to WithUs </a>
+                </header>
+            </div>
             <div class="col-md-4">
             @views.html.users._form()
             </div>
@@ -16,6 +22,9 @@
                 <p>Users list:</p>
                 <ul id="users"></ul>
                 <p>End of Users list.</p>
+            </div>
+            <div class="footer">
+                <p>&copy; 2016 WithUs </p>
             </div>
 
         </body>

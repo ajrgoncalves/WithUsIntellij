@@ -1,14 +1,20 @@
 @(message: String)
 
-
-
     <html>
         <head>
             <script type="text/javascript" src="@routes.Assets.versioned("js/index.js")"></script>
+            @* Bootstrap *@
+            <link rel="stylesheet" href="@routes.Assets.versioned("/stylesheets/bootstrap/css/bootstrap.min.css")">
+            <link rel="stylesheet" href="@routes.Assets.versioned("/stylesheets/main.css")">
             <title>Sign In</title>
 
         </head>
         <body>
+            <div id="header">
+                <header>
+                    <a class="navbar-brand" href="@routes.HomeController.index()">Welcome to WithUs </a>
+                </header>
+            </div>
             <div class="container" >
 
             <div class="navbar-right">
@@ -30,6 +36,9 @@
                 @flash.get("error")
                 </p>
             }
+            </div>
+            <div class="footer">
+                <p>&copy; 2016 WithUs </p>
             </div>
         </body>
     </html>

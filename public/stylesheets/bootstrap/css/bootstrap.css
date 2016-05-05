@@ -1088,6 +1088,16 @@ body {
   color: #333;
   background-color: #fff;
 }
+
+.footer{
+  position: fixed;
+  right: 0;
+  bottom: 0px;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
 input,
 button,
 select,
