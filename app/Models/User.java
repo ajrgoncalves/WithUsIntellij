@@ -34,7 +34,6 @@ public class User extends Model {
 
     }
 
-
     public User(String name) {
         this.name = name;
     }
