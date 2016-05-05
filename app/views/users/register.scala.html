@@ -1,4 +1,3 @@
-
 @(message: String)
 
     <html>
@@ -10,22 +9,22 @@
             <title>Register</title>
         </head>
         <body>
-            <div id="header">
-                <header>
+            <div class="col-md-12">
+            <div class="header" style="margin-bottom: 50px">
                     <a class="navbar-brand" href="@routes.HomeController.index()">Welcome to WithUs </a>
-                </header>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4; container">
             @views.html.users._form()
             </div>
-            <div>
+          @*  <div>
                 <p>Users list:</p>
                 <ul id="users"></ul>
                 <p>End of Users list.</p>
-            </div>
-            <div class="footer">
+            </div>*@
+
+            <div class="footer" style="position: relative; bottom:0px">
                 <p>&copy; 2016 WithUs </p>
             </div>
-
+            </div>
         </body>
     </html>

@@ -124,7 +124,7 @@ public class HomeController extends Controller {
             //Logger.info("### User: " + user.name + " lastName: " + user.lastName);
 
         }
-        return redirect("/users/register");
+        return redirect("/users/login");
     }
 
 }
