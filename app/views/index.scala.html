@@ -1,13 +1,17 @@
-@(message: String)
+@import Models.User
+@(user: User)
 
 
-    @main("") {
+    @main(user){
 
         <html>
             <head>
                 <script type="text/javascript" src="@routes.Assets.versioned("js/index.js")"></script>
 
-               <span> @message </span>
+               <span> @user.name </span>
+                <span> @user.lastName </span>
+                <span> @user.age </span>
+                <span> @user.email </span>
 
 
             </head>

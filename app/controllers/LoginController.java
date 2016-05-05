@@ -32,7 +32,7 @@ public class LoginController extends Controller {
 
         @Override
         public Result onUnauthorized(Http.Context ctx) {
-            return redirect(routes.LoginController.login());
+            return redirect(routes.HomeController.login());
         }
     }
 

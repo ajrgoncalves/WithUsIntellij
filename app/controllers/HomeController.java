@@ -30,11 +30,11 @@ public class HomeController extends Controller {
     @Security.Authenticated(LoginController.Secured.class)
     public Result index() {
 
-        String username = session().get("email");
+//        String username = session().get("email");
+//        Http.Context.current().args.put("username", username);
+//        return ok(views.html.index.render(User.findByEmail(session().get("email"))));
 
-        Http.Context.current().args.put("username", username);
-
-        return ok(views.html.index.render(""));
+        return ok(views.html.index.render(User.findByEmail(request().username())));
     }
 
     public Result getUsers() {
@@ -92,7 +92,7 @@ public class HomeController extends Controller {
         session().clear();
         flash("success", "You've been logged out");
         return redirect(
-                routes.HomeController.index()
+                routes.HomeController.login()
         );
     }
 
