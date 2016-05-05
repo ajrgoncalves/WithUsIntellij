@@ -22,10 +22,10 @@ POST        /users/create          controllers.HomeController.create
 
 #Login
 
-GET        /users/login            controllers.LoginController.login
+GET        /users/login            controllers.HomeController.login
 
-POST       /users/login            controllers.LoginController.authenticate
+POST       /users/login            controllers.HomeController.authenticate
 
 #Logout
 
-GET     /logout                     controllers.LoginController.logout
+GET     /logout                     controllers.HomeController.logout

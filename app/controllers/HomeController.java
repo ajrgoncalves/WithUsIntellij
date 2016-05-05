@@ -45,15 +45,68 @@ public class HomeController extends Controller {
         return ok(toJson(users));
     }
 
+    public static class Login extends User {
+
+    }
+
+    //    GET
+    public Result login() {
+
+        return ok(views.html.users.login.render("Login"));
+    }
+
+    //  POST\ Handle login form submission
+
+    public Result authenticate() {
+
+        Form<Login> loginForm = formFactory.form(Login.class).bindFromRequest();
+
+        if (loginForm.hasErrors()) {
+
+            flash("error", "tem erros no formulario");
+            return redirect(routes.HomeController.index());
+        } else {
+
+            User user = loginForm.get();
+
+
+            //BCrypt.checkpw(user.password, user.password);
+            if (user.authenticate()) {
+                session().clear();
+                session("email", loginForm.get().email);
+                Logger.info("OK!");
+                flash("success", "Está logado com sucesso");
+
+                return redirect(routes.HomeController.index());
+            } else {
+                Logger.info("TEM ERROS!");
+                return redirect(routes.HomeController.index());
+            }
+
+        }
+    }
+
+    //        GET Logout
+
+    public Result logout() {
+        session().clear();
+        flash("success", "You've been logged out");
+        return redirect(
+                routes.HomeController.index()
+        );
+    }
+
+
+
 //  GET
 
     public Result register() {
 
         return ok(views.html.users.register.render(""));
 
-
-
     }
+
+
 //    Post
 
     public Result create() {

@@ -7,6 +7,8 @@ import com.avaje.ebean.Model;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
 
+import java.util.List;
+
 
 @Entity
 public class User extends Model {
@@ -50,6 +52,23 @@ public class User extends Model {
         this.password = password;
     }
 
+    // Queries
+
+    public static Model.Finder<String, User> find = new Model.Finder(User.class);
+
+//    Retrieve all users
+
+    public static List<User> findall() {
+        return find.all();
+    }
+
+//    Retrieve a user from email.
+
+    public static User findByEmail(String email) {
+        return find.where().eq("email", email).findUnique();
+    }
+
+
 
     public boolean authenticate() {
         Model.Finder<String, User> finder = new Model.Finder<>(User.class);
@@ -61,14 +80,13 @@ public class User extends Model {
         return BCrypt.checkpw(this.password, users.password);
     }
 
-    public static Finder<Integer, User> find = new Finder<>(User.class);
-
-
-
     @Override
     public String toString() {
         return "User: [name = " + name + " | lastName = " + lastName + " | age = " + age + "]";
     }
+
+
+
 
     public void setId(Integer id) {
         this.id = id;
