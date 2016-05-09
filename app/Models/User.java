@@ -28,6 +28,20 @@ public class User extends Model {
     public String email;
     @Column(name = "password")
     public String password;
+    @Column(name = "phoneNumber")
+    public int phoneNumber;
+    @Column(name = "homeAddress")
+    public String homeAddress;
+    @Column(name = "country")
+    public String country;
+    @Column(name = "idQualifications")
+    public int idQualifications;
+    @Column(name = "idCompanyData")
+    public int idCompanyData;
+    @Column(name = "idRole")
+    public int idCRole;
+
+
 
 
     public User() {
