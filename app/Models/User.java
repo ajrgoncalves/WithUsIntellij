@@ -23,25 +23,23 @@ public class User extends Model {
     @Column(name = "lastName")
     public String lastName;
     @Column(name = "age")
-    public int age;
+    public Integer age;
     @Column(name = "email")
     public String email;
     @Column(name = "password")
     public String password;
     @Column(name = "phoneNumber")
-    public int phoneNumber;
+    public Integer phoneNumber;
     @Column(name = "homeAddress")
     public String homeAddress;
     @Column(name = "country")
     public String country;
     @Column(name = "idQualifications")
-    public int idQualifications;
+    public Integer idQualifications;
     @Column(name = "idCompanyData")
-    public int idCompanyData;
+    public Integer idCompanyData;
     @Column(name = "idRole")
-    public int idCRole;
-
-
+    public Integer idRole;
 
 
     public User() {
@@ -64,16 +62,31 @@ public class User extends Model {
         this.email = email;
         this.password = password;
     }
+    public User(String name, String lastName, String email, String password, int age, int phoneNumber, String homeAddress, String country, int idQualifications, int idCompanyData, int idRole) {
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.homeAddress = homeAddress;
+        this.country = country;
+        this.idQualifications = idQualifications;
+        this.idCompanyData = idCompanyData;
+        this.idRole = idRole;
+    }
+
 
     // Queries
 
     public static Model.Finder<String, User> find = new Model.Finder(User.class);
 
-//    Retrieve all users
+//    Retrieve user infos
 
-    public static List<User> findall() {
+   /* public  List<User> getUserInfo() {
+
         return find.all();
-    }
+    }*/
 
 //    Retrieve a user from email.
 
@@ -82,20 +95,29 @@ public class User extends Model {
     }
 
 
-
     public boolean authenticate() {
         Model.Finder<String, User> finder = new Model.Finder<>(User.class);
         Logger.info("### email: " + this.email + " password: " + this.password);
 
         User users = finder.where()
                 .eq("email", this.email).findUnique();
-
         return BCrypt.checkpw(this.password, users.password);
     }
 
-    @Override
-    public String toString() {
-        return "User: [name = " + name + " | lastName = " + lastName + " | age = " + age + "]";
+    public String checkRole () {
+        if(idRole == 1){
+            return "admin";
+        } else if (idRole== 2){
+                return "user";
+        }else {
+            return "No Role";
+        }
+
+    }
+
+
+    public String UserInfo () {
+        return "User: [name = " + name + " | lastName = " + lastName + " | age = " + age + " | Role: " + idRole + "]";
     }
 
 
@@ -149,4 +171,51 @@ public class User extends Model {
         return password;
     }
 
+    public Integer getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(Integer phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(String homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Integer getIdQualifications() {
+        return idQualifications;
+    }
+
+    public void setIdQualifications(Integer idQualifications) {
+        this.idQualifications = idQualifications;
+    }
+
+    public Integer getIdCompanyData() {
+        return idCompanyData;
+    }
+
+    public void setIdCompanyData(Integer idCompanyData) {
+        this.idCompanyData = idCompanyData;
+    }
+
+    public Integer getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(Integer idRole) {
+        this.idRole = idRole;
+    }
 }

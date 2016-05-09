@@ -35,12 +35,10 @@ public class Role extends Model {
 
 
 
-//    Retrieve Role for user
+//    Retrieve all roles
 
-    public static List<Role> findIvolving (String user) {
-        return find.where()
-                .eq("members.email", user)
-                .findList();
+    public static List<Role> findall() {
+        return find.all();
     }
 
 
@@ -71,4 +69,7 @@ public class Role extends Model {
         role.update();
         return newName;
     }
+
+
+
 }

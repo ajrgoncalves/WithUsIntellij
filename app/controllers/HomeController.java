@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import java.util.List;
 
+import static Models.User.findByEmail;
 import static play.libs.Json.toJson;
 
 /**
@@ -34,7 +35,7 @@ public class HomeController extends Controller {
 //        Http.Context.current().args.put("username", username);
 //        return ok(views.html.index.render(User.findByEmail(session().get("email"))));
 
-        return ok(views.html.index.render(User.findByEmail(request().username())));
+        return ok(views.html.index.render(findByEmail(request().username())));
     }
 
     public Result getUsers() {
@@ -74,6 +75,12 @@ public class HomeController extends Controller {
             if (user.authenticate()) {
                 session().clear();
                 session("email", loginForm.get().email);
+                session("idRole", findByEmail(user.email).getIdRole().toString());
+                Logger.info("\nUser details: \n" +
+                        "Email: " + user.email + "\n" +
+                        "Role: " + user.idRole + "\n");
+
+//                Logger.info(User.checkRole(loginForm.get().idRole));
                 Logger.info("OK!");
                 flash("success", "Está logado com sucesso");
 
@@ -85,6 +92,7 @@ public class HomeController extends Controller {
 
         }
     }
+
 
     //        GET Logout
 
@@ -126,5 +134,6 @@ public class HomeController extends Controller {
         }
         return redirect("/users/login");
     }
+
 
 }
