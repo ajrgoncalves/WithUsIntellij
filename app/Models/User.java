@@ -11,13 +11,14 @@ import java.util.List;
 
 
 @Entity
+@Table(name="user")
 public class User extends Model {
 
 //    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Integer id;
+    public Long id;
     @Column(name = "name")
     public String name;
     @Column(name = "lastName")
@@ -81,12 +82,6 @@ public class User extends Model {
 
     public static Model.Finder<String, User> find = new Model.Finder(User.class);
 
-//    Retrieve user infos
-
-   /* public  List<User> getUserInfo() {
-
-        return find.all();
-    }*/
 
 //    Retrieve a user from email.
 
@@ -104,16 +99,20 @@ public class User extends Model {
         return BCrypt.checkpw(this.password, users.password);
     }
 
+
     public String checkRole () {
-        if(idRole == 1){
-            return "admin";
-        } else if (idRole== 2){
+
+            if (idRole == 1) {
+                return "admin";
+            } else if (idRole == 2) {
                 return "user";
-        }else {
-            return "No Role";
+            } else {
+                return "No Role";
+            }
         }
 
-    }
+
+
 
 
     public String UserInfo () {
@@ -121,9 +120,7 @@ public class User extends Model {
     }
 
 
-
-
-    public void setId(Integer id) {
+        public void setId (Long id){
         this.id = id;
     }
 
@@ -147,7 +144,7 @@ public class User extends Model {
         this.password = password;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -219,3 +216,4 @@ public class User extends Model {
         this.idRole = idRole;
     }
 }
+

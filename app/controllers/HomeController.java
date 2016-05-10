@@ -1,6 +1,8 @@
 package controllers;
 
+import Models.Role;
 import Models.User;
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
@@ -10,12 +12,14 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
+import views.html.index;
 
 import javax.inject.Inject;
 
 import java.util.List;
 
 import static Models.User.findByEmail;
+import static controllers.routes.*;
 import static play.libs.Json.toJson;
 
 /**
@@ -65,7 +69,7 @@ public class HomeController extends Controller {
         if (loginForm.hasErrors()) {
 
             flash("error", "tem erros no formulario");
-            return redirect(routes.HomeController.index());
+            return redirect(HomeController.index());
         } else {
 
             User user = loginForm.get();
@@ -79,15 +83,13 @@ public class HomeController extends Controller {
                 Logger.info("\nUser details: \n" +
                         "Email: " + user.email + "\n" +
                         "Role: " + user.idRole + "\n");
-
-//                Logger.info(User.checkRole(loginForm.get().idRole));
                 Logger.info("OK!");
                 flash("success", "Está logado com sucesso");
 
-                return redirect(routes.HomeController.index());
+                return redirect(HomeController.index());
             } else {
                 Logger.info("TEM ERROS!");
-                return redirect(routes.HomeController.index());
+                return redirect(HomeController.index());
             }
 
         }
@@ -100,7 +102,7 @@ public class HomeController extends Controller {
         session().clear();
         flash("success", "You've been logged out");
         return redirect(
-                routes.HomeController.login()
+                HomeController.login()
         );
     }
 
@@ -134,6 +136,7 @@ public class HomeController extends Controller {
         }
         return redirect("/users/login");
     }
+
 
 
 }
