@@ -18,7 +18,6 @@ import javax.inject.Inject;
 
 import java.util.List;
 
-import static Models.User.findByEmail;
 import static controllers.routes.*;
 import static play.libs.Json.toJson;
 
@@ -38,8 +37,16 @@ public class HomeController extends Controller {
 //        String username = session().get("email");
 //        Http.Context.current().args.put("username", username);
 //        return ok(views.html.index.render(User.findByEmail(session().get("email"))));
+        Logger.info("USERNAME: " + request().username());
 
-        return ok(views.html.index.render(findByEmail(request().username())));
+        User user = User.findByEmail(request().username());
+        Role role = Role.findRole(user.getIdRole());
+
+        Logger.info("Role: " + role);
+
+        return ok(views.html.index.render(
+                user,role
+        ));
     }
 
     public Result getUsers() {
@@ -72,29 +79,41 @@ public class HomeController extends Controller {
             return redirect(HomeController.index());
         } else {
 
-            User user = loginForm.get();
+            User user = loginForm.get(); // FIXME: tira esta merda - ir buscar directamente ao form
+            user = User.authenticate(user.getEmail(), user.getPassword());
+            if (user != null) {
+                Model.Finder<String, Role> finderRole = new Model.Finder<>(Role.class);
 
-
-            //BCrypt.checkpw(user.password, user.password);
-            if (user.authenticate()) {
                 session().clear();
                 session("email", loginForm.get().email);
-                session("idRole", findByEmail(user.email).getIdRole().toString());
-                Logger.info("\nUser details: \n" +
-                        "Email: " + user.email + "\n" +
-                        "Role: " + user.idRole + "\n");
-                Logger.info("OK!");
-                flash("success", "Está logado com sucesso");
+                session("idRole", Long.toString(user.getIdRole()));
 
-                return redirect(HomeController.index());
+                Role role = finderRole.where().eq("id", User.findByEmail(user.email).getIdRole()).findUnique();
+
+                if (role == null) {
+                    Logger.info("TEM ERROS1!");
+                    return redirect(HomeController.index());
+                } else {
+                    Logger.info("previleges " + role.rolePrivileges);
+
+                    if (role.rolePrivileges.equals("admin")) {
+                        Logger.info("OK!");
+                        flash("success", "Está logado com sucesso");
+
+                        return redirect(HomeController.index());
+                    } else {
+                        Logger.info(" USer!");
+                        return redirect(HomeController.index());
+                    }
+                }
+
             } else {
-                Logger.info("TEM ERROS!");
+                Logger.info("TEM ERROS3!");
                 return redirect(HomeController.index());
             }
 
         }
     }
-
 
     //        GET Logout
 
@@ -105,7 +124,6 @@ public class HomeController extends Controller {
                 HomeController.login()
         );
     }
-
 
 
 //  GET
@@ -136,7 +154,6 @@ public class HomeController extends Controller {
         }
         return redirect("/users/login");
     }
-
 
 
 }

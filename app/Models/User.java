@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User extends Model {
 
 //    private static final long serialVersionUID = 1L;
@@ -63,6 +63,7 @@ public class User extends Model {
         this.email = email;
         this.password = password;
     }
+
     public User(String name, String lastName, String email, String password, int age, int phoneNumber, String homeAddress, String country, int idQualifications, int idCompanyData, int idRole) {
         this.name = name;
         this.lastName = lastName;
@@ -85,42 +86,46 @@ public class User extends Model {
 
 //    Retrieve a user from email.
 
+
     public static User findByEmail(String email) {
         return find.where().eq("email", email).findUnique();
     }
 
+// Authenticate
 
-    public boolean authenticate() {
+    public static User authenticate(String email, String password) {
         Model.Finder<String, User> finder = new Model.Finder<>(User.class);
-        Logger.info("### email: " + this.email + " password: " + this.password);
+//        Model.Finder<String, Role> finderRole = new Model.Finder<>(Role.class);
 
-        User users = finder.where()
-                .eq("email", this.email).findUnique();
-        return BCrypt.checkpw(this.password, users.password);
-    }
+        Logger.info("### email: " + email + " password: " + password);
 
+        User user = finder.where().eq("email", email).findUnique();
 
-    public String checkRole () {
-
-            if (idRole == 1) {
-                return "admin";
-            } else if (idRole == 2) {
-                return "user";
-            } else {
-                return "No Role";
-            }
+        if (user != null) {
+            if (BCrypt.checkpw(password, user.password))
+                return user;
         }
 
+        return null;
+    }
 
+//    public String checkRole () {
+//
+//            if (idRole == 1) {
+//                return "admin";
+//            } else if (idRole == 2) {
+//                return "user";
+//            } else {
+//                return "No Role";
+//            }
+//        }
 
-
-
-    public String UserInfo () {
+    public String UserInfo() {
         return "User: [name = " + name + " | lastName = " + lastName + " | age = " + age + " | Role: " + idRole + "]";
     }
 
 
-        public void setId (Long id){
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -208,7 +213,7 @@ public class User extends Model {
         this.idCompanyData = idCompanyData;
     }
 
-    public Integer getIdRole() {
+    public long getIdRole() {
         return idRole;
     }
 

@@ -1,6 +1,9 @@
 
+
 @import Models.User
-@(user: User)(content: Html)
+@import Models.Role
+
+@(user: User)(role: Role)(content: Html)
 
 <!DOCTYPE html>
 <html>
@@ -25,7 +28,8 @@
 
             }else {
                 @*<span>Bem vindo @Http.Context.current().args.get("username") </span>*@
-                <span>Bem vindo</span> @user.name <span>(@user.email) </span><span>, o seu tipo de user é: @user.checkRole()</span>
+                <span>Bem vindo</span> @user.name <span>(@user.email) </span><span>, o seu tipo de user é: @role.rolePrivileges </span>
+
                 <a href="@routes.HomeController.logout()" class="btn btn-primary navbar-btn" >Logout</a>
             }
             </div>
