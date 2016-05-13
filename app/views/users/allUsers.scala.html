@@ -1,7 +1,6 @@
 @import Models.User
 
 @(users: List[User])
-
 <table>
     <tr>
         <td>Nome</td>
@@ -14,7 +13,6 @@
 
     @for(user <- users) {
 
-
         <tr>
             <td>@user.name</td>
             <td>@user.lastName </td>
@@ -22,17 +20,12 @@
             <td>@user.phoneNumber</td>
             <td>
                 <form action="@routes.HomeController.setRole(user.id)" method="post">
-
-                <select>
-                    <option value="1"> admin </option>
-                    <option value="2">User</option>
-                </select>
-            </form>
-                </td>
+                    <select name="role">
+                        <option value="1">Admin</option>
+                        <option value="2">User</option>
+                    </select>
+                </form>
+            </td>
         </tr>
-
     }
-    </table>
-
-
-
+</table>

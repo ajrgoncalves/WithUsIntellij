@@ -163,8 +163,8 @@ public class HomeController extends Controller {
 
     }
 
+    @Security.Authenticated(LoginController.Secured.class)
     public Result setRole(Long userId) {
-
 
         Form<User> roleForm = formFactory.form(User.class).bindFromRequest();
         if (roleForm.hasErrors()) {
@@ -178,7 +178,7 @@ public class HomeController extends Controller {
             }
 
         }
-        return redirect("/index");
+        return redirect(HomeController.index());
     }
 
 }
