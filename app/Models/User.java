@@ -91,6 +91,12 @@ public class User extends Model {
         return find.where().eq("email", email).findUnique();
     }
 
+    // Procurar todos os users
+
+    public static List<User> getAllUsers () {
+        return find.all();
+    }
+
 // Authenticate
 
     public static User authenticate(String email, String password) {
@@ -108,7 +114,6 @@ public class User extends Model {
 
         return null;
     }
-
 //    public String checkRole () {
 //
 //            if (idRole == 1) {

@@ -16,8 +16,8 @@ GET         /assets/*file          controllers.Assets.versioned(path="/public", 
 
 #Get e POST para regist
 GET         /users                 controllers.HomeController.getUsers
+GET         /users/allUsers        controllers.HomeController.getAllUsers
 
-#GET         /users/:username          controllers.HomeController.getUser
 
 GET         /users/register        controllers.HomeController.register
 
@@ -29,8 +29,12 @@ GET        /users/login            controllers.HomeController.login
 
 POST       /users/login            controllers.HomeController.authenticate
 
-
-
 #Logout
 
 GET     /logout                     controllers.HomeController.logout
+
+#Set Role
+
+POST  /setRole                      controllers.HomeController.setRole(userId: Long)
+
+

@@ -1,9 +1,9 @@
 @import Models.User
 @import Models.Role
 
-@(user: User)(role: Role)
+@(user: User)(role: Role)(users: List[User])
 
-    @main(user)(role) {
+    @main(user) {
 
         <html>
             <head>
@@ -24,6 +24,7 @@
                     <span> <p>@user.email </p></span>
                     <span><p>@role.rolePrivileges</p></span>
 
+                    @views.html.users.allUsers(users)
 
                 </div>
 

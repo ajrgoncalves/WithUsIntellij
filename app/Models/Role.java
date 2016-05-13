@@ -14,6 +14,9 @@ import java.util.List;
 @Entity
 @Table(name = "role")
 public class Role extends Model {
+    public static final int ADMIN = 1;
+    public static final int USER = 2;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
@@ -27,6 +30,8 @@ public class Role extends Model {
     public Role(String rolePrivileges, User membro) {
         this.rolePrivileges = rolePrivileges;
     }
+
+
 
     private static Model.Finder<Long, Role> find = new Model.Finder(Role.class);
 

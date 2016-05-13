@@ -1,0 +1,38 @@
+@import Models.User
+
+@(users: List[User])
+
+<table>
+    <tr>
+        <td>Nome</td>
+        <td>Ultimo Nome </td>
+        <td>Email</td>
+        <td>Contacto</td>
+        <td></td>
+    </tr>
+
+
+    @for(user <- users) {
+
+
+        <tr>
+            <td>@user.name</td>
+            <td>@user.lastName </td>
+            <td>@user.email</td>
+            <td>@user.phoneNumber</td>
+            <td>
+                <form action="@routes.HomeController.setRole(user.id)" method="post">
+
+                <select>
+                    <option value="1"> admin </option>
+                    <option value="2">User</option>
+                </select>
+            </form>
+                </td>
+        </tr>
+
+    }
+    </table>
+
+
+

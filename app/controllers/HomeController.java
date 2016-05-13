@@ -41,11 +41,12 @@ public class HomeController extends Controller {
 
         User user = User.findByEmail(request().username());
         Role role = Role.findRole(user.getIdRole());
+        List<User> allUsers = User.getAllUsers();
 
         Logger.info("Role: " + role);
 
         return ok(views.html.index.render(
-                user,role
+                user,role,allUsers
         ));
     }
 
@@ -80,6 +81,7 @@ public class HomeController extends Controller {
         } else {
 
             User user = loginForm.get(); // FIXME: tira esta merda - ir buscar directamente ao form
+
             user = User.authenticate(user.getEmail(), user.getPassword());
             if (user != null) {
                 Model.Finder<String, Role> finderRole = new Model.Finder<>(Role.class);
@@ -155,5 +157,28 @@ public class HomeController extends Controller {
         return redirect("/users/login");
     }
 
+    public Result getAllUsers() {
+        List<User> allUsers = User.getAllUsers();
+        return ok(views.html.users.allUsers.render(allUsers));
+
+    }
+
+    public Result setRole(Long userId) {
+
+
+        Form<User> roleForm = formFactory.form(User.class).bindFromRequest();
+        if (roleForm.hasErrors()) {
+            Logger.info("TEM ERROS!");
+        } else {
+
+            if( session().get("idRole").equals( Role.ADMIN))
+            {
+                User userRole =  roleForm.get();
+                userRole.update();
+            }
+
+        }
+        return redirect("/index");
+    }
 
 }
