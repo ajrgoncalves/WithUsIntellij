@@ -17,6 +17,7 @@ import views.html.index;
 import javax.inject.Inject;
 
 import java.util.List;
+import java.util.Map;
 
 import static controllers.routes.*;
 import static play.libs.Json.toJson;
@@ -165,17 +166,22 @@ public class HomeController extends Controller {
 
     @Security.Authenticated(LoginController.Secured.class)
     public Result setRole(Long userId) {
-
+// vou buscar a informação que está no form
         Form<User> roleForm = formFactory.form(User.class).bindFromRequest();
+
         if (roleForm.hasErrors()) {
             Logger.info("TEM ERROS!");
         } else {
-
-            if( session().get("idRole").equals( Role.ADMIN))
-            {
-                User userRole =  roleForm.get();
-                userRole.update();
+            //escolhe o current user(ou o user que esta na linha)
+          User user = User.find.where().eq("id", userId).findUnique();
+            if(user!= null) {
+                //faz set do idRole consoant o que está no form
+                user.setIdRole(Integer.parseInt(roleForm.data().get("idRole")));
+                user.update();
+            }else{
+                 flash("error", "user not found");
             }
+
 
         }
         return redirect(HomeController.index());

@@ -20,10 +20,11 @@
             <td>@user.phoneNumber</td>
             <td>
                 <form action="@routes.HomeController.setRole(user.id)" method="post">
-                    <select name="role">
+                    <select name="idRole">
                         <option value="1">Admin</option>
-                        <option value="2">User</option>
+                        <option value="2" selected>User</option>
                     </select>
+                    <input type="submit" class="btn btn-primary" value="save" />
                 </form>
             </td>
         </tr>
