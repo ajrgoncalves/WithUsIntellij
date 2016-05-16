@@ -35,6 +35,9 @@ GET     /logout                     controllers.HomeController.logout
 
 #Set Role
 
-POST  /setRole                      controllers.HomeController.setRole(userId: Long)
+POST  /setRole                      controllers.RoleController.setRole(userId: Long)
 
+#Update User fields
+
+POST /updateUser                    controllers.HomeController.updateUser(userId: Long)
 

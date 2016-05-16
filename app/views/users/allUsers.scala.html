@@ -19,7 +19,7 @@
             <td>@user.email</td>
             <td>@user.phoneNumber</td>
             <td>
-                <form action="@routes.HomeController.setRole(user.id)" method="post">
+                <form action="@routes.RoleController.setRole(user.id)" method="post">
                     <select name="idRole">
                         <option value="1">Admin</option>
                         <option value="2" selected>User</option>

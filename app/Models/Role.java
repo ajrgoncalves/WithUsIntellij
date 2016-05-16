@@ -14,12 +14,14 @@ import java.util.List;
 @Entity
 @Table(name = "role")
 public class Role extends Model {
-    public static final int ADMIN = 1;
-    public static final int USER = 2;
+    // TODO: keep this synced with db
+    public static final int SUPERADMIN = 1;
+    public static final int ADMIN = 2;
+    public static final int USER = 3;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+    public Integer id;
 
     @Column(name = "rolePrivileges")
     public String rolePrivileges;
@@ -33,7 +35,7 @@ public class Role extends Model {
 
 
 
-    private static Model.Finder<Long, Role> find = new Model.Finder(Role.class);
+    private static Model.Finder<Integer, Role> find = new Model.Finder(Role.class);
 
     //    retrieve role for user
     public static List<Role> findIvolving(String user) {
@@ -49,7 +51,7 @@ public class Role extends Model {
     }
 
     //    Rename Role
-    public static String rename(Long roleId, String newName) {
+    public static String rename(Integer roleId, String newName) {
         Role role = find.ref(roleId);
         role.rolePrivileges = newName;
         role.update();
@@ -58,11 +60,15 @@ public class Role extends Model {
 
 //      Check if a user got a role
 
-    public static boolean isMember(Long role, String user) {
+    public static boolean isMember(Integer role, String user) {
         return find.where()
                 .eq("members.email", user)
                 .eq("id", role)
                 .findRowCount() > 0;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public static Role findRole(long roleId) {

@@ -47,7 +47,7 @@ public class HomeController extends Controller {
         Logger.info("Role: " + role);
 
         return ok(views.html.index.render(
-                user,role,allUsers
+                user, role, allUsers
         ));
     }
 
@@ -164,27 +164,56 @@ public class HomeController extends Controller {
 
     }
 
-    @Security.Authenticated(LoginController.Secured.class)
-    public Result setRole(Long userId) {
-// vou buscar a informação que está no form
-        Form<User> roleForm = formFactory.form(User.class).bindFromRequest();
+    public Result updateUser(Long userId) {
 
-        if (roleForm.hasErrors()) {
+        Form<User> userUpdateForm = formFactory.form(User.class).bindFromRequest();
+
+        if (userUpdateForm.hasErrors()) {
             Logger.info("TEM ERROS!");
         } else {
-            //escolhe o current user(ou o user que esta na linha)
-          User user = User.find.where().eq("id", userId).findUnique();
-            if(user!= null) {
-                //faz set do idRole consoant o que está no form
-                user.setIdRole(Integer.parseInt(roleForm.data().get("idRole")));
-                user.update();
-            }else{
-                 flash("error", "user not found");
+            //Saber qual é o user que estamos a alterar
+            User user = User.find.where().eq("id", userId).findUnique();
+            Integer currentUserRole = Integer.parseInt(session().get("idRole"));
+
+            if (user != null) {
+                for (Map.Entry<String, String> entry : userUpdateForm.data().entrySet()) {
+
+                    Integer variablePermission = User.variablePermissions.get(entry.getKey());
+
+                    if (currentUserRole == Role.SUPERADMIN) {
+                        if (variablePermission != Role.SUPERADMIN) {
+                            //TODO: update na boa
+                        } else {
+                            // TODO: checkar se é o próprio
+                        }
+                    } else if (currentUserRole == Role.ADMIN) {
+                        if (variablePermission < Role.ADMIN)  {
+                            //TODO: update na boa
+                        } else{
+                            if(variablePermission == Role.ADMIN && user.id.equals(Integer.parseInt(session().get("id"))))
+                            {
+                            // TODO: checkar se é o próprio
+                            }
+                        }
+
+                    } else if (currentUserRole == Role.USER) {
+                        if (variablePermission != Role.USER)  {
+
+                            //TODO: update na boa
+                        } else{
+                            if(variablePermission == Role.USER && user.id.equals(Integer.parseInt(session().get("id"))))
+                            {
+                                // TODO: checkar se é o próprio
+                            }
+                        }
+
+                    }
+                }
             }
-
-
         }
-        return redirect(HomeController.index());
+
+
+        return ok();
     }
 
 }

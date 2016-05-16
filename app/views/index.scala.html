@@ -12,9 +12,10 @@
         <span> <p>@user.age </p></span>
         <span> <p>@user.email </p></span>
         <span><p>@role.rolePrivileges</p></span>
+        @if(user.idRole equals(1)) {
 
-        @views.html.users.allUsers(users)
-
+            @views.html.users.allUsers(users)
+        }
     </div>
 }
 
