@@ -18,19 +18,19 @@ import java.util.List;
 public class User extends Model {
 
 //    private static final long serialVersionUID = 1L;
-    public static final HashMap<String, Integer> variablePermissions = new HashMap<>();
-
-    static {
-        variablePermissions.put("name",Role.USER);
-        variablePermissions.put("lastName",Role.USER);
-        variablePermissions.put("age",Role.USER);
-        variablePermissions.put("password",Role.USER);
-        variablePermissions.put("country",Role.USER);
-        variablePermissions.put("phoneNumber",Role.USER);
-        variablePermissions.put("homeAddress",Role.USER);
-        variablePermissions.put("idRole",Role.SUPERADMIN);
-        
-    }
+//    public static final HashMap<String, Integer> variablePermissions = new HashMap<>();
+//
+//    static {
+//        variablePermissions.put("name",Role.USER);
+//        variablePermissions.put("lastName",Role.USER);
+//        variablePermissions.put("age",Role.USER);
+//        variablePermissions.put("password",Role.USER);
+//        variablePermissions.put("country",Role.USER);
+//        variablePermissions.put("phoneNumber",Role.USER);
+//        variablePermissions.put("homeAddress",Role.USER);
+//        variablePermissions.put("idRole",Role.SUPERADMIN);
+//
+//    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

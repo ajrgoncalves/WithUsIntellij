@@ -16,6 +16,7 @@ import views.html.index;
 
 import javax.inject.Inject;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +89,7 @@ public class HomeController extends Controller {
                 Model.Finder<String, Role> finderRole = new Model.Finder<>(Role.class);
 
                 session().clear();
+                session("id", user.getId().toString());
                 session("email", loginForm.get().email);
                 session("idRole", Long.toString(user.getIdRole()));
 
@@ -163,7 +165,7 @@ public class HomeController extends Controller {
         return ok(views.html.users.allUsers.render(allUsers));
 
     }
-
+    @Security.Authenticated(LoginController.Secured.class)
     public Result updateUser(Long userId) {
 
         Form<User> userUpdateForm = formFactory.form(User.class).bindFromRequest();
@@ -176,44 +178,35 @@ public class HomeController extends Controller {
             Integer currentUserRole = Integer.parseInt(session().get("idRole"));
 
             if (user != null) {
-                for (Map.Entry<String, String> entry : userUpdateForm.data().entrySet()) {
 
-                    Integer variablePermission = User.variablePermissions.get(entry.getKey());
 
-                    if (currentUserRole == Role.SUPERADMIN) {
-                        if (variablePermission != Role.SUPERADMIN) {
-                            //TODO: update na boa
-                        } else {
-                            // TODO: checkar se é o próprio
-                        }
-                    } else if (currentUserRole == Role.ADMIN) {
-                        if (variablePermission < Role.ADMIN)  {
-                            //TODO: update na boa
-                        } else{
-                            if(variablePermission == Role.ADMIN && user.id.equals(Integer.parseInt(session().get("id"))))
-                            {
-                            // TODO: checkar se é o próprio
-                            }
-                        }
+                if (currentUserRole == Role.SUPERADMIN || currentUserRole == Role.ADMIN || (currentUserRole == Role.USER && userId == Integer.parseInt(session().get("id")))) {
 
-                    } else if (currentUserRole == Role.USER) {
-                        if (variablePermission != Role.USER)  {
+                    //TODO: update de campos USER
 
-                            //TODO: update na boa
-                        } else{
-                            if(variablePermission == Role.USER && user.id.equals(Integer.parseInt(session().get("id"))))
-                            {
-                                // TODO: checkar se é o próprio
-                            }
-                        }
 
-                    }
+                    user.setName((userUpdateForm.data().get("name")));
+                    user.setLastName((userUpdateForm.data().get("lastName")));
+                    user.setHomeAddress((userUpdateForm.data().get("homeAddress")));
+                    user.setCountry((userUpdateForm.data().get("country")));
+                    user.setAge(Integer.parseInt(userUpdateForm.data().get("age")));
+                    user.setPhoneNumber(Integer.parseInt(userUpdateForm.data().get("phoneNumber")));
+
                 }
+
+                if (currentUserRole == Role.SUPERADMIN || (currentUserRole == Role.ADMIN && userId == Integer.parseInt(session().get("id")))) {
+
+                }
+
+                if (currentUserRole == Role.SUPERADMIN && userId == Integer.parseInt(session().get("id"))) {
+
+                    user.setIdRole(Integer.parseInt(userUpdateForm.data().get("idRole")));
+                }
+
+                user.update();
             }
+
         }
-
-
-        return ok();
+        return redirect(HomeController.index());
     }
-
 }

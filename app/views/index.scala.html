@@ -12,10 +12,12 @@
         <span> <p>@user.age </p></span>
         <span> <p>@user.email </p></span>
         <span><p>@role.rolePrivileges</p></span>
-        @if(user.idRole equals(1)) {
+        @if(session().get("idRole") != null && Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) {
 
             @views.html.users.allUsers(users)
         }
+
+        @views.html.users._formUpdateUser(users)
     </div>
 }
 
