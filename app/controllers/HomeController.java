@@ -184,28 +184,41 @@ public class HomeController extends Controller {
 
                     //TODO: update de campos USER
 
+                    if(userId == Integer.parseInt(session().get("id")) || user.idRole> currentUserRole) {
 
-                    user.setName((userUpdateForm.data().get("name")));
-                    user.setLastName((userUpdateForm.data().get("lastName")));
-                    user.setHomeAddress((userUpdateForm.data().get("homeAddress")));
-                    user.setCountry((userUpdateForm.data().get("country")));
-                    user.setAge(Integer.parseInt(userUpdateForm.data().get("age")));
-                    user.setPhoneNumber(Integer.parseInt(userUpdateForm.data().get("phoneNumber")));
+                        user.setName((userUpdateForm.data().get("name")));
+                        user.setLastName((userUpdateForm.data().get("lastName")));
+                        user.setHomeAddress((userUpdateForm.data().get("homeAddress")));
+                        user.setCountry((userUpdateForm.data().get("country")));
+                        user.setAge(Integer.parseInt(userUpdateForm.data().get("age")));
+                        user.setPhoneNumber(Integer.parseInt(userUpdateForm.data().get("phoneNumber")));
+                    } else {
+                        flash("Não tem permissões para o que esta a tentar fazer");
+                    }
 
                 }
 
                 if (currentUserRole == Role.SUPERADMIN || (currentUserRole == Role.ADMIN && userId == Integer.parseInt(session().get("id")))) {
 
+                    if(userId == Integer.parseInt(session().get("id")) || user.idRole> currentUserRole) {
+
+                    }else {
+                        flash("Não tem permissões para o que esta a tentar fazer");
+                    }
                 }
 
                 if (currentUserRole == Role.SUPERADMIN && userId == Integer.parseInt(session().get("id"))) {
 
-                    user.setIdRole(Integer.parseInt(userUpdateForm.data().get("idRole")));
+                    if(userId == Integer.parseInt(session().get("id")) || user.idRole> currentUserRole) {
+                        user.setIdRole(Integer.parseInt(userUpdateForm.data().get("idRole")));
+
+                    }else {
+                        flash("Não tem permissões para o que esta a tentar fazer");
+                    }
                 }
 
                 user.update();
             }
-
         }
         return redirect(HomeController.index());
     }
