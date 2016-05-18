@@ -1,7 +1,7 @@
 /**
  * Created by Toz on 17/05/2016.
  */
-function validateRegist(form){
+function validateRegiste(form){
 
     // var password = form.password.value();//document.getElementById("password");
     // var confirm_password =  form.confirm_password.value();//document.getElementById("confirm_password");
@@ -53,10 +53,37 @@ function validateRegist(form){
     }
     re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if(!re.test(form.email.value)) {
-        alert("Error: O email tem de ter uma estrutura valida");
         form.email.focus();
-        return false;
-    }
+        alert("Error: O email tem de ter uma estrutura valida");
+    }else  if (form.email.value.indexOf("@withus.pt", form.email.value.length - "@withus.pt".length) == -1) {
+
+            form.email.focus();
+            alert("Error: O email tem de terminar em @withus.pt");
+            return false;
+        }
+
+    //Age
+    // if( new Date(form.age.value).getFullYear().toString() === "") {
+    //     alert("Error: O campo idade não pode ser vazio!");
+    //     form.age.focus();
+    //     return false;
+    // }
+    //
+    // var date = new Date();
+    // var year = date.getFullYear();
+    //
+    // var yearForm1 = new Date(form.age.value);
+    // var yearForm = new Date(form.age.value).getFullYear();
+    //
+    //  var age = (year-yearForm);
+    // alert(" date format -"+ yearForm1);
+    //
+    // if(age <= 16 || age > 75 || isNaN(age)) {
+    //     alert("Error: Idade não pode conter letras e deve ser um valor entre 16 e 75!");
+    //     form.age.focus();
+    //     return false;
+    // }
+
 
 // alert("pass: "+ form.password.value + " - confirm pass : "+ form.confirm_password.value);
     // PASSWORD
@@ -95,7 +122,7 @@ function validateRegist(form){
         return false;
     }
 
-    alert("Inseriu uma password valida: " + form.password.value);
+    alert("Registo concluido");
     return true;
 
 

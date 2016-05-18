@@ -8,7 +8,7 @@ create table user (
   id                            integer not null  AUTO_INCREMENT,
   name                          varchar(50),
   lastName                      varchar(50),
-  age                           integer,
+  age                           DATE,
   email                         varchar(50),
   password                      varchar(50),
   constraint pk_user primary key (id)

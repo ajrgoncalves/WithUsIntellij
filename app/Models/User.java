@@ -4,12 +4,12 @@ import javax.persistence.*;
 
 import com.avaje.ebean.Model;
 
-import com.google.inject.Inject;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -40,7 +40,7 @@ public class User extends Model {
     @Column(name = "lastName")
     public String lastName;
     @Column(name = "age")
-    public Integer age;
+    public Date age;
     @Column(name = "email")
     public String email;
     @Column(name = "password")
@@ -71,7 +71,7 @@ public class User extends Model {
         this.lastName = lastName;
     }
 
-    public User(String name, String lastName, String email, String password, int age) {
+    public User(String name, String lastName, String email, String password, Date age) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
@@ -79,7 +79,7 @@ public class User extends Model {
         this.password = password;
     }
 
-    public User(String name, String lastName, String email, String password, int age, int phoneNumber, String homeAddress, String country, int idQualifications, int idCompanyData, int idRole) {
+    public User(String name, String lastName, String email, String password, Date age, int phoneNumber, String homeAddress, String country, int idQualifications, int idCompanyData, int idRole) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
@@ -157,8 +157,9 @@ public class User extends Model {
         this.lastName = lastName;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAge(Date age) {
+        Logger.info("setAge: " + age.toString());
+        this.age=age;
     }
 
     public void setEmail(String email) {
@@ -181,7 +182,7 @@ public class User extends Model {
         return lastName;
     }
 
-    public int getAge() {
+    public Date getAge() {
         return age;
     }
 

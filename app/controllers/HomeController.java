@@ -8,6 +8,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
+import play.data.validation.ValidationError;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -17,10 +18,12 @@ import views.html.index;
 import javax.inject.Inject;
 
 import java.lang.reflect.Field;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
 import static controllers.routes.*;
+import static play.libs.Json.parse;
 import static play.libs.Json.toJson;
 
 /**
@@ -145,11 +148,13 @@ public class HomeController extends Controller {
     public Result create() {
         Form<User> userForm = formFactory.form(User.class).bindFromRequest();
         if (userForm.hasErrors()) {
-            Logger.info("TEM ERROS!");
+
+            Logger.info("Criação de user com erros!!! " );
         } else {
 
             User user = userForm.get();
             user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
+            Logger.info("DATA; " + user.age);
             session().put("email", user.email);
 
             user.save();
@@ -165,6 +170,7 @@ public class HomeController extends Controller {
         return ok(views.html.users.allUsers.render(allUsers));
 
     }
+
     @Security.Authenticated(LoginController.Secured.class)
     public Result updateUser(Long userId) {
 
@@ -184,13 +190,13 @@ public class HomeController extends Controller {
 
                     //TODO: update de campos USER
 
-                    if(userId == Integer.parseInt(session().get("id")) || user.idRole> currentUserRole) {
+                    if (userId == Integer.parseInt(session().get("id")) || user.idRole > currentUserRole) {
 
                         user.setName((userUpdateForm.data().get("name")));
                         user.setLastName((userUpdateForm.data().get("lastName")));
                         user.setHomeAddress((userUpdateForm.data().get("homeAddress")));
                         user.setCountry((userUpdateForm.data().get("country")));
-                        user.setAge(Integer.parseInt(userUpdateForm.data().get("age")));
+                       // user.setAge(userUpdateForm.data().get("age"));  //TODO: verificar este set date
                         user.setPhoneNumber(Integer.parseInt(userUpdateForm.data().get("phoneNumber")));
                     } else {
                         flash("Não tem permissões para o que esta a tentar fazer");
@@ -200,19 +206,19 @@ public class HomeController extends Controller {
 
                 if (currentUserRole == Role.SUPERADMIN || (currentUserRole == Role.ADMIN && userId == Integer.parseInt(session().get("id")))) {
 
-                    if(userId == Integer.parseInt(session().get("id")) || user.idRole> currentUserRole) {
+                    if (userId == Integer.parseInt(session().get("id")) || user.idRole > currentUserRole) {
 
-                    }else {
+                    } else {
                         flash("Não tem permissões para o que esta a tentar fazer");
                     }
                 }
 
                 if (currentUserRole == Role.SUPERADMIN && userId == Integer.parseInt(session().get("id"))) {
 
-                    if(userId == Integer.parseInt(session().get("id")) || user.idRole> currentUserRole) {
+                    if (userId == Integer.parseInt(session().get("id")) || user.idRole > currentUserRole) {
                         user.setIdRole(Integer.parseInt(userUpdateForm.data().get("idRole")));
 
-                    }else {
+                    } else {
                         flash("Não tem permissões para o que esta a tentar fazer");
                     }
                 }

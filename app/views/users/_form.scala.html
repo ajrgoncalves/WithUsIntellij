@@ -1,7 +1,7 @@
 <div class="col-lg-12 col-md-6">
 <div class="panel panel-default col-md-4">
     <div class="panel-body" >
-<form action="@routes.HomeController.create()" method="post" onsubmit="return validateRegist(this);">
+<form action="@routes.HomeController.create()" method="post" onsubmit="return validateRegiste(this);">
     <div class="form-group">
         <label>Nome</label>
         <input type="text" name="name" class="form-control" placeholder="Nome">
@@ -11,8 +11,8 @@
         <input type="text" name="lastName" class="form-control"  placeholder="Ultimo Nome">
     </div>
     <div class="form-group">
-        <label >Idade</label>
-        <input type="text" name="age" class="form-control"  placeholder="Idade">
+        <label >Data de Nascimento</label>
+        <input type="date" name="age" class="form-control">
     </div>
     <div class="form-group">
         <label>Pais</label>
