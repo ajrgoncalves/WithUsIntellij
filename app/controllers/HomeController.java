@@ -16,6 +16,7 @@ import play.mvc.Security;
 
 
 import javax.inject.Inject;
+import java.sql.Date;
 import java.util.List;
 
 import static controllers.routes.*;
@@ -152,9 +153,10 @@ public class HomeController extends Controller {
             user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
             session().put("email", user.email);
 
+            Logger.info("USER: " + user.age.toString());
             user.save();
             Logger.info("USER: " + user.toString());
-            //Logger.info("### User: " + user.name + " lastName: " + user.lastName);
+
 
         }
         return redirect("/users/login");
@@ -191,10 +193,11 @@ public class HomeController extends Controller {
                         user.setLastName((userUpdateForm.data().get("lastName")));
                         user.setHomeAddress((userUpdateForm.data().get("homeAddress")));
                         user.setCountryId(Integer.parseInt(userUpdateForm.data().get("countryId")));
-                        String date = userUpdateForm.data().get("age");
-                        //user.setAge( userUpdateForm.data().get("age"));
-                        //Date.parse(userUpdateForm.data().get("age")));
+
+                        user.setAgeStringFormat(userUpdateForm.data().get("age"));
+
                         //userUpdateForm.data().get("age"));  //TODO: verificar este set date
+
                         user.setPhoneNumber(Integer.parseInt(userUpdateForm.data().get("phoneNumber")));
                     } else {
                         flash("Não tem permissões para o que esta a tentar fazer");

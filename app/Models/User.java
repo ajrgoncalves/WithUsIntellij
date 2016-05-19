@@ -7,6 +7,7 @@ import com.avaje.ebean.Model;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -162,6 +163,17 @@ public class User extends Model {
         this.age=age;
     }
 
+    public void setAgeStringFormat(String ageInString){
+        DateFormat dateF = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            age = dateF.parse(ageInString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -186,7 +198,10 @@ public class User extends Model {
         return age;
     }
     public String getAgeStringFormat (){
+        DateFormat dateF = new SimpleDateFormat("yyyy-MM-dd");
+        String dateRequired = dateF.format(age.getTime());
 
+        return dateRequired;
     }
 
     public String getEmail() {

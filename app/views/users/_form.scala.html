@@ -20,7 +20,6 @@
     <div class="form-group">
         <label>Pais</label>
         <select name="countryId" class="col-md-12">
-
             @for(country <- countries){
                 <option value="@country.countryId">@country.countryNome</option>
             }
