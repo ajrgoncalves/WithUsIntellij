@@ -35,9 +35,8 @@ public class RoleController extends Model {
     public Result setRole(Long userId) {
 // vou buscar a informação que está no form
         Form<User> roleForm = formFactory.form(User.class).bindFromRequest();
-
         if (roleForm.hasErrors()) {
-            Logger.info("TEM ERROS!");
+            Logger.info("TEM ERROS no Role!");
         } else {
             //escolhe o current user(ou o user que esta na linha)
             User user = User.find.where().eq("id", userId).findUnique();
@@ -48,8 +47,6 @@ public class RoleController extends Model {
             }else{
                 flash("error", "user not found");
             }
-
-
         }
         return redirect(HomeController.index());
     }

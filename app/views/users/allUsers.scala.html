@@ -2,22 +2,22 @@
 
 @(users: List[User])
 <table>
-    <tr>
-        <td>Nome</td>
-        <td>Ultimo Nome </td>
-        <td>Email</td>
-        <td>Contacto</td>
-        <td></td>
+    <tr >
+        <td style="padding-right: 3px">Nome </td>
+        <td style="padding-right: 3px">Ultimo Nome </td>
+        <td style="padding-right: 3px">Email </td>
+        <td style="padding-right: 3px">Contacto </td>
+        <td style="padding-right: 3px"> Role</td>
     </tr>
 
 
     @for(user <- users) {
 
         <tr>
-            <td>@user.name</td>
+            <td>@user.name </td>
             <td>@user.lastName </td>
-            <td>@user.email</td>
-            <td>@user.phoneNumber</td>
+            <td>@user.email </td>
+            <td>@user.phoneNumber </td>
             <td>
                 <form action="@routes.RoleController.setRole(user.id)" method="post">
                     <select name="idRole">

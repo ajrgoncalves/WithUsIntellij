@@ -1,5 +1,6 @@
 package controllers;
 
+import Models.Country;
 import Models.Role;
 import Models.User;
 import com.avaje.ebean.Ebean;
@@ -8,22 +9,16 @@ import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
-import play.data.validation.ValidationError;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
-import views.html.index;
+
 
 import javax.inject.Inject;
-
-import java.lang.reflect.Field;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
 import static controllers.routes.*;
-import static play.libs.Json.parse;
 import static play.libs.Json.toJson;
 
 /**
@@ -47,11 +42,12 @@ public class HomeController extends Controller {
         User user = User.findByEmail(request().username());
         Role role = Role.findRole(user.getIdRole());
         List<User> allUsers = User.getAllUsers();
+        List<Country> allCountries = Country.getAllCountries();
 
         Logger.info("Role: " + role);
 
         return ok(views.html.index.render(
-                user, role, allUsers
+                user, role, allUsers, allCountries
         ));
     }
 
@@ -137,8 +133,8 @@ public class HomeController extends Controller {
 //  GET
 
     public Result register() {
-
-        return ok(views.html.users.register.render(""));
+        List<Country> allCountries = Country.getAllCountries();
+        return ok(views.html.users.register.render(allCountries));
 
     }
 
@@ -149,12 +145,11 @@ public class HomeController extends Controller {
         Form<User> userForm = formFactory.form(User.class).bindFromRequest();
         if (userForm.hasErrors()) {
 
-            Logger.info("Criação de user com erros!!! " );
+            Logger.info("Criação de user com erros!!! ");
         } else {
 
             User user = userForm.get();
             user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
-            Logger.info("DATA; " + user.age);
             session().put("email", user.email);
 
             user.save();
@@ -195,8 +190,11 @@ public class HomeController extends Controller {
                         user.setName((userUpdateForm.data().get("name")));
                         user.setLastName((userUpdateForm.data().get("lastName")));
                         user.setHomeAddress((userUpdateForm.data().get("homeAddress")));
-                        user.setCountry((userUpdateForm.data().get("country")));
-                       // user.setAge(userUpdateForm.data().get("age"));  //TODO: verificar este set date
+                        user.setCountryId(Integer.parseInt(userUpdateForm.data().get("countryId")));
+                        String date = userUpdateForm.data().get("age");
+                        //user.setAge( userUpdateForm.data().get("age"));
+                        //Date.parse(userUpdateForm.data().get("age")));
+                        //userUpdateForm.data().get("age"));  //TODO: verificar este set date
                         user.setPhoneNumber(Integer.parseInt(userUpdateForm.data().get("phoneNumber")));
                     } else {
                         flash("Não tem permissões para o que esta a tentar fazer");
@@ -223,7 +221,7 @@ public class HomeController extends Controller {
                     }
                 }
 
-                user.update();
+                user.save();
             }
         }
         return redirect(HomeController.index());

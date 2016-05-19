@@ -1,3 +1,4 @@
+import Models.Country;
 import Models.User;
 import org.junit.Test;
 import play.twirl.api.Content;
@@ -27,12 +28,14 @@ public class ApplicationTest {
     User user = User.findByEmail(request().username());
     Role role = Role.findRole(user.getIdRole());
     List<User> allUsers = User.getAllUsers();
+    List<Country> allCountries = Country.getAllCountries();
 
     @Test
     public void renderTemplate() {
         Content html = views.html.index.render( User.findByEmail(request().username()),
                 Role.findRole(user.getIdRole()),
-                allUsers = User.getAllUsers()
+                allUsers = User.getAllUsers(),
+                allCountries = Country.getAllCountries()
         );
         assertEquals("text/html", html.contentType());
         assertTrue(html.body().contains("Your new application is ready."));

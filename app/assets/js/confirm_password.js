@@ -40,7 +40,7 @@ function validateRegiste(form){
     }
     re = /[^a-z|^A-Z]/;
     if(re.test(form.lastName.value)) {
-        alert("Error: Ultimo nome deve conter apenas letras!");
+        alert("Error: Ultimo nome deve conter apenas letras e não aceita caracteres especiais!");
         form.lastName.focus();
         return false;
     }
@@ -63,26 +63,55 @@ function validateRegiste(form){
         }
 
     //Age
-    // if( new Date(form.age.value).getFullYear().toString() === "") {
-    //     alert("Error: O campo idade não pode ser vazio!");
-    //     form.age.focus();
-    //     return false;
-    // }
-    //
-    // var date = new Date();
-    // var year = date.getFullYear();
-    //
-    // var yearForm1 = new Date(form.age.value);
-    // var yearForm = new Date(form.age.value).getFullYear();
-    //
-    //  var age = (year-yearForm);
-    // alert(" date format -"+ yearForm1);
-    //
-    // if(age <= 16 || age > 75 || isNaN(age)) {
-    //     alert("Error: Idade não pode conter letras e deve ser um valor entre 16 e 75!");
-    //     form.age.focus();
-    //     return false;
-    // }
+    if( new Date(form.age.value).getFullYear().toString() === "") {
+        alert("Error: O campo idade não pode ser vazio!");
+        form.age.focus();
+        return false;
+    }
+
+    var date = new Date();
+    var year = date.getFullYear();
+    var yearForm = new Date(form.age.value).getFullYear();
+    var age = (year-yearForm);
+
+    if(age <= 16 || age > 75 || isNaN(age)) {
+        alert("Error: Idade não pode conter letras e deve ser um valor entre 16 e 75!");
+        form.age.focus();
+        return false;
+    }
+
+    //Morada
+    if(form.homeAddress.value === "") {
+        alert("Error: O campo da morada não pode ser vazio!");
+        form.homeAddress.focus();
+        return false;
+    }
+    re = /[^a-z|^A-Z]/;
+    if(re.test(form.homeAddress.value) && form.homeAddress.value.length < 10) {
+        alert("Error: A sua morada não tem um valor considerado valido");
+        form.homeAddress.focus();
+        return false;
+    }
+
+    //Pais
+    if(form.homeAddress.value === "") {
+        alert("Error: O campo da morada não pode ser vazio!");
+        form.homeAddress.focus();
+        return false;
+    }
+
+    //Contacto
+    if(form.phoneNumber.value === "") {
+        alert("Error: O campo de contacto não pode ser vazio!");
+        form.phoneNumber.focus();
+        return false;
+    }
+    re = /[0-9]/;
+    if(re.test(form.phoneNumber.value) && form.phoneNumber.value.length !=9 ) {
+        alert("Error: Deve colocar um contacto valido");
+        form.phoneNumber.focus();
+        return false;
+    }
 
 
 // alert("pass: "+ form.password.value + " - confirm pass : "+ form.confirm_password.value);

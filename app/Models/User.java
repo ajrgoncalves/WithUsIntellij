@@ -49,8 +49,8 @@ public class User extends Model {
     public Integer phoneNumber;
     @Column(name = "homeAddress")
     public String homeAddress;
-    @Column(name = "country")
-    public String country;
+    @Column(name = "countryId")
+    public Integer countryId;
     @Column(name = "idQualifications")
     public Integer idQualifications;
     @Column(name = "idCompanyData")
@@ -79,7 +79,7 @@ public class User extends Model {
         this.password = password;
     }
 
-    public User(String name, String lastName, String email, String password, Date age, int phoneNumber, String homeAddress, String country, int idQualifications, int idCompanyData, int idRole) {
+    public User(String name, String lastName, String email, String password, Date age, int phoneNumber, String homeAddress, Integer countryId, int idQualifications, int idCompanyData, int idRole) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
@@ -87,7 +87,7 @@ public class User extends Model {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.homeAddress = homeAddress;
-        this.country = country;
+        this.countryId = countryId;
         this.idQualifications = idQualifications;
         this.idCompanyData = idCompanyData;
         this.idRole = idRole;
@@ -185,6 +185,9 @@ public class User extends Model {
     public Date getAge() {
         return age;
     }
+    public String getAgeStringFormat (){
+
+    }
 
     public String getEmail() {
         return email;
@@ -210,12 +213,12 @@ public class User extends Model {
         this.homeAddress = homeAddress;
     }
 
-    public String getCountry() {
-        return country;
+    public Integer getCountryId() {
+        return countryId;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCountryId(Integer countryId) {
+        this.countryId = countryId;
     }
 
     public Integer getIdQualifications() {
