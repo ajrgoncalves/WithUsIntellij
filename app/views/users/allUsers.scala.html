@@ -1,6 +1,7 @@
 @import Models.User
+@import Models.Role
 
-@(users: List[User])
+@(users: List[User], roles: List[Role])
 <table>
     <tr >
         <td style="padding-right: 3px">Nome </td>
@@ -20,10 +21,18 @@
             <td>@user.phoneNumber </td>
             <td>
                 <form action="@routes.RoleController.setRole(user.id)" method="post">
-                    <select name="idRole">
-                        <option value="1">Admin</option>
-                        <option value="2" selected>User</option>
-                    </select>
+                    @if(session().get("idRole") != null && (Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN)||Integer.parseInt(session().get("idRole")) == Role.ADMIN) {
+                        <select name="idRole">
+                        @for(role <- roles) {
+                            @if(user.getIdRole == role.id) {
+                                <option value="@role.id" selected>@role.rolePrivileges</option>
+                            } else {
+                                <option value="@role.id">@role.rolePrivileges</option>
+                            }
+                        }
+                        </select>
+                    }
+
                     <input type="submit" class="btn btn-primary" value="save" />
                 </form>
             </td>

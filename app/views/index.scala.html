@@ -2,7 +2,7 @@
 @import Models.Role
 @import Models.Country
 
-@(user: User)(role: Role)(users: List[User])(countries: List[Country])
+@(user: User)(role: Role)(users: List[User])(countries: List[Country])(roles: List[Role])
 
 @main(user) {
 
@@ -14,10 +14,10 @@
         <span><p>@role.rolePrivileges</p></span>
         @if(session().get("idRole") != null && Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) {
 
-            @views.html.users.allUsers(users)
+            @views.html.users.allUsers(users, roles)
         }
 
-        @views.html.users._formUpdateUser(users, countries)
+        @views.html.users._formUpdateUser(users, countries, roles)
     </div>
 }
 

@@ -157,3 +157,5 @@ function validateRegiste(form){
 
 }
 
+
+

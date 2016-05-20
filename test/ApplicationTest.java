@@ -29,13 +29,16 @@ public class ApplicationTest {
     Role role = Role.findRole(user.getIdRole());
     List<User> allUsers = User.getAllUsers();
     List<Country> allCountries = Country.getAllCountries();
+    List<Role> allRoles = Role.getAllRoles();
 
     @Test
     public void renderTemplate() {
         Content html = views.html.index.render( User.findByEmail(request().username()),
                 Role.findRole(user.getIdRole()),
                 allUsers = User.getAllUsers(),
-                allCountries = Country.getAllCountries()
+                allCountries = Country.getAllCountries(),
+                allRoles = Role.getAllRoles()
+
         );
         assertEquals("text/html", html.contentType());
         assertTrue(html.body().contains("Your new application is ready."));

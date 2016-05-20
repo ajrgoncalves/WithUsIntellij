@@ -37,6 +37,11 @@ public class Role extends Model {
 
     private static Model.Finder<Integer, Role> find = new Model.Finder(Role.class);
 
+    //Find all
+    public static List<Role> getAllRoles() {
+        return find.all();
+    }
+
     //    retrieve role for user
     public static List<Role> findIvolving(String user) {
         return find.where()

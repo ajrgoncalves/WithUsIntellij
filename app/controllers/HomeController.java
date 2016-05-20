@@ -44,11 +44,12 @@ public class HomeController extends Controller {
         Role role = Role.findRole(user.getIdRole());
         List<User> allUsers = User.getAllUsers();
         List<Country> allCountries = Country.getAllCountries();
+        List<Role> allRoles = Role.getAllRoles();
 
         Logger.info("Role: " + role);
 
         return ok(views.html.index.render(
-                user, role, allUsers, allCountries
+                user, role, allUsers, allCountries, allRoles
         ));
     }
 
@@ -164,7 +165,8 @@ public class HomeController extends Controller {
 
     public Result getAllUsers() {
         List<User> allUsers = User.getAllUsers();
-        return ok(views.html.users.allUsers.render(allUsers));
+        List<Role> allRoles = Role.getAllRoles();
+        return ok(views.html.users.allUsers.render(allUsers,allRoles));
 
     }
 
@@ -193,11 +195,7 @@ public class HomeController extends Controller {
                         user.setLastName((userUpdateForm.data().get("lastName")));
                         user.setHomeAddress((userUpdateForm.data().get("homeAddress")));
                         user.setCountryId(Integer.parseInt(userUpdateForm.data().get("countryId")));
-
                         user.setAgeStringFormat(userUpdateForm.data().get("age"));
-
-                        //userUpdateForm.data().get("age"));  //TODO: verificar este set date
-
                         user.setPhoneNumber(Integer.parseInt(userUpdateForm.data().get("phoneNumber")));
                     } else {
                         flash("Não tem permissões para o que esta a tentar fazer");
@@ -208,7 +206,7 @@ public class HomeController extends Controller {
                 if (currentUserRole == Role.SUPERADMIN || (currentUserRole == Role.ADMIN && userId == Integer.parseInt(session().get("id")))) {
 
                     if (userId == Integer.parseInt(session().get("id")) || user.idRole > currentUserRole) {
-
+                        user.setIdRole(Integer.parseInt(userUpdateForm.data().get("idRole")));
                     } else {
                         flash("Não tem permissões para o que esta a tentar fazer");
                     }
@@ -217,13 +215,11 @@ public class HomeController extends Controller {
                 if (currentUserRole == Role.SUPERADMIN && userId == Integer.parseInt(session().get("id"))) {
 
                     if (userId == Integer.parseInt(session().get("id")) || user.idRole > currentUserRole) {
-                        user.setIdRole(Integer.parseInt(userUpdateForm.data().get("idRole")));
 
                     } else {
                         flash("Não tem permissões para o que esta a tentar fazer");
                     }
                 }
-
                 user.save();
             }
         }
