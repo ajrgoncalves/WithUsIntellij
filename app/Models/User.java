@@ -160,10 +160,10 @@ public class User extends Model {
 
     public void setAge(Date age) {
         Logger.info("setAge: " + age.toString());
-        this.age=age;
+        this.age = age;
     }
 
-    public void setAgeStringFormat(String ageInString){
+    public void setAgeStringFormat(String ageInString) {
         DateFormat dateF = new SimpleDateFormat("yyyy-MM-dd");
         try {
             age = dateF.parse(ageInString);
@@ -197,11 +197,15 @@ public class User extends Model {
     public Date getAge() {
         return age;
     }
-    public String getAgeStringFormat (){
-        DateFormat dateF = new SimpleDateFormat("yyyy-MM-dd");
-        String dateRequired = dateF.format(age.getTime());
 
-        return dateRequired;
+    public String getAgeStringFormat() {
+        if (age != null) {
+            DateFormat dateF = new SimpleDateFormat("yyyy-MM-dd");
+            String dateRequired = dateF.format(age.getTime());
+
+            return dateRequired;
+        }
+        return null;
     }
 
     public String getEmail() {

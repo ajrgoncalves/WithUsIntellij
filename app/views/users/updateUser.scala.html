@@ -1,0 +1,15 @@
+@import Models.User
+@import Models.Role
+@import Models.Country
+
+
+@(user: User, role: Role, users: List[User], countries: List[Country], roles: List[Role])
+
+@for(user <- users) {
+<div class="col-md-4;">
+    <form action="@routes.HomeController.updateUser2(user.id)" method="post" onsubmit="return validateRegister(this);">
+
+    @views.html.users._form(user, countries, roles, "Update User")
+
+    </form>
+</div>}

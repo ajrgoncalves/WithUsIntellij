@@ -4,11 +4,11 @@
 @(users: List[User], roles: List[Role])
 <table>
     <tr >
-        <td style="padding-right: 3px">Nome </td>
-        <td style="padding-right: 3px">Ultimo Nome </td>
-        <td style="padding-right: 3px">Email </td>
-        <td style="padding-right: 3px">Contacto </td>
-        <td style="padding-right: 3px"> Role</td>
+        <td style="padding-right : 3px">Nome </td>
+        <td style="padding-right : 3px">Ultimo Nome </td>
+        <td style="padding-right : 3px">Email </td>
+        <td style="padding-right : 3px">Contacto </td>
+        <td style="padding-right : 3px"> Role</td>
     </tr>
 
 
@@ -21,7 +21,7 @@
             <td>@user.phoneNumber </td>
             <td>
                 <form action="@routes.RoleController.setRole(user.id)" method="post">
-                    @if(session().get("idRole") != null && (Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN)||Integer.parseInt(session().get("idRole")) == Role.ADMIN) {
+                    @if(session().get("idRole") != null && (Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || Integer.parseInt(session().get("idRole")) == Role.ADMIN) {
                         <select name="idRole">
                         @for(role <- roles) {
                             @if(user.getIdRole == role.id) {
@@ -33,7 +33,7 @@
                         </select>
                     }
 
-                    <input type="submit" class="btn btn-primary" value="save" />
+                <input type="submit" class="btn btn-primary" value="save" />
                 </form>
             </td>
         </tr>

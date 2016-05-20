@@ -136,7 +136,12 @@ public class HomeController extends Controller {
 
     public Result register() {
         List<Country> allCountries = Country.getAllCountries();
-        return ok(views.html.users.register.render(allCountries));
+        List<Role> allRoles = Role.getAllRoles();
+
+        User user = new User();
+        return ok(views.html.users.register.render(
+                user, allCountries, allRoles
+        ));
 
     }
 
@@ -153,10 +158,8 @@ public class HomeController extends Controller {
             User user = userForm.get();
             user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
             session().put("email", user.email);
-
-            Logger.info("USER: " + user.age.toString());
             user.save();
-            Logger.info("USER: " + user.toString());
+
 
 
         }
@@ -166,12 +169,12 @@ public class HomeController extends Controller {
     public Result getAllUsers() {
         List<User> allUsers = User.getAllUsers();
         List<Role> allRoles = Role.getAllRoles();
-        return ok(views.html.users.allUsers.render(allUsers,allRoles));
+        return ok(views.html.users.allUsers.render(allUsers, allRoles));
 
     }
 
     @Security.Authenticated(LoginController.Secured.class)
-    public Result updateUser(Long userId) {
+    public Result updateUser2(Long userId) {
 
         Form<User> userUpdateForm = formFactory.form(User.class).bindFromRequest();
 

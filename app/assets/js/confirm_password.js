@@ -1,7 +1,7 @@
 /**
  * Created by Toz on 17/05/2016.
  */
-function validateRegiste(form){
+function validateRegister(form){
 
     // var password = form.password.value();//document.getElementById("password");
     // var confirm_password =  form.confirm_password.value();//document.getElementById("confirm_password");
