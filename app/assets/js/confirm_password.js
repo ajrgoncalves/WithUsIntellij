@@ -51,7 +51,7 @@ function validateRegister(form){
         form.email.focus();
         return false;
     }
-    re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2})+$/;
     if(!re.test(form.email.value)) {
         form.email.focus();
         alert("Error: O email tem de ter uma estrutura valida");
@@ -94,9 +94,9 @@ function validateRegister(form){
     }
 
     //Pais
-    if(form.homeAddress.value === "") {
-        alert("Error: O campo da morada não pode ser vazio!");
-        form.homeAddress.focus();
+    if(form.country.value === "") {
+        alert("Error: O campo do Pais não pode ser vazio!");
+        form.country.focus();
         return false;
     }
 

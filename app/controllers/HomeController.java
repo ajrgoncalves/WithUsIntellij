@@ -112,9 +112,8 @@ public class HomeController extends Controller {
                         return redirect(HomeController.index());
                     }
                 }
-
             } else {
-                Logger.info("TEM ERROS3!");
+                Logger.info("TEM ERROS no login!");
                 return redirect(HomeController.index());
             }
 
@@ -153,13 +152,15 @@ public class HomeController extends Controller {
         if (userForm.hasErrors()) {
 
             Logger.info("Criação de user com erros!!! ");
+            return redirect("/users/register");
         } else {
 
             User user = userForm.get();
-            user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
-            session().put("email", user.email);
-            user.save();
-
+            if(user.isValid()) {
+                user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
+                session().put("email", user.email);
+                user.save();
+            }
 
 
         }
@@ -174,58 +175,65 @@ public class HomeController extends Controller {
     }
 
     @Security.Authenticated(LoginController.Secured.class)
-    public Result updateUser2(Long userId) {
+    public Result updateUser(Long userId) {
 
         Form<User> userUpdateForm = formFactory.form(User.class).bindFromRequest();
 
         if (userUpdateForm.hasErrors()) {
             Logger.info("TEM ERROS!");
         } else {
+
             //Saber qual é o user que estamos a alterar
             User user = User.find.where().eq("id", userId).findUnique();
             Integer currentUserRole = Integer.parseInt(session().get("idRole"));
 
-            if (user != null) {
+            if(user.isValid()) {
+
+                if (user != null) {
 
 
-                if (currentUserRole == Role.SUPERADMIN || currentUserRole == Role.ADMIN || (currentUserRole == Role.USER && userId == Integer.parseInt(session().get("id")))) {
+                    if (currentUserRole == Role.SUPERADMIN || currentUserRole == Role.ADMIN || (currentUserRole == Role.USER && userId == Integer.parseInt(session().get("id")))) {
 
-                    //TODO: update de campos USER
+                        //TODO: update de campos USER
 
-                    if (userId == Integer.parseInt(session().get("id")) || user.idRole > currentUserRole) {
+                        if (userId == Integer.parseInt(session().get("id")) || user.idRole > currentUserRole) {
 
-                        user.setName((userUpdateForm.data().get("name")));
-                        user.setLastName((userUpdateForm.data().get("lastName")));
-                        user.setHomeAddress((userUpdateForm.data().get("homeAddress")));
-                        user.setCountryId(Integer.parseInt(userUpdateForm.data().get("countryId")));
-                        user.setAgeStringFormat(userUpdateForm.data().get("age"));
-                        user.setPhoneNumber(Integer.parseInt(userUpdateForm.data().get("phoneNumber")));
-                    } else {
-                        flash("Não tem permissões para o que esta a tentar fazer");
+                            user.setName((userUpdateForm.data().get("name")));
+                            user.setLastName((userUpdateForm.data().get("lastName")));
+                            user.setHomeAddress((userUpdateForm.data().get("homeAddress")));
+                            user.setCountryId(Integer.parseInt(userUpdateForm.data().get("countryId")));
+                            user.setAgeStringFormat(userUpdateForm.data().get("age"));
+                            user.setPhoneNumber(Integer.parseInt(userUpdateForm.data().get("phoneNumber")));
+                        } else {
+                            flash("Não tem permissões para o que esta a tentar fazer");
+                        }
+
                     }
 
-                }
+                    if (currentUserRole == Role.SUPERADMIN || (currentUserRole == Role.ADMIN && userId == Integer.parseInt(session().get("id")))) {
 
-                if (currentUserRole == Role.SUPERADMIN || (currentUserRole == Role.ADMIN && userId == Integer.parseInt(session().get("id")))) {
-
-                    if (userId == Integer.parseInt(session().get("id")) || user.idRole > currentUserRole) {
-                        user.setIdRole(Integer.parseInt(userUpdateForm.data().get("idRole")));
-                    } else {
-                        flash("Não tem permissões para o que esta a tentar fazer");
+                        if (userId == Integer.parseInt(session().get("id")) || user.idRole > currentUserRole) {
+                            user.setIdRole(Integer.parseInt(userUpdateForm.data().get("idRole")));
+                        } else {
+                            flash("Não tem permissões para o que esta a tentar fazer");
+                        }
                     }
-                }
 
-                if (currentUserRole == Role.SUPERADMIN && userId == Integer.parseInt(session().get("id"))) {
+                    if (currentUserRole == Role.SUPERADMIN && userId == Integer.parseInt(session().get("id"))) {
 
-                    if (userId == Integer.parseInt(session().get("id")) || user.idRole > currentUserRole) {
+                        if (userId == Integer.parseInt(session().get("id")) || user.idRole > currentUserRole) {
 
-                    } else {
-                        flash("Não tem permissões para o que esta a tentar fazer");
+                        } else {
+                            flash("Não tem permissões para o que esta a tentar fazer");
+                        }
                     }
+                    user.save();
                 }
-                user.save();
             }
         }
         return redirect(HomeController.index());
     }
 }
+
+
+

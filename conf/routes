@@ -39,5 +39,5 @@ POST  /setRole                      controllers.RoleController.setRole(userId: L
 
 #Update User fields
 
-POST /updateUser                    controllers.HomeController.updateUser2(userId: Long)
+POST /updateUser                    controllers.HomeController.updateUser(userId: Long)
 

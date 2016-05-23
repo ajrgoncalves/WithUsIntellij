@@ -10,8 +10,13 @@ import play.Logger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalField;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Entity
@@ -81,6 +86,7 @@ public class User extends Model {
     }
 
     public User(String name, String lastName, String email, String password, Date age, int phoneNumber, String homeAddress, Integer countryId, int idQualifications, int idCompanyData, int idRole) {
+
         this.name = name;
         this.lastName = lastName;
         this.age = age;
@@ -130,16 +136,91 @@ public class User extends Model {
 
         return null;
     }
-//    public String checkRole () {
-//
-//            if (idRole == 1) {
-//                return "admin";
-//            } else if (idRole == 2) {
-//                return "user";
-//            } else {
-//                return "No Role";
-//            }
-//        }
+
+    public boolean isValid (){
+
+        Pattern letras = Pattern.compile("[a-zA-Z]+");
+        Pattern letrasEnumeros = Pattern.compile("[a-zA-Z]+,[0-9]+");
+        Pattern numeros = Pattern.compile("[0-9]+");
+        Pattern emailPattern = Pattern.compile("([A-Za-z]+[._]{0,1}[A-Za-z]+)+@withus\\.pt");
+
+        //Nome
+        if(this.name == null) return false;
+        Matcher name = letras.matcher(this.name);
+        if(this.name == null && (name.matches()))  return false;
+
+        {
+            //Ultimo Nome
+            if(this.lastName == null) return false;
+            Matcher lastName = letras.matcher(this.lastName);
+
+            if (this.lastName == null && (lastName.matches())) return false;
+        }
+
+        {
+            //Morada
+        if(this.homeAddress == null) return false;
+        Matcher homeAdress = letrasEnumeros.matcher(this.homeAddress);
+
+        if( (homeAdress.matches())) return false;
+
+        }
+
+        {
+            //Password
+            if(this.password == null) return false;
+            Matcher password = letrasEnumeros.matcher(this.password);
+
+            if (this.password == null && this.password.length() < 6 && (password.matches()))
+                return false;
+        }
+
+        {
+            //Pais
+            if(this.countryId == null) return false;
+        Matcher country = numeros.matcher((this.countryId).toString());
+
+        if(this.countryId == null && (country.matches()))
+                return false;
+        }
+
+        {
+            //Data de Nascimento
+            if(this.age == null) return false;
+
+            Date date = new Date();
+            Integer year =date.toInstant().get(ChronoField.YEAR);
+            Date age = new Date();
+            Integer ageYear =age.toInstant().get(ChronoField.YEAR);
+            Integer idade = (year- ageYear);
+
+            if(idade < 16 && idade > 75 )
+                return false;
+        }
+
+        {
+            //Contacto
+            if(this.phoneNumber == null) return false;
+
+            Matcher phoneNumber = numeros.matcher((this.phoneNumber).toString());
+            if(this.phoneNumber == null && this.phoneNumber.toString().length() !=9 && phoneNumber.matches())
+                return false;
+        }
+
+        {
+            //Email
+            if(this.email == null) return false;
+            Matcher email = emailPattern.matcher(this.email);
+            if(this.email != null && email.matches())
+                return false;
+
+        }
+        return true;
+    }
+
+
+
+
 
     public String UserInfo() {
         return "User: [name = " + name + " | lastName = " + lastName + " | age = " + age + " | Role: " + idRole + "]";
