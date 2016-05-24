@@ -142,14 +142,15 @@ public class User extends Model {
 
         Pattern letras = Pattern.compile("[a-zA-Z]+");
         Pattern morada = Pattern.compile("([a-zA-Z0-9\\s]*)");
-        Pattern numeros = Pattern.compile("[0-9]+");
+        Pattern contacto = Pattern.compile("(?=.*[0-9]).{9,9}");
+        Pattern numeros = Pattern.compile("([0-9])+");
         Pattern emailPattern = Pattern.compile("([A-Za-z]+[._]{0,1}[A-Za-z]+)+@withus\\.pt");
-        Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$");
+        Pattern passwordPattern = Pattern.compile("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}");
 
         //Nome
         if(this.name == null) return false;
         Matcher name = letras.matcher(this.name);
-        if(this.name == null && !(name.matches())) {
+        if( !name.matches()) {
             System.out.println("Erro no nome");
             return false;
         }
@@ -158,7 +159,7 @@ public class User extends Model {
             if(this.lastName == null) return false;
             Matcher lastName = letras.matcher(this.lastName);
 
-            if (this.lastName == null && !(lastName.matches())) {
+            if (!lastName.matches()) {
                 System.out.println("Erro no ultimo nome");
                 return false;
             }
@@ -169,7 +170,7 @@ public class User extends Model {
             if (this.homeAddress == null) return false;
             Matcher homeAdress = morada.matcher(this.homeAddress);
 
-            if (!(homeAdress.matches())) {
+            if (!homeAdress.matches()) {
                 System.out.println("Erro na morada");
                 return false;
             }
@@ -180,7 +181,7 @@ public class User extends Model {
             if(this.password == null) return false;
             Matcher password = passwordPattern.matcher(this.password);
 
-            if ( this.password.length() < 6 && !(password.matches())){
+            if ( this.password.length() < 6 && !password.matches()){
                 System.out.println("Erro no password");
                 return false;
             }
@@ -191,7 +192,7 @@ public class User extends Model {
             if (this.countryId == null) return false;
             Matcher country = numeros.matcher((this.countryId).toString());
 
-            if ( !(country.matches())) {
+            if ( !country.matches()) {
                 System.out.println("Erro no pais");
                 return false;
             }
@@ -218,8 +219,9 @@ public class User extends Model {
             //Contacto
             if(this.phoneNumber == null) return false;
 
-            Matcher phoneNumber = numeros.matcher((this.phoneNumber).toString());
-            if( this.phoneNumber.toString().length() !=9 && !phoneNumber.matches()){
+            Matcher phoneNumber = contacto.matcher((this.phoneNumber).toString());
+
+            if( !phoneNumber.matches()){
                 System.out.println("Erro no phoneNumber");
                 return false;
             }
@@ -228,7 +230,7 @@ public class User extends Model {
         {
             //Email
             Matcher email = emailPattern.matcher(this.email);
-            if( !(email.matches())){
+            if( !email.matches()){
                 System.out.println("Erro no email");
                 return false;
 

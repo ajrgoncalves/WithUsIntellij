@@ -187,10 +187,8 @@ public class HomeController extends Controller {
             User user = User.find.where().eq("id", userId).findUnique();
             Integer currentUserRole = Integer.parseInt(session().get("idRole"));
 
-            if(user.isValid()) {
-
-                if (user != null) {
-
+            if (user != null) {
+                if(user.isValid()) {
 
                     if (currentUserRole == Role.SUPERADMIN || currentUserRole == Role.ADMIN || (currentUserRole == Role.USER && userId == Integer.parseInt(session().get("id")))) {
 
@@ -204,6 +202,7 @@ public class HomeController extends Controller {
                             user.setCountryId(Integer.parseInt(userUpdateForm.data().get("countryId")));
                             user.setAgeStringFormat(userUpdateForm.data().get("age"));
                             user.setPhoneNumber(Integer.parseInt(userUpdateForm.data().get("phoneNumber")));
+                            user.setPassword(BCrypt.hashpw(userUpdateForm.data().get("password"), BCrypt.gensalt()));
                         } else {
                             flash("Não tem permissões para o que esta a tentar fazer");
                         }
