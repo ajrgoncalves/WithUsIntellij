@@ -1,22 +1,20 @@
 package controllers;
 
 import Models.Country;
+import Models.UserRegistryAlteration;
 import Models.Role;
 import Models.User;
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 
 
 import javax.inject.Inject;
-import java.sql.Date;
 import java.util.List;
 
 import static controllers.routes.*;
@@ -160,6 +158,13 @@ public class HomeController extends Controller {
                 user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
                 session().put("email", user.email);
                 user.save();
+                //cria um novo registo na tabela
+                user = User.findByEmail(user.email);
+                UserRegistryAlteration newUserRegistryAlteration = new UserRegistryAlteration(user);
+                        //UserRegistryAlteration(user.id, user.id, user.name, user.lastName, user.email,user.password,user.age,user.phoneNumber,user.homeAddress,user.countryId,user.idQualifications,user.idCompanyData,user.idRole);
+
+                newUserRegistryAlteration.save();
+
             }
 
 

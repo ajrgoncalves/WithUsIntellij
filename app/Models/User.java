@@ -12,8 +12,6 @@ import play.Logger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -240,9 +238,6 @@ public class User extends Model {
     }
 
 
-
-
-
     public String UserInfo() {
         return "User: [name = " + name + " | lastName = " + lastName + " | age = " + age + " | Role: " + idRole + "]";
     }
@@ -356,7 +351,7 @@ public class User extends Model {
         this.idCompanyData = idCompanyData;
     }
 
-    public long getIdRole() {
+    public Integer getIdRole() {
         return idRole;
     }
 
