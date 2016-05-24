@@ -39,6 +39,16 @@
                 <label>Contacto</label>
                 <input type="tel" name="phoneNumber" class="form-control" placeholder="Contacto telefonico" value="@user.phoneNumber">
             </div>
+            @if(session().get("id") == null){
+            <div class="form-group">
+                <label>Email</label>
+                <input type="tel" name="email" class="form-control" placeholder="email@@withus.pt" value="@user.email">
+            </div>}
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="tel" name="password" class="form-control" placeholder="Password">
+            </div>
 
             @if(session().get("idRole") != null && ((Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || Integer.parseInt(session().get("idRole")) == Role.ADMIN)) {
                 <label>Tipo de Utilizador</label>
