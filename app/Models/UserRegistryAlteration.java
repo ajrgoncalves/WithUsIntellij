@@ -58,7 +58,23 @@ public class UserRegistryAlteration extends Model{
         this.idRole= user.getIdRole();
     }
 
-    public UserRegistryAlteration(User updated, User updater){}
+    public UserRegistryAlteration(User updater, User updated){
+        this.userId = updated.getId();
+        this.name = updated.getName();
+        this.lastName= updated.getLastName();
+        this.age= updated.getAge();
+        this.email = updated.getEmail();
+        this.password = updated.getPassword();
+        this.phoneNumber= updated.getPhoneNumber();
+        this.homeAddress= updated.getHomeAddress();
+        this.countryId= updated.getCountryId();
+        this.idQualifications= updated.getIdQualifications();
+        this.idCompanyData= updated.getIdCompanyData();
+        this.idRole= updated.getIdRole();
+
+        this.updaterId = updater.getId();
+
+    }
 
     public UserRegistryAlteration(Long userId,Long updaterId,String name, String lastName, String email, String password, Date age, int phoneNumber, String homeAddress, Integer countryId, int idQualifications, int idCompanyData, int idRole) {
 

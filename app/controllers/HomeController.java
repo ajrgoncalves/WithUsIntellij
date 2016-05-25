@@ -4,6 +4,7 @@ import Models.Country;
 import Models.UserRegistryAlteration;
 import Models.Role;
 import Models.User;
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
@@ -36,19 +37,23 @@ public class HomeController extends Controller {
 //        String username = session().get("email");
 //        Http.Context.current().args.put("username", username);
 //        return ok(views.html.index.render(User.findByEmail(session().get("email"))));
-        Logger.info("USERNAME: " + request().username());
+        if(session().get("email") != null) {
+            Logger.info("USERNAME: " + request().username());
 
-        User user = User.findByEmail(request().username());
-        Role role = Role.findRole(user.getIdRole());
-        List<User> allUsers = User.getAllUsers();
-        List<Country> allCountries = Country.getAllCountries();
-        List<Role> allRoles = Role.getAllRoles();
+            User user = User.findByEmail(request().username());
+            Role role = Role.findRole(user.getIdRole());
+            List<User> allUsers = User.getAllUsers();
+            List<Country> allCountries = Country.getAllCountries();
+            List<Role> allRoles = Role.getAllRoles();
 
-        Logger.info("Role: " + role);
+            Logger.info("Role: " + role);
 
-        return ok(views.html.index.render(
-                user, role, allUsers, allCountries, allRoles
-        ));
+            return ok(views.html.index.render(
+                    user, role, allUsers, allCountries, allRoles
+            ));
+        }else{
+            return ok(views.html.users.login.render(""));
+        }
     }
 
     public Result getUsers() {
@@ -157,14 +162,18 @@ public class HomeController extends Controller {
             if(user.isValid()) {
                 user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
                 session().put("email", user.email);
+                user.idRole= Role.GUEST;
                 user.save();
                 //cria um novo registo na tabela
                 user = User.findByEmail(user.email);
                 UserRegistryAlteration newUserRegistryAlteration = new UserRegistryAlteration(user);
-                        //UserRegistryAlteration(user.id, user.id, user.name, user.lastName, user.email,user.password,user.age,user.phoneNumber,user.homeAddress,user.countryId,user.idQualifications,user.idCompanyData,user.idRole);
 
-                newUserRegistryAlteration.save();
+                Ebean.execute(() ->{
+                    System.out.println(Ebean.currentTransaction());
 
+                    newUserRegistryAlteration.save();
+
+                });
             }
 
 
@@ -191,6 +200,7 @@ public class HomeController extends Controller {
             //Saber qual é o user que estamos a alterar
             User user = User.find.where().eq("id", userId).findUnique();
             Integer currentUserRole = Integer.parseInt(session().get("idRole"));
+            User updater = User.findByEmail(session().get("email"));
 
             if (user != null) {
                 if(user.isValid()) {
@@ -231,7 +241,15 @@ public class HomeController extends Controller {
                             flash("Não tem permissões para o que esta a tentar fazer");
                         }
                     }
-                    user.save();
+                    UserRegistryAlteration newUserRegistryAlteration = new UserRegistryAlteration(updater,user);
+
+                    Ebean.execute(() ->{
+                        System.out.println(Ebean.currentTransaction());
+                        user.save();
+                        newUserRegistryAlteration.save();
+
+                    });
+
                 }
             }
         }

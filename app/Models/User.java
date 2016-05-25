@@ -8,14 +8,16 @@ import org.joda.time.LocalDate;
 import org.joda.time.Years;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+
 
 
 @Entity
@@ -112,7 +114,7 @@ public class User extends Model {
         return find.where().eq("email", email).findUnique();
     }
 
-    // Procurar todos os users
+    // Procura todos os users
 
     public static List<User> getAllUsers() {
         return find.all();
@@ -136,7 +138,9 @@ public class User extends Model {
         return null;
     }
 
-    public boolean isValid (){
+    public boolean isValid () {
+        //TODO: Verificar se realmente os campos estão a ser aceites correctamente.
+
 
         Pattern letras = Pattern.compile("[a-zA-Z]+");
         Pattern morada = Pattern.compile("([a-zA-Z0-9\\s]*)");
@@ -146,95 +150,100 @@ public class User extends Model {
         Pattern passwordPattern = Pattern.compile("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}");
 
         //Nome
-        if(this.name == null) return false;
+        if (this.name == null) return false;
         Matcher name = letras.matcher(this.name);
-        if( !name.matches()) {
+        if (!name.matches()) {
             System.out.println("Erro no nome");
             return false;
         }
-        {
-            //Ultimo Nome
-            if(this.lastName == null) return false;
-            Matcher lastName = letras.matcher(this.lastName);
 
-            if (!lastName.matches()) {
-                System.out.println("Erro no ultimo nome");
+        //Ultimo Nome
+        if (this.lastName == null) return false;
+        Matcher lastName = letras.matcher(this.lastName);
+
+        if (!lastName.matches()) {
+            System.out.println("Erro no ultimo nome");
+            return false;
+        }
+
+
+        //Morada
+        if (this.homeAddress == null) return false;
+        Matcher homeAdress = morada.matcher(this.homeAddress);
+
+        if (!homeAdress.matches()) {
+            System.out.println("Erro na morada");
+            return false;
+        }
+
+
+        //Password
+        if (this.password == null) return false;
+        Matcher password = passwordPattern.matcher(this.password);
+
+        if (!password.matches()) {
+            System.out.println("Erro na password");
+            return false;
+        }
+
+
+        //Pais
+        if (this.countryId == null) return false;
+        Matcher country = numeros.matcher((this.countryId).toString());
+
+        if (!country.matches()) {
+            System.out.println("Erro no pais");
+            return false;
+        }
+
+        //Data de Nascimento
+        if (this.age == null) return false;
+        Integer idade = 0;
+
+        try {
+            LocalDate bDate = new LocalDate(age);
+            LocalDate now = new LocalDate();
+
+            idade = now.getYear() - bDate.getYear();
+//           System.out.println("Age em idade: " + idade);
+
+            Years oAge = Years.yearsBetween(bDate, now);
+//            System.out.println("Age: " + oAge.getYears());
+
+            if((now.getYear() - bDate.getYear() < 16) || (now.getYear() - bDate.getYear() >75) )
+            {
+                System.out.println("Erro no idade");
                 return false;
             }
+
+        } catch (Exception ex) {
+            System.out.println("Erro: " + ex.getLocalizedMessage() + "\n" + ex.getMessage() + "\n" + ex.getStackTrace() + "\n");
+            ex.printStackTrace();
         }
 
-        {
-            //Morada
-            if (this.homeAddress == null) return false;
-            Matcher homeAdress = morada.matcher(this.homeAddress);
 
-            if (!homeAdress.matches()) {
-                System.out.println("Erro na morada");
-                return false;
-            }
+
+        //Contacto
+        if (this.phoneNumber == null) return false;
+
+        Matcher phoneNumber = contacto.matcher((this.phoneNumber).toString());
+
+        if (!phoneNumber.matches()) {
+            System.out.println("Erro no phoneNumber");
+            return false;
         }
 
-        {
-            //Password
-            if(this.password == null) return false;
-            Matcher password = passwordPattern.matcher(this.password);
 
-            if ( this.password.length() < 6 && !password.matches()){
-                System.out.println("Erro no password");
-                return false;
-            }
+        //Email
+        Matcher email = emailPattern.matcher(this.email);
+        if (!email.matches()) {
+            System.out.println("Erro no email");
+            return false;
+
         }
 
-        {
-            //Pais
-            if (this.countryId == null) return false;
-            Matcher country = numeros.matcher((this.countryId).toString());
-
-            if ( !country.matches()) {
-                System.out.println("Erro no pais");
-                return false;
-            }
-        }
-
-        {
-            //Data de Nascimento
-            if(this.age == null) return false;
-            Integer idade=0;
-            try {
-                LocalDate bDate = new LocalDate(age);
-                LocalDate now = new LocalDate();
-                Years oAge = Years.yearsBetween(bDate, now);
-                System.out.println("Age: " + oAge.getYears());
-            }catch(Exception ex){
-                    System.out.println("Erro: " + ex.getLocalizedMessage() + "\n" + ex.getMessage() + "\n" + ex.getStackTrace() + "\n" );
-                    ex.printStackTrace();
-                }
-            if(idade < 16 && idade > 75 )
-                return false;
-        }
-
-        {
-            //Contacto
-            if(this.phoneNumber == null) return false;
-
-            Matcher phoneNumber = contacto.matcher((this.phoneNumber).toString());
-
-            if( !phoneNumber.matches()){
-                System.out.println("Erro no phoneNumber");
-                return false;
-            }
-        }
-
-        {
-            //Email
-            Matcher email = emailPattern.matcher(this.email);
-            if( !email.matches()){
-                System.out.println("Erro no email");
-                return false;
-
-            }
-        }
         return true;
+
     }
 
 
