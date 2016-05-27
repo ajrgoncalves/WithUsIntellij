@@ -217,7 +217,9 @@ public class HomeController extends Controller {
                             user.setCountryId(Integer.parseInt(userUpdateForm.data().get("countryId")));
                             user.setAgeStringFormat(userUpdateForm.data().get("age"));
                             user.setPhoneNumber(Integer.parseInt(userUpdateForm.data().get("phoneNumber")));
-                            user.setPassword(BCrypt.hashpw(userUpdateForm.data().get("password"), BCrypt.gensalt()));
+                            if((!(userUpdateForm.data().get("password").isEmpty())) && userUpdateForm.data().get("password").matches(userUpdateForm.data().get("confirmPassword"))) {
+                                user.setPassword(BCrypt.hashpw(userUpdateForm.data().get("password"), BCrypt.gensalt()));
+                            }
                         } else {
                             flash("Não tem permissões para o que esta a tentar fazer");
                         }
