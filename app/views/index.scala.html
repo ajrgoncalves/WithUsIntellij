@@ -8,12 +8,8 @@
     @main {
 
         <div>
-            <span> <p>@user.name </p></span>
-            <span> <p>@user.lastName </p></span>
-            <span> <p>@user.age </p></span>
-            <span> <p>@user.email </p></span>
-            <span><p>@role.rolePrivileges</p></span>
-            @if(session().get("idRole") != null && Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) {
+
+            @if(session().get("idRole") != null && (Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || Integer.parseInt(session().get("idRole")) == Role.ADMIN) {
 
                 @views.html.users.allUsers(users, roles)
             }
