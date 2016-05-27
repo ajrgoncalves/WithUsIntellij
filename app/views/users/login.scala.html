@@ -1,44 +1,22 @@
 @(message: String)
 
-    <html>
-        <head>
-            <script type="text/javascript" src="@routes.Assets.versioned("js/index.js")"></script>
-            @* Bootstrap *@
-            <link rel="stylesheet" href="@routes.Assets.versioned("/stylesheets/bootstrap/css/bootstrap.min.css")">
-            <link rel="stylesheet" href="@routes.Assets.versioned("/stylesheets/main.css")">
-            <title>Sign In</title>
 
-        </head>
-        <body>
-            <div class="col-md-12">
-            <div class="header"  style="margin-bottom: 50px" >
-                    <a class="navbar-brand" href="@routes.HomeController.index()">Welcome to WithUs </a>
-            </div>
-            <div class="col-md-4; container">
+@main {
+    <title>Sign In</title>
 
-            <div class="navbar-right">
-                <a href="@routes.HomeController.register()" class="btn btn-primary navbar-btn">Register</a>
-            </div>
-
-            <div class="col-md-6" >
-           @views.html.users._loginForm()
-            </div>
+    <div class="col-md-12" >
+    @views.html.users._loginForm()
+    </div>
 
 
-            @if(flash.contains("success")) {
-                <p class="success">
-                @flash.get("success")
-                </p>
-            }
-            @if(flash.contains("error")) {
-                <p class="success">
-                @flash.get("error")
-                </p>
-            }
-            </div>
-            <div class="footer" style="position: relative; bottom:0px">
-                <p>&copy; 2016 WithUs </p>
-            </div>
-                </div>
-        </body>
-    </html>
+    @if(flash.contains("success")) {
+        <p class="success">
+        @flash.get("success")
+        </p>
+    }
+    @if(flash.contains("error")) {
+        <p class="success">
+        @flash.get("error")
+        </p>
+    }
+}

@@ -4,20 +4,22 @@
 
 @(user: User)(role: Role)(users: List[User])(countries: List[Country])(roles: List[Role])
 
-@main(user) {
 
-    <div>
-        <span> <p>@user.name </p></span>
-        <span> <p>@user.lastName </p></span>
-        <span> <p>@user.age </p></span>
-        <span> <p>@user.email </p></span>
-        <span><p>@role.rolePrivileges</p></span>
-        @if(session().get("idRole") != null && Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) {
+    @main {
 
-            @views.html.users.allUsers(users, roles)
-        }
+        <div>
+            <span> <p>@user.name </p></span>
+            <span> <p>@user.lastName </p></span>
+            <span> <p>@user.age </p></span>
+            <span> <p>@user.email </p></span>
+            <span><p>@role.rolePrivileges</p></span>
+            @if(session().get("idRole") != null && Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) {
 
-        @views.html.users.updateUser(user,role, users, countries, roles)
-    </div>
-}
+                @views.html.users.allUsers(users, roles)
+            }
+            @views.html.users.updateUser(user, role, users, countries, roles)
+        </div>
+    }
+
+
 

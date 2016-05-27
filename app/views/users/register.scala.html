@@ -4,32 +4,15 @@
 
 @(user: User)(countries: List[Country])(roles: List[Role])
 
-<html>
-    <head>
-        <script type="text/javascript" src="@routes.Assets.versioned("js/index.js")"></script>
-        <script type="text/javascript" src="@routes.Assets.versioned("js/confirm_password.js")"></script>
-        @* Bootstrap *@
-        <link rel="stylesheet" href="@routes.Assets.versioned("/stylesheets/bootstrap/css/bootstrap.min.css")">
-        <link rel="stylesheet" href="@routes.Assets.versioned("/stylesheets/main.css")">
-        <title>Register</title>
-    </head>
-    <body>
-        <div class="col-md-12">
-            <div class="header" style="margin-bottom : 50px">
-                <a class="navbar-brand" href="@routes.HomeController.index()"> Welcome to WithUs </a>
-            </div>
-            <div class="col-md-4; container">
-                <form action="@routes.HomeController.create()" method="post" onsubmit="return validateRegister(this);">
+@main {
+    <title>Register</title>
 
-                @views.html.users._form(user, countries, roles, "Register")
+    <div id="section">
+        <form action="@routes.HomeController.create()" method="post" onsubmit="return validateRegister(this);">
 
-                </form>
-            </div>
+        @views.html.users._form(user, countries, roles, "Register")
 
+        </form>
+    </div>
+}
 
-            <div class="footer" >
-                <p>&copy; 2016 WithUs </p>
-            </div>
-        </div>
-    </body>
-</html>
