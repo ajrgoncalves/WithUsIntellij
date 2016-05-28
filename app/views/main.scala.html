@@ -1,3 +1,4 @@
+@import Models.User
 @import Models.Role
 @(content: Html)
 
@@ -43,7 +44,7 @@
                 } else {
                     @*<span>Bem vindo @Http.Context.current().args.get("username") </span>*@
                     <span>Bem vindo</span><span> @session().get("email") </span>
-
+                    <a href="@routes.HomeController.getUpdateUser(Long.parseLong(session().get("id")))" class="btn btn-primary navbar-btn">Editar Conta</a>
                     <a href="@routes.HomeController.logout()" class="btn btn-primary navbar-btn" >Logout</a>
                 }
                 </div>
