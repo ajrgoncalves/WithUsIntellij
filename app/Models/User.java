@@ -114,6 +114,12 @@ public class User extends Model {
         return find.where().eq("email", email).findUnique();
     }
 
+    // Procurar User pelo ID
+
+    public static User findByID(Long id){
+        return find.where().eq("id", id).findUnique();
+    }
+
     // Procura todos os users
 
     public static List<User> getAllUsers() {

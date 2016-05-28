@@ -5,17 +5,51 @@
 @(user: User)(role: Role)(users: List[User])(countries: List[Country])(roles: List[Role])
 
 
-    @main {
+@main {
+    <div class="row">
+        <div class="col-xs-12 col-lg-12">
+            <panel>
+                    <!-- primeira parte dos modulos. 3 Modulos -->
+                <div class="row">
+                    <div class="col-xs-12 col-lg-12">
+                        <div class="col-xs-4 col-lg-4">
+                            @*Ferias*@
+                                <img width="300px" height="300px" src="@routes.Assets.versioned("images/ferias.png")"/>
+                        </div>
+                        <div class="col-xs-4 col-lg-4">
+                            @*projectos*@
+                            <img width="300px" height="300px" src="@routes.Assets.versioned("images/projectos.png")"/>
 
-        <div>
+                        </div>
+                        <div class="col-xs-4 col-lg-4">
+                            Qualquer coisa 2
+                        </div>
+                    </div>
+                </div>
+                    <!-- Segunda parte dos modulos. 3 Modulos -->
+                <div class="row">
+                    <div class="col-xs-12 col-lg-12">
+                        <div class="col-xs-4 col-lg-4">
 
-            @if(session().get("idRole") != null && (Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || Integer.parseInt(session().get("idRole")) == Role.ADMIN) {
+                        </div>
+                        <div class="col-xs-4 col-lg-4">
 
-                @views.html.users.allUsers(users, roles)
-            }
-            @views.html.users.updateUser(user, role, users, countries, roles)
+                        </div>
+                        <div class="col-xs-4 col-lg-4">
+                        @if((session().get("email") == null)) {
+
+                        } else {
+                            Gestão das ferias ( Admins)
+                        }
+                        </div>
+                    </div>
+                </div>
+            </panel>
         </div>
-    }
+    </div>
+
+
+}
 
 
 

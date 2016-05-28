@@ -1,3 +1,4 @@
+@import Models.Role
 @(content: Html)
 
 <!DOCTYPE html>
@@ -24,10 +25,17 @@
         <div class="row">
             <div class="col-xs-12 col-lg-12">
                 <!-- nav bar -->
-                <div>
+                <div class="col-xs-2 col-lg-2">
                     <a class="navbar-brand" href="@routes.HomeController.index()">WithUs</a>
                 </div>
-                <div align="right">
+                <div class="col-xs-2 col-lg-2">
+                    @if(session().get("idRole") != null && ((Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || (Integer.parseInt(session().get("idRole")) == Role.ADMIN))) {
+
+                        <a class="navbar-brand" href="@routes.HomeController.getAllUsers">All users</a>
+                    }
+
+                </div>
+                <div  align="right">
                 @if( session().get("email") == null ) {
 
                     <a href="@routes.HomeController.register()" class="btn btn-primary navbar-btn">Register</a>

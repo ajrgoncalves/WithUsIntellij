@@ -4,12 +4,14 @@
 
 
 @(user: User, role: Role, users: List[User], countries: List[Country], roles: List[Role])
+@main {
+ <!-- meter a aparecerem forms para todos os users for(user <- users)   -->
+    <div class="col-xs-12;">
+        <form action="@routes.HomeController.updateUser(user.id)" method="post" onsubmit="return validateRegister(this);">
 
-@for(user <- users) {
-<div class="col-md-4;">
-    <form action="@routes.HomeController.updateUser(user.id)" method="post" onsubmit="return validateRegister(this);">
+        @views.html.users._form(user, countries, roles, "Update User")
 
-    @views.html.users._form(user, countries, roles, "Update User")
+        </form>
+    </div>
 
-    </form>
-</div>}
+}

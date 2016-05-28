@@ -3,23 +3,6 @@
  */
 function validateRegister(form) {
 
-    // var password = form.password.value();//document.getElementById("password");
-    // var confirm_password =  form.confirm_password.value();//document.getElementById("confirm_password");
-
-    // alert("INNN");
-    // if(password.value != confirm_password.value) {
-    //     alert("invalid pass");
-    //     return false;
-    //     //confirm_password.setCustomValidity("Passwords Don't Match");
-    // } else {
-    //     //enable button
-    //     alert("valid pass");
-    //     return true;
-    //     //confirm_password.setCustomValidity('');
-    // }
-
-    alert("Valor do contacto"+ form.phoneNumber.value );
-
     //name
     if (form.name.value === "") {
         alert("Error: O campo nome não pode ser vazio!");

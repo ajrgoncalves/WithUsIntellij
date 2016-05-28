@@ -2,69 +2,78 @@
 @import Models.Role
 
 @(users: List[User], roles: List[Role])
-<div class="row">
-    <div class="col-xs-12 col-lg-12">
+    @main {
+        <div class="row">
+            <div class="col-xs-12 col-lg-12">
 
-        @for(user <- users) {
-            <div class="row">
-                <div class="col-xs-2 col-lg-2">
-                    <div class="form-group">
-                        <label>Nome</label>
-                        <p>@user.name  @user.lastName</p>
-                    </div>
-                </div>
-
-                <div class="col-xs-2 col-lg-2">
-                    <div class="form-group">
-                        <label>Idade</label>
-                        <p>@user.getAgeStringFormat</p>
-                    </div>
-                </div>
-                <div class="col-xs-2 col-lg-2">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <p>@user.email</p>
-                    </div>
-                </div>
-                <div class="col-xs-2 col-lg-2">
-                    <div class="form-group">
-                        <label>Morada</label>
-                        <p>@user.homeAddress</p>
-                    </div>
-                </div>
-                <div class="col-xs-2 col-lg-2">
-                    <div class="form-group">
-                        <label>Contacto</label>
-                        <p>@user.phoneNumber</p>
-                    </div>
-                </div>
-                <div class="col-xs-2 col-lg-2">
-                    <div class="form-group">
-                        <label>User Role</label>
-                        <div>
-                            <form action="@routes.RoleController.setRole(user.id)" method="post">
-                                @if(session().get("idRole") != null && (Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || Integer.parseInt(session().get("idRole")) == Role.ADMIN) {
-                                    <select name="idRole">
-                                    @for(role <- roles) {
-                                        @if(user.getIdRole == role.id) {
-                                            <option value="@role.id" selected>@role.rolePrivileges</option>
-                                        } else {
-                                            <option value="@role.id">@role.rolePrivileges</option>
-                                        }
-                                    }
-                                    </select>
-                                }
-
-                            <input type="submit" class="btn btn-primary" value="save" />
-                            </form>
+            @for(user <- users) {
+                <div class="row">
+                    <div class="col-xs-2 col-lg-2">
+                        <div class="form-group">
+                            <label>Nome</label>
+                            <p>@user.name @user.lastName</p>
                         </div>
                     </div>
+
+                    <div class="col-xs-2 col-lg-2">
+                        <div class="form-group">
+                            <label>Idade</label>
+                            <p>@user.getAgeStringFormat</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-lg-2">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <p>@user.email</p>
+                        </div>
+                    </div>
+                    @*<div class="col-xs-2 col-lg-2">*@
+                    @*<div class="form-group">*@
+                    @*<label>Morada</label>*@
+                    @*<p>@user.homeAddress</p>*@
+                    @*</div>*@
+                    @*</div>*@
+                    <div class="col-xs-2 col-lg-2">
+                        <div class="form-group">
+                            <label>Contacto</label>
+                            <p>@user.phoneNumber</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-lg-2">
+                        <div class="form-group">
+                            <label>User Role</label>
+                            <div>
+                                @for(role <- roles) {
+                                    @if(user.getIdRole == role.id) {
+                                        @role.rolePrivileges
+                                    }
+                                }
+                                @* <form action="@routes.RoleController.setRole(user.id)" method="post">
+                                @if(session().get("idRole") != null && (Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || Integer.parseInt(session().get("idRole")) == Role.ADMIN) {
+                                <select name="idRole">
+                                @for(role <- roles) {
+                                @if(user.getIdRole == role.id) {
+                                <option value="@role.id" selected>@role.rolePrivileges</option>
+                                } else {
+                                <option value="@role.id">@role.rolePrivileges</option>
+                                }
+                                }
+                                </select>
+                                }
+                                <input type="submit" class="btn btn-primary" value="save" />
+                                </form>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-lg-2">
+                        <a type="submit" href="@routes.HomeController.getUpdateUser(user.id)">Edit</a>
+                    </div>
                 </div>
+
+            }
+
             </div>
-        }
-
-    </div>
-</div>
-
+        </div>
+    }
 
 

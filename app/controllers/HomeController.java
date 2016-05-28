@@ -181,6 +181,8 @@ public class HomeController extends Controller {
         return redirect("/users/login");
     }
 
+//    GET
+    @Security.Authenticated(LoginController.Secured.class)
     public Result getAllUsers() {
         List<User> allUsers = User.getAllUsers();
         List<Role> allRoles = Role.getAllRoles();
@@ -188,6 +190,29 @@ public class HomeController extends Controller {
 
     }
 
+//    GET update User
+
+    public Result getUpdateUser(Long userId){
+        if(session().get("email") != null) {
+            Logger.info("USERNAME: " + request().username());
+
+            User user = User.find.where().eq("id", userId).findUnique();
+            Role role = Role.findRole(user.getIdRole());
+            List<User> allUsers = User.getAllUsers();
+            List<Country> allCountries = Country.getAllCountries();
+            List<Role> allRoles = Role.getAllRoles();
+
+            Logger.info("Role: " + role);
+
+            return ok(views.html.users.updateUser.render(user, role, allUsers, allCountries, allRoles));
+
+        }else{
+            return ok(views.html.users.login.render(""));
+        }
+
+    }
+
+        //POST
     @Security.Authenticated(LoginController.Secured.class)
     public Result updateUser(Long userId) {
 
