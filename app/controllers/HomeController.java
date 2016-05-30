@@ -161,7 +161,6 @@ public class HomeController extends Controller {
             User user = userForm.get();
             if(user.isValid()) {
                 user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
-                session().put("email", user.email);
                 user.idRole= Role.GUEST;
                 user.save();
                 //cria um novo registo na tabela
@@ -176,9 +175,9 @@ public class HomeController extends Controller {
                 });
             }
 
-
+            return redirect("/users/login");
         }
-        return redirect("/users/login");
+
     }
 
 //    GET

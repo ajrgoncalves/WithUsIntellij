@@ -32,7 +32,7 @@
                 <div class="col-xs-2 col-lg-2">
                     @if(session().get("idRole") != null && ((Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || (Integer.parseInt(session().get("idRole")) == Role.ADMIN))) {
 
-                        <a class="navbar-brand" href="@routes.HomeController.getAllUsers">All users</a>
+                        <a class="navbar-brand" href="@routes.HomeController.getAllUsers">Lista de Utilizadores</a>
                     }
 
                 </div>
@@ -44,7 +44,7 @@
                 } else {
                     @*<span>Bem vindo @Http.Context.current().args.get("username") </span>*@
                     <span>Bem vindo</span><span> @session().get("email") </span>
-                    <a href="@routes.HomeController.getUpdateUser(Long.parseLong(session().get("id")))" class="btn btn-primary navbar-btn">Editar Conta</a>
+                  <a href="@routes.HomeController.getUpdateUser(Long.parseLong(session().get("id")))" class="btn btn-primary navbar-btn">Editar Conta</a>
                     <a href="@routes.HomeController.logout()" class="btn btn-primary navbar-btn" >Logout</a>
                 }
                 </div>
