@@ -1,0 +1,20 @@
+@import Models.AreaModel
+@(areaModel: AreaModel)
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default col-xs-12">
+            <div class="panel-body" >
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label>Nome do Modelo</label>
+                            <input type="text" name="description" class="form-control" placeholder="Nome do Modelo" value="@areaModel.description">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary"> Criar Modulo </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

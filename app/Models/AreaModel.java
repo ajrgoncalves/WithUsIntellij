@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "areamodel")
-public class AreaModel {
+public class AreaModel extends Model{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,11 +20,13 @@ public class AreaModel {
     @Column(name = "description")
     public String description;
 
+    public AreaModel(){}
+
 
     public static Model.Finder<Integer, AreaModel> find = new Model.Finder(AreaModel.class);
 
     //Find all Model areas
-    public static List<AreaModel> getAllUserModels() {
+    public static List<AreaModel> getAllModels() {
         return find.all();
     }
 

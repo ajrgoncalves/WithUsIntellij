@@ -1,0 +1,22 @@
+@import Models.AreaModel
+@(areaModels: List[AreaModel])
+
+@main {
+
+    <div class="row">
+        <div class="col-xs-12 col-lg-12">
+        @for(areaModel <- areaModels) {
+            <div class="row">
+                <div class="col-xs-12 col-lg-12">
+
+                    <div class="form-group">
+                        <label>Area Model Description</label>
+                        <p>@areaModel.description</p>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    </div>
+
+}

@@ -2,8 +2,10 @@ package Models;
 
 import javax.persistence.*;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 
+import com.avaje.ebean.annotation.Transactional;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 import org.mindrot.jbcrypt.BCrypt;
@@ -126,21 +128,23 @@ public class User extends Model {
 
     //Modules
 
-    public static List<AreaModel> findModulesByEmail(String email) {
-        // Encontra o User com o email indicado
-        User user = find.where().eq("email", email).findUnique();
+    @Transactional
+    public static List<AreaModel> findModulesByEmail(Long userId) {
 
-        // Encontra as relações existentes para o user encontrado antes
-        List<AreaModelUser> areaModelUser = AreaModelUser.findByUserId(user.id);
+            // Encontra o User com o email indicado
+            User user = find.where().eq("id", userId).findUnique();
 
-        // Para cada uma das relações encontradas, procura o Module correspondente (moduleId = Module.id)
-        List<AreaModel> foundModels = new ArrayList<>();
-        for (AreaModelUser m : areaModelUser) {
-            foundModels.add(AreaModel.findByID(m.getAreaModelId()));
-        }
+            // Encontra as relações existentes para o user encontrado antes
+            List<AreaModelUser> areaModelUser = AreaModelUser.findByUserId(user.id);
 
-        // Retorna a lista de Modules encontrada para aquele utilizador
-        return foundModels;
+            // Para cada uma das relações encontradas, procura o Module correspondente (moduleId = Module.id)
+            List<AreaModel> foundModels = new ArrayList<>();
+            for (AreaModelUser m : areaModelUser) {
+                foundModels.add(AreaModel.findByID(m.getAreaModelId()));
+            }
+            // Retorna a lista de Modules encontrada para aquele utilizador
+            return foundModels;
+
     }
 
 // Authenticate

@@ -6,6 +6,7 @@ import Models.Role;
 import Models.User;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
 import play.data.Form;
@@ -149,7 +150,7 @@ public class HomeController extends Controller {
 
 
 //    Post
-
+    @Transactional
     public Result create() {
         Form<User> userForm = formFactory.form(User.class).bindFromRequest();
         if (userForm.hasErrors()) {

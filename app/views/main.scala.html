@@ -40,7 +40,7 @@
                 <div class="col-xs-2 col-lg-2">
                 @if(session().get("idRole") != null && ((Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || (Integer.parseInt(session().get("idRole")) == Role.ADMIN))) {
 
-                    <a class="navbar-brand"> Gestão de Ferias</a>
+                    <a class="navbar-brand" href="@routes.ModelController.getModules"> Gestão de Modulos</a>
                 }
 
                 </div>

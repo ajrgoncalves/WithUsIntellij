@@ -1,0 +1,25 @@
+@import Models.AreaModel
+@(areaModel: AreaModel)
+
+@main {
+    <title>Register</title>
+    <div class="row">
+        <div class="col-xs-12 col-lg 12">
+            <div class="row">
+                <div class="col-xs-2 col-lg 2">
+
+                </div>
+                <div class="col-xs-8 col-lg 8" align="center">
+                    <form action="@routes.ModelController.createModule()" method="post">
+
+                    @views.html.users.modules._formAreaModel(areaModel)
+
+                    </form>
+                </div>
+                <div class="col-xs-2 col-lg 2">
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
