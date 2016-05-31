@@ -2,8 +2,10 @@ package controllers;
 
 
 import Models.AreaModel;
+import Models.AreaModelUser;
 import Models.Role;
 import Models.User;
+import com.avaje.ebean.annotation.Transactional;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
@@ -33,7 +35,7 @@ public class ModelController {
         List<AreaModel> areaModelList = User.findModulesByEmail(userId);
 
         return ok(views.html.users.moduleUser.render(
-                areaModelList, user
+                areaModelList, user, new AreaModel()
 
         ));
     }
@@ -64,7 +66,7 @@ public class ModelController {
 
     //GET All Modules
 
-    public  Result getModules(){
+    public Result getModules() {
         List<AreaModel> allAreaModel = AreaModel.getAllModels();
 
         return ok(views.html.users.modules.allModules.render(allAreaModel));
@@ -73,16 +75,16 @@ public class ModelController {
 
     //GET Update Modules
 
-    public Result getUpdateModule( Integer areaModelId){
+    public Result getUpdateModule(Integer areaModelId) {
         AreaModel areaModel = AreaModel.find.where().eq("id", areaModelId).findUnique();
         List<AreaModel> allAreaModel = AreaModel.getAllModels();
 
-        return ok(views.html.users.modules.updateModules.render(areaModel,allAreaModel));
+        return ok(views.html.users.modules.updateModules.render(areaModel, allAreaModel));
     }
 
     //POST Update Modules
 
-    public Result updateModule(Integer areaModelId){
+    public Result updateModule(Integer areaModelId) {
 
         Form<AreaModel> moduleForm = formFactory.form(AreaModel.class).bindFromRequest();
         if (moduleForm.hasErrors()) {
@@ -99,8 +101,25 @@ public class ModelController {
 
     }
 
-    public Result addModelUser (Integer userID, Integer areaModelId)
-    {
 
+
+
+
+    //POST
+    @Transactional
+    @Security.Authenticated(LoginController.Secured.class)
+    public Result addModelUser() {
+        Form<AreaModelUser> areaModelUserForm = formFactory.form(AreaModelUser.class).bindFromRequest();
+        if (areaModelUserForm.hasErrors()) {
+
+            Logger.info("Associação entre o user e o modulo com erros!!! ");
+        } else {
+            AreaModelUser areaModelUser = areaModelUserForm.get();
+
+            areaModelUser.save();
+
+        }
+        //TODO: Verificar este redirect
+        return redirect(routes.ModelController.getModules());
     }
 }

@@ -1,14 +1,11 @@
 @import Models.AreaModel
 @import Models.User
-@(userModules: List[AreaModel])(user: User)
+@(areaModels: List[AreaModel], user: User, areaModel: AreaModel)
 
 @main{
 
-    @for( userModule<- userModules){
-        <div>
-            @user.name
-            @userModule.description
-            @userModule.id
-        </div>
+    <form action="@routes.ModelController.addModelUser()" method="post">
+
+    @views.html.users.modules._formAssociateUserModels(areaModels, areaModel)
+    </form>
     }
-}
