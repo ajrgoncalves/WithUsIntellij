@@ -1,8 +1,10 @@
 package controllers;
 
 
+import Models.AreaModel;
 import Models.AreaModelUser;
 import Models.User;
+import play.mvc.Result;
 
 import java.util.List;
 
@@ -14,10 +16,10 @@ import static play.mvc.Results.ok;
 public class ModelController {
 
 
-    public play.mvc.Result getUserModules (String email){
-        User user = User.find.where().eq("email", email).findUnique();
+    public Result getUserModules(String email) {
 
-       List<AreaModelUser> areaModelList = User.findModulesByEmail(user.email);
+
+        List<AreaModel> areaModelList = User.findModulesByEmail(email);
 
         return ok(views.html.users.moduleUser.render(areaModelList));
     }

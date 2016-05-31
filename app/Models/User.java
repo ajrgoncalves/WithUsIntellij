@@ -12,6 +12,7 @@ import play.Logger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -125,15 +126,21 @@ public class User extends Model {
 
     //Modules
 
-    public static List<AreaModelUser> findModulesByEmail(String email) {
+    public static List<AreaModel> findModulesByEmail(String email) {
+        // Encontra o User com o email indicado
         User user = find.where().eq("email", email).findUnique();
 
+        // Encontra as relações existentes para o user encontrado antes
         List<AreaModelUser> areaModelUser = AreaModelUser.findByUserId(user.id);
 
+        // Para cada uma das relações encontradas, procura o Module correspondente (moduleId = Module.id)
+        List<AreaModel> foundModels = new ArrayList<>();
         for (AreaModelUser m : areaModelUser) {
-            AreaModel.findByID(m.getId());
+            foundModels.add(AreaModel.findByID(m.getAreaModelId()));
         }
-        return areaModelUser ;
+
+        // Retorna a lista de Modules encontrada para aquele utilizador
+        return foundModels;
     }
 
 // Authenticate

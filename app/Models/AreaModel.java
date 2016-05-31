@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "areaaccessmodel")
+@Table(name = "areamodel")
 public class AreaModel {
 
     @Id

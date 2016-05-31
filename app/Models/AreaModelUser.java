@@ -23,7 +23,7 @@ public class AreaModelUser extends Model {
     @Column(name = "userId")
     public Long userID;
 
-    @Column(name = "modelAccessAreaId")
+    @Column(name = "areaModelId")
     public Integer modelAccessAreaId;
 
     public AreaModelUser() {
@@ -61,7 +61,7 @@ public class AreaModelUser extends Model {
         this.userID = userID;
     }
 
-    public Integer getModelAccessAreaId() {
+    public Integer getAreaModelId() {
         return modelAccessAreaId;
     }
 
