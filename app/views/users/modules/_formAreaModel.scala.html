@@ -1,5 +1,5 @@
 @import Models.AreaModel
-@(areaModel: AreaModel)
+@(areaModel: AreaModel, description: String)
 
 <div class="row">
     <div class="col-xs-12">
@@ -8,11 +8,11 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
-                            <label>Nome do Modelo</label>
+                            <label>Nome do Modulo</label>
                             <input type="text" name="description" class="form-control" placeholder="Nome do Modelo" value="@areaModel.description">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary"> Criar Modulo </button>
+                    <button type="submit" class="btn btn-primary"> @description </button>
                 </div>
             </div>
         </div>

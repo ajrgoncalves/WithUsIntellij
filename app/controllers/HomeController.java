@@ -176,7 +176,7 @@ public class HomeController extends Controller {
                 });
             }
 
-            return redirect("/users/login");
+            return redirect(HomeController.login());
         }
 
     }
@@ -213,6 +213,7 @@ public class HomeController extends Controller {
     }
 
         //POST
+    @Transactional
     @Security.Authenticated(LoginController.Secured.class)
     public Result updateUser(Long userId) {
 

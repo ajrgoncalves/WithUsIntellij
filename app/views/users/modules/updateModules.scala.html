@@ -1,0 +1,14 @@
+@import Models.AreaModel
+@(areaModel: AreaModel)(areaModels: List[AreaModel])
+
+@main{
+
+    <div class="col-xs-12;">
+        <form action="@routes.ModelController.updateModule(areaModel.id)" method="post" >
+
+        @views.html.users.modules._formAreaModel(areaModel, "Update Modulo")
+
+        </form>
+    </div>
+
+}

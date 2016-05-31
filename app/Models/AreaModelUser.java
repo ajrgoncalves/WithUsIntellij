@@ -16,9 +16,6 @@ import java.util.List;
 public class AreaModelUser extends Model {
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Integer id;
 
     @Column(name = "userId")
     public Long userID;
@@ -45,13 +42,6 @@ public class AreaModelUser extends Model {
 
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Long getUserID() {
         return userID;

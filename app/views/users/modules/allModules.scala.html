@@ -8,10 +8,17 @@
         @for(areaModel <- areaModels) {
             <div class="row">
                 <div class="col-xs-12 col-lg-12">
+                    <div class="col-xs-2 col-lg-2">
+                        <div class="form-group">
+                            <label>Modulo </label>
+                            <p>@areaModel.description</p>
+                        </div>
+                    </div>
 
-                    <div class="form-group">
-                        <label>Area Model Description</label>
-                        <p>@areaModel.description</p>
+                    <div class="col-xs-2 col-lg-2">
+                        <div>
+                            <a type="submit" href="@routes.ModelController.getUpdateModule(areaModel.id)">Edit</a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -11,6 +11,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 import javax.inject.Inject;
+import javax.jws.WebParam;
 import java.util.List;
 
 import static play.mvc.Results.ok;
@@ -63,9 +64,43 @@ public class ModelController {
 
     //GET All Modules
 
-    public Result getModules(){
+    public  Result getModules(){
         List<AreaModel> allAreaModel = AreaModel.getAllModels();
 
         return ok(views.html.users.modules.allModules.render(allAreaModel));
+    }
+
+
+    //GET Update Modules
+
+    public Result getUpdateModule( Integer areaModelId){
+        AreaModel areaModel = AreaModel.find.where().eq("id", areaModelId).findUnique();
+        List<AreaModel> allAreaModel = AreaModel.getAllModels();
+
+        return ok(views.html.users.modules.updateModules.render(areaModel,allAreaModel));
+    }
+
+    //POST Update Modules
+
+    public Result updateModule(Integer areaModelId){
+
+        Form<AreaModel> moduleForm = formFactory.form(AreaModel.class).bindFromRequest();
+        if (moduleForm.hasErrors()) {
+
+            Logger.info("Update de module com erros!!! ");
+        } else {
+            AreaModel areaModel = AreaModel.find.where().eq("id", areaModelId).findUnique();
+
+            areaModel.setDescription(moduleForm.data().get("description"));
+
+            areaModel.save();
+        }
+        return redirect(routes.ModelController.getModules());
+
+    }
+
+    public Result addModelUser (Integer userID, Integer areaModelId)
+    {
+
     }
 }
