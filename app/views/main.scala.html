@@ -33,7 +33,15 @@
                     @if(session().get("idRole") != null && ((Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || (Integer.parseInt(session().get("idRole")) == Role.ADMIN))) {
 
                         <a class="navbar-brand" href="@routes.HomeController.getAllUsers">Lista de Utilizadores</a>
+
                     }
+
+                </div>
+                <div class="col-xs-2 col-lg-2">
+                @if(session().get("idRole") != null && ((Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || (Integer.parseInt(session().get("idRole")) == Role.ADMIN))) {
+
+                    <a class="navbar-brand"> Gestão de Ferias</a>
+                }
 
                 </div>
                 <div  align="right">

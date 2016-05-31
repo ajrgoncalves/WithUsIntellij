@@ -94,6 +94,8 @@ public class UserRegistryAlteration extends Model{
     }
 
 
+
+
     public Integer getId() {
         return id;
     }

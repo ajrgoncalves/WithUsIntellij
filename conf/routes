@@ -39,7 +39,11 @@ POST        /setRole                 controllers.RoleController.setRole(userId: 
 
 #Update User fields
 
-GET         /users/updateUser         controllers.HomeController.getUpdateUser(userId: Long)
+GET         /users/updateUser        controllers.HomeController.getUpdateUser(userId: Long)
 POST        /users/updateUser        controllers.HomeController.updateUser(userId: Long)
 
 
+# Modules
+
+GET         /users/moduleUser        controllers.ModelController.getUserModules(email: String)
+POST        /users/moduleUser        controllers.ModelController.getUserModules(email: String)

@@ -1,13 +1,7 @@
 package Models;
 
 import javax.persistence.*;
-
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
-import com.avaje.ebeaninternal.server.lib.util.Str;
-
-
-import java.util.ArrayList;
 import java.util.List;
 
 

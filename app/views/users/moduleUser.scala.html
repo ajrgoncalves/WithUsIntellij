@@ -1,0 +1,12 @@
+@import Models.AreaModelUser
+@(userModules: List[AreaModelUser])
+
+@main{
+
+    @for( userModule<- userModules){
+        <div>
+            @userModule.modelAccessAreaId
+            @userModule.userID
+        </div>
+    }
+}

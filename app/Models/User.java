@@ -8,16 +8,14 @@ import org.joda.time.LocalDate;
 import org.joda.time.Years;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-
 
 
 @Entity
@@ -109,14 +107,13 @@ public class User extends Model {
 
 //    Retrieve a user from email.
 
-
     public static User findByEmail(String email) {
         return find.where().eq("email", email).findUnique();
     }
 
     // Procurar User pelo ID
 
-    public static User findByID(Long id){
+    public static User findByID(Long id) {
         return find.where().eq("id", id).findUnique();
     }
 
@@ -124,6 +121,19 @@ public class User extends Model {
 
     public static List<User> getAllUsers() {
         return find.all();
+    }
+
+    //Modules
+
+    public static List<AreaModelUser> findModulesByEmail(String email) {
+        User user = find.where().eq("email", email).findUnique();
+
+        List<AreaModelUser> areaModelUser = AreaModelUser.findByUserId(user.id);
+
+        for (AreaModelUser m : areaModelUser) {
+            AreaModel.findByID(m.getId());
+        }
+        return areaModelUser ;
     }
 
 // Authenticate
@@ -144,7 +154,7 @@ public class User extends Model {
         return null;
     }
 
-    public boolean isValid () {
+    public boolean isValid() {
         //TODO: Verificar se realmente os campos estão a ser aceites correctamente.
 
 
@@ -216,8 +226,7 @@ public class User extends Model {
             Years oAge = Years.yearsBetween(bDate, now);
 //            System.out.println("Age: " + oAge.getYears());
 
-            if((now.getYear() - bDate.getYear() < 16) || (now.getYear() - bDate.getYear() >75) )
-            {
+            if ((now.getYear() - bDate.getYear() < 16) || (now.getYear() - bDate.getYear() > 75)) {
                 System.out.println("Erro no idade");
                 return false;
             }
@@ -226,7 +235,6 @@ public class User extends Model {
             System.out.println("Erro: " + ex.getLocalizedMessage() + "\n" + ex.getMessage() + "\n" + ex.getStackTrace() + "\n");
             ex.printStackTrace();
         }
-
 
 
         //Contacto

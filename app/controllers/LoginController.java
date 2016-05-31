@@ -34,7 +34,7 @@ public class LoginController extends Controller {
         }
 
 
-        public static boolean isMemberOf(Integer role) {
+        public static boolean isMembesrOf(Integer role) {
             return Role.isMember(
                     role,
                     Http.Context.current().request().username()
