@@ -3,7 +3,6 @@ package controllers;
 
 import Models.*;
 import com.avaje.ebean.annotation.Transactional;
-import com.sun.org.apache.xerces.internal.util.SAXLocatorWrapper;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
@@ -12,9 +11,7 @@ import play.mvc.Security;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Map;
 
-import static play.mvc.Controller.request;
 import static play.mvc.Results.ok;
 import static play.mvc.Results.redirect;
 
@@ -128,34 +125,38 @@ public class ModelController {
     @Transactional
     @Security.Authenticated(LoginController.Secured.class)
     public Result addModelUser(Long userId) {
+
         Form<AreaModelUser> areaModelUserForm = formFactory.form(AreaModelUser.class).bindFromRequest();
         if (areaModelUserForm.hasErrors()) {
 
             Logger.info("Associação entre o user e o modulo com erros!!! ");
         } else {
 
-            for (Map.Entry<String, String> entry : areaModelUserForm.data().entrySet()) {
-                System.out.println(entry.getKey() + " " + entry.getValue());
+            User user = User.findByID(userId);
+            AreaModelUser areaModelUser = new AreaModelUser();
 
-                int moduleId = Integer.parseInt(entry.getKey().split("-")[1]);
+            for (AreaModel am : AreaModel.getAllModels()) {
+                try {
+                    if (areaModelUserForm.data().containsKey("description-" + am.getId())) {
+                        if (!user.hasModule(am.getId())) {
+                            // take it like a man (ADD)
 
-                // if user.contains(moduleID)
+                            areaModelUser.setUserId(userId);
+                            areaModelUser.setAreaModelId(am.id); // prego?
 
-                // if !entry.getValue.equals("on")
-                // delete row
-
-                //else
-                if (!entry.getValue().equals("on")) continue;
-
-                AreaModelUser areaModelUser = new AreaModelUser();
-
-                areaModelUser.setUserId(userId);
-                areaModelUser.setAreaModelId(moduleId); // prego?
-
-                areaModelUser.save();
+                            areaModelUser.save();
+                        }
+                    } else {
+                        if (user.hasModule(am.getId())) {
+                            // give it back to me, bitch (DELETE)
+                            int deletedRows = areaModelUser.deleteRow(user.id, areaModelUser.areaModelId);
+                        }
+                    }
+                    areaModelUser.save();
+                } catch (IndexOutOfBoundsException ex) {
+//                    System.out.println("Not a valid parameter");
+                }
             }
-            areaModelUserForm.data();
-
         }
         //TODO: Verificar este redirect
         return redirect(routes.ModelController.getModules());

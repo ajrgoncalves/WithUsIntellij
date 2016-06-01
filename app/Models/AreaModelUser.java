@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.util.List;
 
 
-
 /**
  * Created by Toz on 30/05/2016.
  */
@@ -18,7 +17,6 @@ import java.util.List;
 @Entity
 @Table(name = "areamodeluser")
 public class AreaModelUser extends Model {
-
 
 
     @Column(name = "userId")
@@ -33,7 +31,6 @@ public class AreaModelUser extends Model {
     }
 
 
-
     public static Model.Finder<Integer, AreaModelUser> find = new Model.Finder(AreaModelUser.class);
 
     //Find all User Models
@@ -41,19 +38,19 @@ public class AreaModelUser extends Model {
         return find.all();
     }
 
-    public static List<AreaModelUser> findByUserId(Long id){
+    public static List<AreaModelUser> findByUserId(Long id) {
         return find.where().eq("userId", id).findList();
     }
 
-    public AreaModelUser deleteRow(Long userId, Integer areaModelId){
+    public int deleteRow(Long userId, Integer areaModelId) {
 
-        String query = "DELETE FROM areamodeluser WHERE areamodeluser.userId = " + userId + "and areamodeluser.areaModelId = " + areaModelId;
-        SqlUpdate deleteRow = Ebean.createSqlUpdate(query);
+        // this may have an SQL Injection...
+        // String query = "DELETE FROM areamodeluser WHERE areamodeluser.userId = :userId" + userId + "and areamodeluser.areaModelId = " + areaModelId;
 
-        return null;
+        return Ebean.find(AreaModelUser.class).where().eq("userId", userId).eq("areaModelId", areaModelId).delete();
 
+        //System.out.println("Row apagada com sucesso");
     }
-
 
 
     public Long getUserId() {

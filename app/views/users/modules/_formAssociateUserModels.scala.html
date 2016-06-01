@@ -12,8 +12,7 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label>User</label>
-                            <input type="text" name="userId" class="form-control" placeholder="Nome" value="@user.id">
-                            <label name="@user.id">@user.email</label>
+                            <label>@user.email</label>
                         </div>
                     </div>
                     <div class="col-xs-6">
@@ -23,7 +22,7 @@
 
                             @for(count <- 0 to moduleList.modelList.size() - 1) {
                                 @if(moduleList.modelAccess.get(count) == true) {
-                                    <input type="checkbox" name="description-@moduleList.modelList.get(count).id"  checked > @moduleList.modelList.get(count).description
+                                    <input type="checkbox" name="description-@moduleList.modelList.get(count).id" checked > @moduleList.modelList.get(count).description
 
                                 } else {
                                     <input type="checkbox" name="description-@moduleList.modelList.get(count).id" > @moduleList.modelList.get(count).description

@@ -129,7 +129,7 @@ public class User extends Model {
     //Modules
 
     @Transactional
-    public static List<AreaModel> findModulesByEmail(Long userId) {
+    public static List<AreaModel> findModulesById(Long userId) {
 
             // Encontra o User com o email indicado
             User user = find.where().eq("id", userId).findUnique();
@@ -160,14 +160,11 @@ public class User extends Model {
 
     }
 
-    public boolean HasModule(int moduleId){
-        User user = User.find.where().eq("userId",moduleId).findUnique();
+    public boolean hasModule(int moduleId){
 
-         Model.Finder<String, AreaModel> find = new Model.Finder(AreaModel.class);
-        AreaModel areaModel = find.where().eq("areaModelId", moduleId).findUnique();
 
-        return true;
-
+         Model.Finder<String, AreaModelUser> find = new Model.Finder(AreaModelUser.class);
+        return find.where().eq("areaModelId", moduleId).eq("userId", this.id).findUnique() != null;
     }
 
 // Authenticate
