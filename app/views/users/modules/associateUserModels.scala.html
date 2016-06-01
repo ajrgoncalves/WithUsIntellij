@@ -13,7 +13,7 @@
 
             </div>
             <div class="col-xs-8 col-lg 8" align="center">
-                <form action="@routes.ModelController.addModelUser()" method="post">
+                <form action="@routes.ModelController.addModelUser(user.id)" method="post">
 
                 @views.html.users.modules._formAssociateUserModels(user, areaModels, areaModelUser, moduleList, "Associar Modulo")
 

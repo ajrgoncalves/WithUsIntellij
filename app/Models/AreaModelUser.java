@@ -18,7 +18,7 @@ public class AreaModelUser extends Model {
 
 
     @Column(name = "userId")
-    public Long userID;
+    public Long userId;
 
 
     @Column(name = "areaModelId")
@@ -44,12 +44,12 @@ public class AreaModelUser extends Model {
 
 
 
-    public Long getUserID() {
-        return userID;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserID(Long userID) {
-        this.userID = userID;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Integer getAreaModelId() {

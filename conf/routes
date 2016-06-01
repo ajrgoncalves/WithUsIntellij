@@ -63,4 +63,4 @@ POST        /users/modules/updateModules              controllers.ModelControlle
 #Associate Users and Models
 
 #GET        /users/modules/associateUserModels        controllers.ModelController.getaddModelUser()
-POST        /users/modules/associateUserModels        controllers.ModelController.addModelUser()
+POST        /users/modules/associateUserModels/       controllers.ModelController.addModelUser(userId: Long)

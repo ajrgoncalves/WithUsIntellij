@@ -3,6 +3,7 @@ package controllers;
 
 import Models.*;
 import com.avaje.ebean.annotation.Transactional;
+import com.sun.org.apache.xerces.internal.util.SAXLocatorWrapper;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
@@ -11,6 +12,7 @@ import play.mvc.Security;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Map;
 
 import static play.mvc.Controller.request;
 import static play.mvc.Results.ok;
@@ -26,27 +28,27 @@ public class ModelController {
 
     //GET
     @Security.Authenticated(LoginController.Secured.class)
-    public Result  getUserModules(Long userId) {
+    public Result getUserModules(Long userId) {
 
         User user = User.findByID(userId);
         List<AreaModel> areaModelList = AreaModel.getAllModels();
         List<AreaModelUser> areaModelUserList = User.finAreaModulesByEmail(userId);
-        ModuleList m = new ModuleList();
-        for(AreaModel areaModel : areaModelList){
+        ModuleList moduleList = new ModuleList();
+        for (AreaModel areaModel : areaModelList) {
             boolean b = false;
-            for(AreaModelUser areaModelUser : areaModelUserList){
-                if(areaModelUser.getAreaModelId() == areaModel.getId()){
-                    m.addModule(areaModel, true);
+            for (AreaModelUser areaModelUser : areaModelUserList) {
+                if (areaModelUser.getAreaModelId() == areaModel.getId()) {
+                    moduleList.addModule(areaModel, true);
                     b = true;
                     break;
                 }
             }
-            if(!b){
-                m.addModule(areaModel, false);
+            if (!b) {
+                moduleList.addModule(areaModel, false);
             }
         }
         return ok(views.html.users.modules.associateUserModels.render(
-                user, areaModelList, areaModelUserList, m
+                user, areaModelList, areaModelUserList, moduleList
 
         ));
     }
@@ -113,7 +115,6 @@ public class ModelController {
     }
 
 
-
 ////GET
 //    public Result getaddModelUser(){
 //        List<AreaModel> allAreaModel = AreaModel.getAllModels();
@@ -126,15 +127,34 @@ public class ModelController {
     //POST
     @Transactional
     @Security.Authenticated(LoginController.Secured.class)
-    public Result addModelUser() {
+    public Result addModelUser(Long userId) {
         Form<AreaModelUser> areaModelUserForm = formFactory.form(AreaModelUser.class).bindFromRequest();
         if (areaModelUserForm.hasErrors()) {
 
             Logger.info("Associação entre o user e o modulo com erros!!! ");
         } else {
-            AreaModelUser areaModelUser = areaModelUserForm.get();
 
-            areaModelUser.save();
+            for (Map.Entry<String, String> entry : areaModelUserForm.data().entrySet()) {
+                System.out.println(entry.getKey() + " " + entry.getValue());
+
+                int moduleId = Integer.parseInt(entry.getKey().split("-")[1]);
+
+                // if user.contains(moduleID)
+
+                // if !entry.getValue.equals("on")
+                // delete row
+
+                //else
+                if (!entry.getValue().equals("on")) continue;
+
+                AreaModelUser areaModelUser = new AreaModelUser();
+
+                areaModelUser.setUserId(userId);
+                areaModelUser.setAreaModelId(moduleId); // prego?
+
+                areaModelUser.save();
+            }
+            areaModelUserForm.data();
 
         }
         //TODO: Verificar este redirect
