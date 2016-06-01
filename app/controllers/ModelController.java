@@ -1,10 +1,7 @@
 package controllers;
 
 
-import Models.AreaModel;
-import Models.AreaModelUser;
-import Models.Role;
-import Models.User;
+import Models.*;
 import com.avaje.ebean.annotation.Transactional;
 import play.Logger;
 import play.data.Form;
@@ -15,6 +12,7 @@ import play.mvc.Security;
 import javax.inject.Inject;
 import java.util.List;
 
+import static play.mvc.Controller.request;
 import static play.mvc.Results.ok;
 import static play.mvc.Results.redirect;
 
@@ -31,10 +29,24 @@ public class ModelController {
     public Result  getUserModules(Long userId) {
 
         User user = User.findByID(userId);
-        List<AreaModel> areaModelList = User.findModulesByEmail(userId);
-
-        return ok(views.html.users.moduleUser.render(
-                areaModelList, user, new AreaModel()
+        List<AreaModel> areaModelList = AreaModel.getAllModels();
+        List<AreaModelUser> areaModelUserList = User.finAreaModulesByEmail(userId);
+        ModuleList m = new ModuleList();
+        for(AreaModel areaModel : areaModelList){
+            boolean b = false;
+            for(AreaModelUser areaModelUser : areaModelUserList){
+                if(areaModelUser.getAreaModelId() == areaModel.getId()){
+                    m.addModule(areaModel, true);
+                    b = true;
+                    break;
+                }
+            }
+            if(!b){
+                m.addModule(areaModel, false);
+            }
+        }
+        return ok(views.html.users.modules.associateUserModels.render(
+                user, areaModelList, areaModelUserList, m
 
         ));
     }
@@ -102,7 +114,14 @@ public class ModelController {
 
 
 
-
+////GET
+//    public Result getaddModelUser(){
+//        List<AreaModel> allAreaModel = AreaModel.getAllModels();
+//        List<User> users = User.getAllUsers();
+//        User user = User.findByEmail(request().username());
+//
+//        return ok(views.html.users.modules.associateUserModels.render(user, allAreaModel));
+//    }
 
     //POST
     @Transactional

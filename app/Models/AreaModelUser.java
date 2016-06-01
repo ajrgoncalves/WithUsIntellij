@@ -22,7 +22,7 @@ public class AreaModelUser extends Model {
 
 
     @Column(name = "areaModelId")
-    public Integer modelAccessAreaId;
+    public Integer areaModelId;
 
     public AreaModelUser() {
 
@@ -53,10 +53,10 @@ public class AreaModelUser extends Model {
     }
 
     public Integer getAreaModelId() {
-        return modelAccessAreaId;
+        return areaModelId;
     }
 
-    public void setModelAccessAreaId(Integer modelAccessAreaId) {
-        this.modelAccessAreaId = modelAccessAreaId;
+    public void setAreaModelId(Integer areaModelId) {
+        this.areaModelId = areaModelId;
     }
 }

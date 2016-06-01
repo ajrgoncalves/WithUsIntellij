@@ -1,5 +1,8 @@
 @import Models.AreaModel
-@(areaModels: List[AreaModel], desciption: String)
+@import Models.User
+@import Models.AreaModelUser
+@import Models.ModuleList
+@(user: User, areaModels: List[AreaModel], areaModelUsers: List[AreaModelUser], moduleList: ModuleList, desciption: String)
 
 <div class="row">
     <div class="col-xs-12">
@@ -8,17 +11,31 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
+                            <label>User</label>
+
+                            <label >@user.email</label>
+
+
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
                             <label>Modulo</label>
                             <div>
-                                @for(areaModel <- areaModels) {
 
-                                    <imput type="checkbox" name="checkbox-@areaModel.id" value="@areaModel.description">@areaModel.description</imput>
-
+                            @for(count <- 0 to moduleList.modelList.size()-1){
+                                @if(moduleList.modelAccess.get(count) == true){
+                                    <input type="checkbox" name="checkbox-@moduleList.modelList.get(count).id" value="@moduleList.modelList.get(count).description" checked > @moduleList.modelList.get(count).description
+                                    <br/>
+                                } else{
+                                    <input type="checkbox" name="checkbox-@moduleList.modelList.get(count)" value="@moduleList.modelList.get(count).description" > @moduleList.modelList.get(count).description
+                                    <br/>
                                 }
+                            }
+
+
                             </div>
                         </div>
-
-
                     </div>
                     <button type="submit" class="btn btn-primary"> @desciption </button>
                 </div>

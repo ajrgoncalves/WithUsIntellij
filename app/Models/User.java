@@ -146,6 +146,19 @@ public class User extends Model {
             return foundModels;
 
     }
+    @Transactional
+    public static List<AreaModelUser> finAreaModulesByEmail(Long userId) {
+
+        // Encontra o User com o email indicado
+        User user = find.where().eq("id", userId).findUnique();
+
+        // Encontra as relações existentes para o user encontrado antes
+        List<AreaModelUser> areaModelUser = AreaModelUser.findByUserId(user.id);
+
+        // Retorna a lista de Modules encontrada para aquele utilizador
+        return areaModelUser;
+
+    }
 
 // Authenticate
 

@@ -1,0 +1,28 @@
+@import Models.AreaModel
+@import Models.User
+@import Models.AreaModelUser
+@import Models.ModuleList
+@(user: User, areaModels: List[AreaModel], areaModelUser: List[AreaModelUser], moduleList : ModuleList)
+
+@main{
+<title>Associate User to Models</title>
+<div class="row">
+    <div class="col-xs-12 col-lg 12">
+        <div class="row">
+            <div class="col-xs-2 col-lg 2">
+
+            </div>
+            <div class="col-xs-8 col-lg 8" align="center">
+                <form action="@routes.ModelController.addModelUser()" method="post">
+
+                @views.html.users.modules._formAssociateUserModels(user, areaModels, areaModelUser, moduleList, "Associar Modulo")
+
+                </form>
+            </div>
+            <div class="col-xs-2 col-lg 2">
+
+            </div>
+        </div>
+    </div>
+</div>
+}
