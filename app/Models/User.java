@@ -160,6 +160,16 @@ public class User extends Model {
 
     }
 
+    public boolean HasModule(int moduleId){
+        User user = User.find.where().eq("userId",moduleId).findUnique();
+
+         Model.Finder<String, AreaModel> find = new Model.Finder(AreaModel.class);
+        AreaModel areaModel = find.where().eq("areaModelId", moduleId).findUnique();
+
+        return true;
+
+    }
+
 // Authenticate
 
     public static User authenticate(String email, String password) {

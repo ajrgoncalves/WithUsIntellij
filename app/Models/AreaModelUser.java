@@ -1,6 +1,10 @@
 package Models;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.SqlUpdate;
+import com.avaje.ebean.Update;
+import org.h2.command.dml.Delete;
 
 import javax.persistence.*;
 import java.util.List;
@@ -41,6 +45,14 @@ public class AreaModelUser extends Model {
         return find.where().eq("userId", id).findList();
     }
 
+    public AreaModelUser deleteRow(Long userId, Integer areaModelId){
+
+        String query = "DELETE FROM areamodeluser WHERE areamodeluser.userId = " + userId + "and areamodeluser.areaModelId = " + areaModelId;
+        SqlUpdate deleteRow = Ebean.createSqlUpdate(query);
+
+        return null;
+
+    }
 
 
 
