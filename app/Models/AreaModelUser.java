@@ -20,6 +20,7 @@ public class AreaModelUser extends Model {
     @Column(name = "userId")
     public Long userID;
 
+
     @Column(name = "areaModelId")
     public Integer modelAccessAreaId;
 

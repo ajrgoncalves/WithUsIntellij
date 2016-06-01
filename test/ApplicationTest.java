@@ -43,16 +43,16 @@ public class ApplicationTest {
 //        assertTrue(html.body().contains("Your new application is ready."));
 //    }
 
-    @Test
-    public void testValidateUser()
-    {
-        User user = new User("carlos","almeida");
-
-        try {
-            user.isValid();
-            fail("Thou shall not pass!");
-        } catch (Exception e) {}
-    }
+//    @Test
+//    public void testValidateUser()
+//    {
+//        User user = new User("carlos","almeida");
+//
+//        try {
+//            user.isValid();
+//            fail("Thou shall not pass!");
+//        } catch (Exception e) {}
+//    }
 
 
 }

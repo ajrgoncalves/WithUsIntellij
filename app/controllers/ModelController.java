@@ -13,7 +13,6 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 import javax.inject.Inject;
-import javax.jws.WebParam;
 import java.util.List;
 
 import static play.mvc.Results.ok;
@@ -29,7 +28,7 @@ public class ModelController {
 
     //GET
     @Security.Authenticated(LoginController.Secured.class)
-    public Result getUserModules(Long userId) {
+    public Result  getUserModules(Long userId) {
 
         User user = User.findByID(userId);
         List<AreaModel> areaModelList = User.findModulesByEmail(userId);
