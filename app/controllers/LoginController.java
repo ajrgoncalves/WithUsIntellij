@@ -34,18 +34,7 @@ public class LoginController extends Controller {
         }
 
 
-        public static boolean isMembesrOf(Integer role) {
-            return Role.isMember(
-                    role,
-                    Http.Context.current().request().username()
-            );
-        }
     }
-    public String getidRole(Http.Context ctx) {return ctx.session().get("idRole");}
-
-
-
-
 }
 
 

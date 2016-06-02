@@ -37,35 +37,7 @@ public class Role extends Model {
         return find.all();
     }
 
-    //    retrieve role for user
-    public static List<Role> findIvolving(String user) {
-        return find.where()
-                .eq("members.email", user).findList();
-    }
 
-    //    Create new Role
-    public static Role create(String rolePrivileges, String membro) {
-        Role role = new Role(rolePrivileges, User.find.ref(membro));
-        role.save();
-        return role;
-    }
-
-    //    Rename Role
-    public static String rename(Integer roleId, String newName) {
-        Role role = find.ref(roleId);
-        role.rolePrivileges = newName;
-        role.update();
-        return newName;
-    }
-
-//      Check if a user got a role
-
-    public static boolean isMember(Integer role, String user) {
-        return find.where()
-                .eq("members.email", user)
-                .eq("id", role)
-                .findRowCount() > 0;
-    }
 
     public Integer getId() {
         return id;
