@@ -43,8 +43,6 @@ public class AreaModelUser extends Model {
 
     public boolean deleteRow(Long userId, Integer areaModelId) {
 
-
-        //// FIXME: 02/06/2016
         // this may have an SQL Injection...
         System.out.println(" user id delete row"+ userId + "area model id" + areaModelId);
 

@@ -1,0 +1,14 @@
+@import Models.AreaModel
+@(areaModel: AreaModel)(areaModels: List[AreaModel])
+
+@main{
+
+    <div class="col-xs-12;">
+        <form action="@routes.ModelController.deleteModule(areaModel.id)" method="post" >
+
+        @views.html.users.modules._formAreaModel(areaModel, "Apagar Modulo")
+
+        </form>
+    </div>
+
+}

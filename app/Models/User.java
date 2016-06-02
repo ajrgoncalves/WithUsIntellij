@@ -147,7 +147,7 @@ public class User extends Model {
 
     }
     @Transactional
-    public static List<AreaModelUser> finAreaModulesByEmail(Long userId) {
+    public static List<AreaModelUser> findAreaModulesById(Long userId) {
 
         // Encontra o User com o email indicado
         User user = find.where().eq("id", userId).findUnique();

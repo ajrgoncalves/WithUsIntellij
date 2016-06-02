@@ -3,64 +3,67 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET         /                                         controllers.HomeController.index
+GET         /                                          controllers.HomeController.index
 
 # An example controller showing how to use dependency injection
-GET         /count                                    controllers.CountController.count
+GET         /count                                     controllers.CountController.count
 # An example controller showing how to write asynchronous code
-GET         /message                                  controllers.AsyncController.message
+GET         /message                                   controllers.AsyncController.message
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                             controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                              controllers.Assets.versioned(path="/public", file: Asset)
 
 
 #Get e POST para regist
-GET         /users                                    controllers.HomeController.getUsers
-GET         /users/allUsers                           controllers.HomeController.getAllUsers
+GET         /users                                     controllers.HomeController.getUsers
+GET         /users/allUsers                            controllers.HomeController.getAllUsers
 
 
 
-GET         /users/register                           controllers.HomeController.register
-POST        /users/create                             controllers.HomeController.create
+GET         /users/register                            controllers.HomeController.register
+POST        /users/create                              controllers.HomeController.create
 
 #Login
 
-GET         /users/login                              controllers.HomeController.login
+GET         /users/login                               controllers.HomeController.login
 
-POST        /users/login                              controllers.HomeController.authenticate
+POST        /users/login                               controllers.HomeController.authenticate
 
 #Logout
 
-GET         /logout                                   controllers.HomeController.logout
+GET         /logout                                    controllers.HomeController.logout
 
 #Set Role
 
-POST        /setRole                                  controllers.RoleController.setRole(userId: Long)
+POST        /setRole                                   controllers.RoleController.setRole(userId: Long)
 
 #Update User fields
 
-GET         /users/updateUser                         controllers.HomeController.getUpdateUser(userId: Long)
-POST        /users/updateUser                         controllers.HomeController.updateUser(userId: Long)
+GET         /users/updateUser                          controllers.HomeController.getUpdateUser(userId: Long)
+POST        /users/updateUser                          controllers.HomeController.updateUser(userId: Long)
 
 
 # Modules
 
-GET         /users/moduleUser                         controllers.ModelController.getUserModules(userId: Long)
-POST        /users/moduleUser                         controllers.ModelController.getUserModules(userId: Long)
+GET         /users/moduleUser                          controllers.ModelController.getUserModules(userId: Long)
+POST        /users/moduleUser                          controllers.ModelController.getUserModules(userId: Long)
 
 #Create modules
-GET         /users/modules/createModule               controllers.ModelController.getCreateModule()
-POST        /users/modules/createModule               controllers.ModelController.createModule()
+GET         /users/modules/createModule                controllers.ModelController.getCreateModule()
+POST        /users/modules/createModule                controllers.ModelController.createModule()
 
 #Get all Modules
-GET         /users/modules/allModules                 controllers.ModelController.getModules()
+GET         /users/modules/allModules                  controllers.ModelController.getModules()
 
 #Update Modules
 
-GET         /users/modules/updateModules              controllers.ModelController.getUpdateModule(areaModelId: Integer )
-POST        /users/modules/updateModules              controllers.ModelController.updateModule(areaModelId: Integer )
+GET         /users/modules/updateModules               controllers.ModelController.getUpdateModule(areaModelId: Integer )
+POST        /users/modules/updateModules               controllers.ModelController.updateModule(areaModelId: Integer )
+
+GET         /users/modules/deleteModule               controllers.ModelController.getDeleteModule(areaModelId: Integer )
+POST        /users/modules/deleteModule               controllers.ModelController.deleteModule(areaModelId: Integer)
 
 #Associate Users and Models
 
-#GET        /users/modules/associateUserModels        controllers.ModelController.getaddModelUser()
-POST        /users/modules/associateUserModels/       controllers.ModelController.addModelUser(userId: Long)
+
+POST        /users/modules/associateUserModels/        controllers.ModelController.addModelUser(userId: Long)

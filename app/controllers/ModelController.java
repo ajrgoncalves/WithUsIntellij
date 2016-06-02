@@ -2,8 +2,6 @@ package controllers;
 
 
 import Models.*;
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.SqlUpdate;
 import com.avaje.ebean.annotation.Transactional;
 import play.Logger;
 import play.data.Form;
@@ -12,7 +10,6 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 import javax.inject.Inject;
-import java.awt.geom.Area;
 import java.util.List;
 
 import static play.mvc.Results.ok;
@@ -32,7 +29,7 @@ public class ModelController {
 
         User user = User.findByID(userId);
         List<AreaModel> areaModelList = AreaModel.getAllModels();
-        List<AreaModelUser> areaModelUserList = User.finAreaModulesByEmail(userId);
+        List<AreaModelUser> areaModelUserList = User.findAreaModulesById(userId);
         ModuleList moduleList = new ModuleList();
         for (AreaModel areaModel : areaModelList) {
             boolean b = false;
@@ -73,7 +70,7 @@ public class ModelController {
             areaModel.save();
         }
         //TODO: Alterar este redirect
-        return redirect("/users/modules/createModule");
+        return redirect(routes.ModelController.getModules());
     }
 
 
@@ -113,6 +110,25 @@ public class ModelController {
         return redirect(routes.ModelController.getModules());
 
     }
+    public Result getDeleteModule(Integer areaModelId) {
+        AreaModel areaModel = AreaModel.find.where().eq("id", areaModelId).findUnique();
+        List<AreaModel> allAreaModel = AreaModel.getAllModels();
+
+        return ok(views.html.users.modules.deleteModule.render(areaModel, allAreaModel));
+    }
+
+    //POST
+    public Result deleteModule(Integer areaModelId){
+        Form<AreaModel> moduleForm = formFactory.form(AreaModel.class).bindFromRequest();
+        if(moduleForm.hasErrors()){
+            Logger.info("Delete de module com erros!!! ");
+        } else {
+            AreaModel areaModel = AreaModel.find.where().eq("id", areaModelId).findUnique();
+
+            areaModel.deleteAreaModel(areaModelId);
+        }
+        return redirect(routes.ModelController.getModules());
+    }
 
 
 ////GET
@@ -147,7 +163,7 @@ public class ModelController {
                     if (user.hasModule(am.getId())) {
                         // give it back to me, bitch (DELETE)
 
-                        List<AreaModelUser> areaModelUserList = User.finAreaModulesByEmail(userId);
+                        List<AreaModelUser> areaModelUserList = User.findAreaModulesById(userId);
                         for(AreaModelUser amuser : areaModelUserList){
                             if(amuser.getAreaModelId() == am.id){
                                 amuser.deleteRow(userId, am.id);
@@ -160,6 +176,6 @@ public class ModelController {
             }
         }
         //TODO: Verificar este redirect
-        return redirect(routes.ModelController.getModules());
+        return redirect(routes.ModelController.getUserModules(userId));
     }
 }

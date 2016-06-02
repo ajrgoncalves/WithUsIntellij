@@ -1,6 +1,8 @@
 package Models;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.SqlUpdate;
 
 import javax.persistence.*;
 import java.util.List;
@@ -32,6 +34,21 @@ public class AreaModel extends Model{
 
     public static AreaModel findByID(Integer id){
         return find.where().eq("id", id).findUnique();
+    }
+
+    public boolean deleteAreaModel(Integer areaModelId) {
+
+        // this may have an SQL Injection...
+        System.out.println( "area model id" + areaModelId);
+
+        String query = "DELETE FROM areamodel WHERE areamodel.id = " + areaModelId + ";";
+
+        SqlUpdate deleteAreaModel = Ebean.createSqlUpdate(query);
+        deleteAreaModel.execute();
+
+        return true;
+
+        //System.out.println("Row apagada com sucesso");
     }
 
 
