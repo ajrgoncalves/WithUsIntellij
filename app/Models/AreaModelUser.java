@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.SqlUpdate;
 import com.avaje.ebean.Update;
+import com.avaje.ebean.annotation.Sql;
 import org.h2.command.dml.Delete;
 
 import javax.persistence.*;
@@ -18,14 +19,12 @@ import java.util.List;
 @Table(name = "areamodeluser")
 public class AreaModelUser extends Model {
 
-
     @Column(name = "userId")
     public Long userId;
 
 
     @Column(name = "areaModelId")
     public Integer areaModelId;
-
     public AreaModelUser() {
 
     }
@@ -42,12 +41,21 @@ public class AreaModelUser extends Model {
         return find.where().eq("userId", id).findList();
     }
 
-    public int deleteRow(Long userId, Integer areaModelId) {
+    public boolean deleteRow(Long userId, Integer areaModelId) {
 
+
+        //// FIXME: 02/06/2016
         // this may have an SQL Injection...
-        // String query = "DELETE FROM areamodeluser WHERE areamodeluser.userId = :userId" + userId + "and areamodeluser.areaModelId = " + areaModelId;
+        System.out.println(" user id delete row"+ userId + "area model id" + areaModelId);
 
-        return Ebean.find(AreaModelUser.class).where().eq("userId", userId).eq("areaModelId", areaModelId).delete();
+        String query = "DELETE FROM areamodeluser WHERE areamodeluser.userId = " + userId + " and areamodeluser.areaModelId = " + areaModelId + ";";
+
+        SqlUpdate deleteRow = Ebean.createSqlUpdate(query);
+        deleteRow.execute();
+        //return Ebean.find(AreaModelUser.class).where().eq("userId", userId).eq("areaModelId", areaModelId).delete();
+
+        return true;
+
 
         //System.out.println("Row apagada com sucesso");
     }

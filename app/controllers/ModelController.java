@@ -2,6 +2,8 @@ package controllers;
 
 
 import Models.*;
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlUpdate;
 import com.avaje.ebean.annotation.Transactional;
 import play.Logger;
 import play.data.Form;
@@ -10,6 +12,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 import javax.inject.Inject;
+import java.awt.geom.Area;
 import java.util.List;
 
 import static play.mvc.Results.ok;
@@ -128,33 +131,31 @@ public class ModelController {
 
         Form<AreaModelUser> areaModelUserForm = formFactory.form(AreaModelUser.class).bindFromRequest();
         if (areaModelUserForm.hasErrors()) {
-
             Logger.info("Associação entre o user e o modulo com erros!!! ");
         } else {
 
             User user = User.findByID(userId);
-            AreaModelUser areaModelUser = new AreaModelUser();
-
             for (AreaModel am : AreaModel.getAllModels()) {
-                try {
-                    if (areaModelUserForm.data().containsKey("description-" + am.getId())) {
-                        if (!user.hasModule(am.getId())) {
-                            // take it like a man (ADD)
-
-                            areaModelUser.setUserId(userId);
-                            areaModelUser.setAreaModelId(am.id); // prego?
-
-                            areaModelUser.save();
-                        }
-                    } else {
-                        if (user.hasModule(am.getId())) {
-                            // give it back to me, bitch (DELETE)
-                            int deletedRows = areaModelUser.deleteRow(user.id, areaModelUser.areaModelId);
-                        }
+                if (areaModelUserForm.data().containsKey("description-" + am.getId())) {
+                    if (!user.hasModule(am.getId())) {
+                        AreaModelUser areaModelUser = new AreaModelUser();
+                        areaModelUser.setUserId(userId);
+                        areaModelUser.setAreaModelId(am.id); // prego?
+                        areaModelUser.save();
                     }
-                    areaModelUser.save();
-                } catch (IndexOutOfBoundsException ex) {
-//                    System.out.println("Not a valid parameter");
+                } else {
+                    if (user.hasModule(am.getId())) {
+                        // give it back to me, bitch (DELETE)
+
+                        List<AreaModelUser> areaModelUserList = User.finAreaModulesByEmail(userId);
+                        for(AreaModelUser amuser : areaModelUserList){
+                            if(amuser.getAreaModelId() == am.id){
+                                amuser.deleteRow(userId, am.id);
+                                break;
+                            }
+                        }
+                        //boolean deletedRows = areaModelUser.deleteRow(userId, am.getId());
+                    }
                 }
             }
         }

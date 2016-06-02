@@ -22,14 +22,15 @@
 
                             @for(count <- 0 to moduleList.modelList.size() - 1) {
                                 @if(moduleList.modelAccess.get(count) == true) {
+                                    <imput type="hidden" name="userId" value="@user.id"></imput>
                                     <input type="checkbox" name="description-@moduleList.modelList.get(count).id" checked > @moduleList.modelList.get(count).description
 
                                 } else {
+                                    <imput type="hidden"name="userId" value="@user.id"></imput>
                                     <input type="checkbox" name="description-@moduleList.modelList.get(count).id" > @moduleList.modelList.get(count).description
 
                                     }
                             }
-
 
                             </div>
                         </div>
