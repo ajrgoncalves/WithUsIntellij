@@ -1,5 +1,6 @@
 package controllers;
 
+import Models.AreaModelUser;
 import Models.Role;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
@@ -25,6 +26,7 @@ public class LoginController extends Controller {
 
         @Override
         public String getUsername(Http.Context ctx) {
+
             return ctx.session().get("email");
         }
 
@@ -32,7 +34,6 @@ public class LoginController extends Controller {
         public Result onUnauthorized(Http.Context ctx) {
             return redirect(routes.HomeController.login());
         }
-
 
     }
 }

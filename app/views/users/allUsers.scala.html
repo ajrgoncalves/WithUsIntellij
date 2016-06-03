@@ -27,12 +27,7 @@
                         <p>@user.email</p>
                     </div>
                 </div>
-                @*<div class="col-xs-2 col-lg-2">*@
-                @*<div class="form-group">*@
-                @*<label>Morada</label>*@
-                @*<p>@user.homeAddress</p>*@
-                @*</div>*@
-                @*</div>*@
+
                 <div class="col-xs-2 col-lg-2">
                     <div class="form-group">
                         <label>Contacto</label>
@@ -48,20 +43,7 @@
                                     @role.rolePrivileges
                                 }
                             }
-                            @* <form action="@routes.RoleController.setRole(user.id)" method="post">
-                            @if(session().get("idRole") != null && (Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || Integer.parseInt(session().get("idRole")) == Role.ADMIN) {
-                            <select name="idRole">
-                            @for(role <- roles) {
-                            @if(user.getIdRole == role.id) {
-                            <option value="@role.id" selected>@role.rolePrivileges</option>
-                            } else {
-                            <option value="@role.id">@role.rolePrivileges</option>
-                            }
-                            }
-                            </select>
-                            }
-                            <input type="submit" class="btn btn-primary" value="save" />
-                            </form>*@
+
                         </div>
                     </div>
                 </div>
@@ -70,7 +52,9 @@
                     <a type="submit" href="@routes.HomeController.getUpdateUser(user.id)">Edit</a>
                 </div>
                     <div>
+                    @if(session().get("idRole") != null && ((Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) )) {
                         <a type="submit" href="@routes.ModelController.getUserModules(user.id)">Modules</a>
+                    }
                     </div>
                 </div>
             </div>

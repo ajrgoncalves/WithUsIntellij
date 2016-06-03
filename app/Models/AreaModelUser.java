@@ -74,4 +74,7 @@ public class AreaModelUser extends Model {
     public void setAreaModelId(Integer areaModelId) {
         this.areaModelId = areaModelId;
     }
+
+
+
 }

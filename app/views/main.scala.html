@@ -38,7 +38,7 @@
 
                 </div>
                 <div class="col-xs-2 col-lg-2">
-                @if(session().get("idRole") != null && ((Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) || (Integer.parseInt(session().get("idRole")) == Role.ADMIN))) {
+                @if(session().get("idRole") != null && ((Integer.parseInt(session().get("idRole")) == Role.SUPERADMIN) )) {
 
                     <a class="navbar-brand" href="@routes.ModelController.getModules"> Gestão de Modulos</a>
                 }
@@ -51,7 +51,7 @@
 
                 } else {
                     @*<span>Bem vindo @Http.Context.current().args.get("username") </span>*@
-                    <span>Bem vindo</span><span> @session().get("email") </span>
+                    <span>Bem vindo</span><span>  @session().get("email") </span>
                   <a href="@routes.HomeController.getUpdateUser(Long.parseLong(session().get("id")))" class="btn btn-primary navbar-btn">Editar Conta</a>
                     <a href="@routes.HomeController.logout()" class="btn btn-primary navbar-btn" >Logout</a>
                 }

@@ -56,7 +56,7 @@ public class HomeController extends Controller {
             return ok(views.html.users.login.render(""));
         }
     }
-
+    @Security.Authenticated(LoginController.Secured.class)
     public Result getUsers() {
 
         Model.Finder<String, User> finder = new Model.Finder<>(User.class);
@@ -125,7 +125,7 @@ public class HomeController extends Controller {
     }
 
     //        GET Logout
-
+    @Security.Authenticated(LoginController.Secured.class)
     public Result logout() {
         session().clear();
         flash("success", "You've been logged out");
@@ -191,7 +191,7 @@ public class HomeController extends Controller {
     }
 
 //    GET update User
-
+@Security.Authenticated(LoginController.Secured.class)
     public Result getUpdateUser(Long userId){
         if(session().get("email") != null) {
             Logger.info("USERNAME: " + request().username());

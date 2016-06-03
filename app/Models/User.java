@@ -128,28 +128,11 @@ public class User extends Model {
 
     //Modules
 
-    @Transactional
-    public static List<AreaModel> findModulesById(Long userId) {
 
-            // Encontra o User com o email indicado
-            User user = find.where().eq("id", userId).findUnique();
-
-            // Encontra as relações existentes para o user encontrado antes
-            List<AreaModelUser> areaModelUser = AreaModelUser.findByUserId(user.id);
-
-            // Para cada uma das relações encontradas, procura o Module correspondente (moduleId = Module.id)
-            List<AreaModel> foundModels = new ArrayList<>();
-            for (AreaModelUser m : areaModelUser) {
-                foundModels.add(AreaModel.findByID(m.getAreaModelId()));
-            }
-            // Retorna a lista de Modules encontrada para aquele utilizador
-            return foundModels;
-
-    }
     @Transactional
     public static List<AreaModelUser> findAreaModulesById(Long userId) {
 
-        // Encontra o User com o email indicado
+        // Encontra o User com o id indicado
         User user = find.where().eq("id", userId).findUnique();
 
         // Encontra as relações existentes para o user encontrado antes
