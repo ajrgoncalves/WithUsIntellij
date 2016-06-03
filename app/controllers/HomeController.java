@@ -35,7 +35,7 @@ public class HomeController extends Controller {
 //        String username = session().get("email");
 //        Http.Context.current().args.put("username", username);
 //        return ok(views.html.index.render(User.findByEmail(session().get("email"))));
-        if(session().get("email") != null) {
+        if (session().get("email") != null) {
             Logger.info("USERNAME: " + request().username());
 
             User user = User.findByEmail(request().username());
@@ -49,12 +49,13 @@ public class HomeController extends Controller {
             Logger.info("Role: " + role);
 
             return ok(views.html.index.render(
-                    user, role, allUsers, allCountries, allRoles,areaModelUserList, areaModelList
+                    user, role, allUsers, allCountries, allRoles, areaModelUserList, areaModelList
             ));
-        }else{
+        } else {
             return ok(views.html.users.login.render(""));
         }
     }
+
     @Security.Authenticated(LoginController.Secured.class)
     public Result getUsers() {
 
@@ -148,7 +149,7 @@ public class HomeController extends Controller {
     }
 
 
-//    Post
+    //    Post
     @Transactional
     public Result create() {
         Form<User> userForm = formFactory.form(User.class).bindFromRequest();
@@ -159,15 +160,15 @@ public class HomeController extends Controller {
         } else {
 
             User user = userForm.get();
-            if(user.isValid()) {
+            if (user.isValid()) {
                 user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
-                user.idRole= Role.GUEST;
+                user.idRole = Role.GUEST;
                 user.save();
                 //cria um novo registo na tabela
                 user = User.findByEmail(user.email);
                 UserRegistryAlteration newUserRegistryAlteration = new UserRegistryAlteration(user);
 
-                Ebean.execute(() ->{
+                Ebean.execute(() -> {
                     System.out.println(Ebean.currentTransaction());
 
                     newUserRegistryAlteration.save();
@@ -180,19 +181,22 @@ public class HomeController extends Controller {
 
     }
 
-//    GET
+    //    GET
     @Security.Authenticated(LoginController.Secured.class)
     public Result getAllUsers() {
+
         List<User> allUsers = User.getAllUsers();
         List<Role> allRoles = Role.getAllRoles();
+
         return ok(views.html.users.allUsers.render(allUsers, allRoles));
 
     }
 
-//    GET update User
-@Security.Authenticated(LoginController.Secured.class)
-    public Result getUpdateUser(Long userId){
-        if(session().get("email") != null) {
+
+    //    GET update User
+    @Security.Authenticated(LoginController.Secured.class)
+    public Result getUpdateUser(Long userId) {
+        if (session().get("email") != null) {
             Logger.info("USERNAME: " + request().username());
 
             User user = User.find.where().eq("id", userId).findUnique();
@@ -205,13 +209,13 @@ public class HomeController extends Controller {
 
             return ok(views.html.users.updateUser.render(user, role, allUsers, allCountries, allRoles));
 
-        }else{
+        } else {
             return ok(views.html.users.login.render(""));
         }
 
     }
 
-        //POST
+    //POST
     @Transactional
     @Security.Authenticated(LoginController.Secured.class)
     public Result updateUser(Long userId) {
@@ -228,7 +232,7 @@ public class HomeController extends Controller {
             User updater = User.findByEmail(session().get("email"));
 
             if (user != null) {
-                if(user.isValid()) {
+                if (user.isValid()) {
 
                     if (currentUserRole == Role.SUPERADMIN || currentUserRole == Role.ADMIN || (currentUserRole == Role.USER && userId == Integer.parseInt(session().get("id")))) {
 
@@ -242,7 +246,7 @@ public class HomeController extends Controller {
                             user.setCountryId(Integer.parseInt(userUpdateForm.data().get("countryId")));
                             user.setAgeStringFormat(userUpdateForm.data().get("age"));
                             user.setPhoneNumber(Integer.parseInt(userUpdateForm.data().get("phoneNumber")));
-                            if((!(userUpdateForm.data().get("password").isEmpty())) && userUpdateForm.data().get("password").matches(userUpdateForm.data().get("confirmPassword"))) {
+                            if ((!(userUpdateForm.data().get("password").isEmpty())) && userUpdateForm.data().get("password").matches(userUpdateForm.data().get("confirmPassword"))) {
                                 user.setPassword(BCrypt.hashpw(userUpdateForm.data().get("password"), BCrypt.gensalt()));
                             }
                         } else {
@@ -268,9 +272,9 @@ public class HomeController extends Controller {
                             flash("Não tem permissões para o que esta a tentar fazer");
                         }
                     }
-                    UserRegistryAlteration newUserRegistryAlteration = new UserRegistryAlteration(updater,user);
+                    UserRegistryAlteration newUserRegistryAlteration = new UserRegistryAlteration(updater, user);
 
-                    Ebean.execute(() ->{
+                    Ebean.execute(() -> {
                         System.out.println(Ebean.currentTransaction());
                         user.save();
                         newUserRegistryAlteration.save();

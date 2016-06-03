@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static play.mvc.Http.Context.Implicit.session;
+
 
 @Entity
 @Table(name = "user")
@@ -123,7 +125,7 @@ public class User extends Model {
     // Procura todos os users
 
     public static List<User> getAllUsers() {
-        return find.all();
+            return find.all();
     }
 
     //Modules
