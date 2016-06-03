@@ -1,8 +1,10 @@
 @import Models.User
 @import Models.Role
 @import Models.Country
+@import Models.AreaModelUser
 
-@(user: User)(role: Role)(users: List[User])(countries: List[Country])(roles: List[Role])
+@import Models.AreaModel
+@(user: User)(role: Role)(users: List[User])(countries: List[Country])(roles: List[Role], areaModelUsers: List[AreaModelUser], areaModels: List[AreaModel])
 
 
 @main {
@@ -10,38 +12,25 @@
         <div class="col-xs-12 col-lg-12">
             <panel>
                     <!-- primeira parte dos modulos. 3 Modulos -->
+
                 <div class="row">
                     <div class="col-xs-12 col-lg-12">
-                        <div class="col-xs-4 col-lg-4">
-                            @*Ferias*@
-                                <img width="300px" height="300px" src="@routes.Assets.versioned("images/ferias.png")"/>
-                        </div>
-                        <div class="col-xs-4 col-lg-4">
-                            @*projectos*@
-                            <img width="300px" height="300px" src="@routes.Assets.versioned("images/projectos.png")"/>
+                    @for(areaModelUser <- areaModelUsers) {
+                        @for(areaModel <- areaModels) {
+                            @if(areaModelUser.areaModelId == areaModel.getId) {
+                                <div class="col-xs-4 col-lg-4">
+                                @if(areaModel.description == "Ferias")  {
+                                    <img width="300px" height="300px" src="@routes.Assets.versioned("images/ferias.png")"/>
+                                    <h1> @areaModel.description </h1>
 
-                        </div>
-                        <div class="col-xs-4 col-lg-4">
-                            Qualquer coisa 2
-                        </div>
-                    </div>
-                </div>
-                    <!-- Segunda parte dos modulos. 3 Modulos -->
-                <div class="row">
-                    <div class="col-xs-12 col-lg-12">
-                        <div class="col-xs-4 col-lg-4">
-
-                        </div>
-                        <div class="col-xs-4 col-lg-4">
-
-                        </div>
-                        <div class="col-xs-4 col-lg-4">
-                        @if((session().get("email") == null)) {
-
-                        } else {
-                            Gestão das ferias ( Admins)
+                                }
+                                    @if(!(areaModel.description == "Ferias")) {
+                                        <h1> @areaModel.description </h1>
+                                    }
+                                </div>
+                            }
                         }
-                        </div>
+                    }
                     </div>
                 </div>
             </panel>

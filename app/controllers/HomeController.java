@@ -1,9 +1,6 @@
 package controllers;
 
-import Models.Country;
-import Models.UserRegistryAlteration;
-import Models.Role;
-import Models.User;
+import Models.*;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Transactional;
@@ -46,11 +43,13 @@ public class HomeController extends Controller {
             List<User> allUsers = User.getAllUsers();
             List<Country> allCountries = Country.getAllCountries();
             List<Role> allRoles = Role.getAllRoles();
+            List<AreaModelUser> areaModelUserList = User.findAreaModulesById(user.id);
+            List<AreaModel> areaModelList = AreaModel.getAllModels();
 
             Logger.info("Role: " + role);
 
             return ok(views.html.index.render(
-                    user, role, allUsers, allCountries, allRoles
+                    user, role, allUsers, allCountries, allRoles,areaModelUserList, areaModelList
             ));
         }else{
             return ok(views.html.users.login.render(""));

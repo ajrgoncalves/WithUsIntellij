@@ -25,11 +25,12 @@ public class ModelController {
     @Inject
     FormFactory formFactory;
 
-    public Integer currentUserRole = Integer.parseInt(session().get("idRole"));
+
 
     //GET
     @Security.Authenticated(LoginController.Secured.class)
     public Result getUserModules(Long userId) {
+        Integer currentUserRole = Integer.parseInt(session().get("idRole"));
 
         if (currentUserRole == Role.SUPERADMIN) {
 
@@ -55,26 +56,26 @@ public class ModelController {
 
             ));
         } else {
-            return null;
+            return redirect(routes.HomeController.index());
         }
     }
 
     //GET
     @Security.Authenticated(LoginController.Secured.class)
     public Result getCreateModule() {
-
+        Integer currentUserRole = Integer.parseInt(session().get("idRole"));
         if (currentUserRole == Role.SUPERADMIN) {
             AreaModel areaModel = new AreaModel();
             return ok(views.html.users.modules.createModule.render(areaModel));
         } else {
-            return null;
+            return redirect(routes.HomeController.index());
         }
     }
 
     //POST
     @Security.Authenticated(LoginController.Secured.class)
     public Result createModule() {
-
+        Integer currentUserRole = Integer.parseInt(session().get("idRole"));
         if (currentUserRole == Role.SUPERADMIN) {
             Form<AreaModel> moduleForm = formFactory.form(AreaModel.class).bindFromRequest();
             if (moduleForm.hasErrors()) {
@@ -88,7 +89,7 @@ public class ModelController {
             //TODO: Alterar este redirect
             return redirect(routes.ModelController.getModules());
         } else {
-            return null;
+            return redirect(routes.HomeController.index());
         }
     }
 
@@ -96,13 +97,13 @@ public class ModelController {
     //GET All Modules
     @Security.Authenticated(LoginController.Secured.class)
     public Result getModules() {
-
+        Integer currentUserRole = Integer.parseInt(session().get("idRole"));
         if (currentUserRole == Role.SUPERADMIN) {
             List<AreaModel> allAreaModel = AreaModel.getAllModels();
 
             return ok(views.html.users.modules.allModules.render(allAreaModel));
         } else {
-            return null;
+            return redirect(routes.HomeController.index());
         }
     }
 
@@ -110,21 +111,21 @@ public class ModelController {
     //GET Update Modules
     @Security.Authenticated(LoginController.Secured.class)
     public Result getUpdateModule(Integer areaModelId) {
-
+        Integer currentUserRole = Integer.parseInt(session().get("idRole"));
         if (currentUserRole == Role.SUPERADMIN) {
             AreaModel areaModel = AreaModel.find.where().eq("id", areaModelId).findUnique();
             List<AreaModel> allAreaModel = AreaModel.getAllModels();
 
             return ok(views.html.users.modules.updateModules.render(areaModel, allAreaModel));
         } else {
-            return null;
+            return redirect(routes.HomeController.index());
         }
     }
 
     //POST Update Modules
     @Security.Authenticated(LoginController.Secured.class)
     public Result updateModule(Integer areaModelId) {
-
+        Integer currentUserRole = Integer.parseInt(session().get("idRole"));
         if (currentUserRole == Role.SUPERADMIN) {
             Form<AreaModel> moduleForm = formFactory.form(AreaModel.class).bindFromRequest();
             if (moduleForm.hasErrors()) {
@@ -139,27 +140,27 @@ public class ModelController {
             }
             return redirect(routes.ModelController.getModules());
         } else {
-            return null;
+            return redirect(routes.HomeController.index());
         }
     }
 
     @Security.Authenticated(LoginController.Secured.class)
     public Result getDeleteModule(Integer areaModelId) {
-
+        Integer currentUserRole = Integer.parseInt(session().get("idRole"));
         if (currentUserRole == Role.SUPERADMIN) {
             AreaModel areaModel = AreaModel.find.where().eq("id", areaModelId).findUnique();
             List<AreaModel> allAreaModel = AreaModel.getAllModels();
 
             return ok(views.html.users.modules.deleteModule.render(areaModel, allAreaModel));
         } else {
-            return null;
+            return redirect(routes.HomeController.index());
         }
     }
 
     //POST
     @Security.Authenticated(LoginController.Secured.class)
     public Result deleteModule(Integer areaModelId) {
-
+        Integer currentUserRole = Integer.parseInt(session().get("idRole"));
         if (currentUserRole == Role.SUPERADMIN) {
             Form<AreaModel> moduleForm = formFactory.form(AreaModel.class).bindFromRequest();
             if (moduleForm.hasErrors()) {
@@ -171,7 +172,7 @@ public class ModelController {
             }
             return redirect(routes.ModelController.getModules());
         } else {
-            return null;
+            return redirect(routes.HomeController.index());
         }
     }
 
@@ -189,7 +190,7 @@ public class ModelController {
     @Transactional
     @Security.Authenticated(LoginController.Secured.class)
     public Result addModelUser(Long userId) {
-
+        Integer currentUserRole = Integer.parseInt(session().get("idRole"));
         if (currentUserRole == Role.SUPERADMIN) {
 
             Form<AreaModelUser> areaModelUserForm = formFactory.form(AreaModelUser.class).bindFromRequest();
@@ -225,7 +226,7 @@ public class ModelController {
             //TODO: Verificar este redirect
             return redirect(routes.ModelController.getUserModules(userId));
         } else {
-            return null;
+            return redirect(routes.HomeController.index());
         }
     }
 }
